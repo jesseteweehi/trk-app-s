@@ -1,0 +1,67 @@
+<!-- <md-card>
+<form novalidate [formGroup]="form" (submit)="create(form)">
+
+	<md-input-container class="example-full-width">
+	   <input placeholder="Field" type="text" mdInput formControlName="field">
+	</md-input-container>
+
+    <button type="submit" md-raised-button color="primary">Create</button>
+
+{{form.value | json}}
+
+</form>
+</md-card>
+ -->
+
+<button md-button (click)="openDialog()">Launch dialog</button>
+You chose: {{selectedOption}}
+ 
+<form (ngSubmit)="setColumn(column.value)">
+<md-input-container>
+  <input mdInput #column type="number">
+</md-input-container>
+</form>
+
+  <button (click)="add()" md-button>Add Horizontal Zone</button>
+
+ {{x_axis | json}}
+
+ {{num}}
+
+ <div class="wrapper" [ngStyle]="template()">
+
+
+
+
+ <md-card class="grid-item" *ngFor="let box of x_axis">
+ 	<md-card-header>
+    	<div md-card-avatar class="https://s-media-cache-ak0.pinimg.com/736x/3a/a1/a1/3aa1a1e28508336bb77de677bf32aa6c.jpg"></div>
+    	<md-card-title>{{item.x_axis_heading}}</md-card-title>
+    	<md-card-subtitle>{{item.y_axis_heading}}</md-card-subtitle>
+  	</md-card-header>
+  		<img md-card-image-sm src="https://3b0ad08da0832cf37cf5-435f6e4c96078b01f281ebf62986b022.ssl.cf3.rackcdn.com/breeds/dogs/japaneseshibuinu_400x378.jpg">
+  	<md-card-content>
+    	<p>
+      		{{item.description}}
+    	</p>
+  	</md-card-content>
+  			<md-card-actions>
+    			<button md-button>LIKE</button>
+    			<button md-button>SHARE</button>
+  			</md-card-actions>
+</md-card> 
+
+</div>
+
+<!-- <md-card class="example-card" *ngFor="let item of examples">
+  
+</md-card> -->
+
+
+
+
+
+<!-- <p> Noo {{ examples | json }} </p> -->
+
+
+
