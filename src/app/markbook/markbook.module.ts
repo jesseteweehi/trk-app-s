@@ -6,6 +6,7 @@ import { LearningExperienceService } from './models/learning-experience.service'
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { MyMaterialModule } from '../my-material/my-material.module';
+import { AppModule } from '../app.module'
 
 import { LearningExperienceBlockComponent } from './learning-experience-block/learning-experience-block.component';
 import { LearningExperiencePieceComponent } from './learning-experience-piece/learning-experience-piece.component'
@@ -21,7 +22,7 @@ import { LearningExperienceFormComponent } from './learning-experience-form/lear
     MyMaterialModule
   ],
   declarations: [LearningExperienceFormComponent,  LearningExperienceBlockComponent, LearningExperiencePieceComponent],
-  exports:[LearningExperienceFormComponent, LearningExperienceBlockComponent,],
+  exports:[LearningExperienceFormComponent, LearningExperienceBlockComponent],
   providers: [LearningExperienceService],
   entryComponents: [LearningExperienceFormComponent],
 

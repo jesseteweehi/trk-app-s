@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdDialogConfig } from '@angular/material';
 
 import { LearningExperienceService } from '../models/learning-experience.service';
 import { LearningExperienceFormComponent } from '../learning-experience-form/learning-experience-form.component';
@@ -19,11 +19,19 @@ export class LearningExperienceBlockComponent implements OnInit {
    	form: FormGroup;
   	examples: object;
 
-  	templateproperty: boolean = true;
-
   	num: number = 10
   	x_axis: string[] = [];
   	y_axis: string[] = [];
+
+    config: MdDialogConfig = {
+    disableClose: false,
+    hasBackdrop: false,
+    backdropClass: '',
+    width: '500px',
+    data: {
+      message: ''
+    }
+  };
 
    	
    	constructor(private fb:FormBuilder,
@@ -34,15 +42,11 @@ export class LearningExperienceBlockComponent implements OnInit {
              field: ['']
    		})
 
-   		this.examples = this.ls.examples
+   		
    	}
 
    	ngOnInit() {
 
-   	}
-
-   	add() {
-   		this.x_axis.push('box' + (this.x_axis.length + 1).toString());
    	}
 
    	template() {
@@ -57,10 +61,20 @@ export class LearningExperienceBlockComponent implements OnInit {
    	}
 
    	openDialog() {
-    let dialogRef = this.dialog.open(LearningExperienceFormComponent);
+    let dialogRef = this.dialog.open(LearningExperienceFormComponent, this.config);
     dialogRef.afterClosed().subscribe(result => {
-      this.selectedOption = result;
+      this.FireBaseLearningExperiencePiece(result)
     	});
   	}
+
+    FireBaseLearningExperiencePiece(form) {
+      this.ls.createNewLearningExperiencePiece(form.value).subscribe(
+              () => {
+                  alert("lesson saved succesfully.");
+              },
+              err => alert(`error saving lesson ${err}`)
+          );
+
+    }
 
 }

@@ -34,6 +34,7 @@ import { MarkbookModule } from './markbook/markbook.module';
     MarkbookModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent]
 })

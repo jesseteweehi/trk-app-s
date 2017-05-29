@@ -1,21 +1,6 @@
-<!-- <md-card>
-<form novalidate [formGroup]="form" (submit)="create(form)">
-
-	<md-input-container class="example-full-width">
-	   <input placeholder="Field" type="text" mdInput formControlName="field">
-	</md-input-container>
-
-    <button type="submit" md-raised-button color="primary">Create</button>
-
-{{form.value | json}}
-
-</form>
-</md-card>
- -->
-
 <button md-button (click)="openDialog()">Launch dialog</button>
 You chose: {{selectedOption}}
- 
+
 <form (ngSubmit)="setColumn(column.value)">
 <md-input-container>
   <input mdInput #column type="number">
@@ -53,15 +38,7 @@ You chose: {{selectedOption}}
 
 </div>
 
-<!-- <md-card class="example-card" *ngFor="let item of examples">
-  
-</md-card> -->
 
-
-
-
-
-<!-- <p> Noo {{ examples | json }} </p> -->
 
 
 

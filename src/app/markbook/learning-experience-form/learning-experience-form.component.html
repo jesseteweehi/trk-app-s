@@ -1,6 +1,24 @@
-<h1 md-dialog-title>Dialog</h1>
-<div md-dialog-content>What would you like to do?</div>
-<div md-dialog-actions>
-  <button md-button (click)="dialogRef.close('Option 1')">Option 1</button>
-  <button md-button (click)="dialogRef.close('Option 2')">Option 2</button>
+<h1 md-dialog-title>Create Assessment Parameter</h1>
+<div md-dialog-content>
+
+	<form novalidate [formGroup]="form">
+
+			<md-input-container class="example-full-width">
+			   <input placeholder="Subject Code" type="text" mdInput formControlName="title">
+			</md-input-container>
+
+	        <md-input-container class="example-full-width">
+	           <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
+	        </md-input-container>
+	
+	</form>	
 </div>
+<div md-dialog-actions>
+     <button md-button (click)="dialogRef.close(form)">Create</button>
+
+ 
+{{ data.message }}
+</div>
+
+
+
