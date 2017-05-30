@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MarkbookRoutingModule } from './markbook-routing.module';
+
 import { LearningExperienceService } from './models/learning-experience.service';
 
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { MyMaterialModule } from '../my-material/my-material.module';
-import { AppModule } from '../app.module'
+
 
 import { LearningExperienceBlockComponent } from './learning-experience-block/learning-experience-block.component';
 import { LearningExperiencePieceComponent } from './learning-experience-piece/learning-experience-piece.component'
-import { LearningExperienceFormComponent } from './learning-experience-form/learning-experience-form.component';
+import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, } from './learning-experience-form/learning-experience-form.component';
 
 
 
@@ -19,12 +21,24 @@ import { LearningExperienceFormComponent } from './learning-experience-form/lear
     CommonModule,
     FormsModule, 
     ReactiveFormsModule,
-    MyMaterialModule
+    MyMaterialModule,
+    MarkbookRoutingModule
   ],
-  declarations: [LearningExperienceFormComponent,  LearningExperienceBlockComponent, LearningExperiencePieceComponent],
-  exports:[LearningExperienceFormComponent, LearningExperienceBlockComponent],
+  declarations: [
+  LearningExperienceFormPieceComponent,
+  LearningExperienceFormBlockComponent,
+  LearningExperienceFormGroupComponent,   
+  LearningExperienceBlockComponent, 
+  LearningExperiencePieceComponent],
+  
+  exports:[],
+
   providers: [LearningExperienceService],
-  entryComponents: [LearningExperienceFormComponent],
+  
+  entryComponents: [
+  LearningExperienceFormPieceComponent, 
+  LearningExperienceFormBlockComponent,
+  LearningExperienceFormGroupComponent]
 
 })
 export class MarkbookModule { }

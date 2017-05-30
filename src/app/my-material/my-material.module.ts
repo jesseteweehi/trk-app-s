@@ -3,26 +3,28 @@ import { CommonModule } from '@angular/common';
 
 import { MaterialModule } from '@angular/material';
 import 'hammerjs';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+
 import {MdMenuModule, 
 		MdButtonModule, 
 		MdToolbarModule, 
 		MdAutocompleteModule, 
 		MdInputModule,
-    MdDialogModule,
-		MdCardModule} from '@angular/material';
+        MdDialogModule,
+		MdCardModule,
+        MdSnackBarModule} from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     MdMenuModule,
     MdButtonModule,
     MdToolbarModule,
     MdInputModule,
     MdAutocompleteModule,
     MdDialogModule,
-    MdCardModule
+    MdCardModule,
+    MdSnackBarModule
  
   ],
   exports: [
@@ -32,7 +34,8 @@ import {MdMenuModule,
     MdInputModule,
     MdAutocompleteModule,
     MdDialogModule,
-    MdCardModule
+    MdCardModule,
+    MdSnackBarModule
  
   ],
   declarations: []

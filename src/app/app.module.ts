@@ -1,8 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
+
+//Routes
+import { AppRoutingModule }   from './app-routing.module';
 
 //Firebase and Angularfire2 Modules
 import { AngularFireModule } from 'angularfire2';
@@ -17,8 +23,7 @@ import { MyMaterialModule } from './my-material/my-material.module'
 import { StudentSearchComponent } from './student-search/student-search.component';
 import { HeaderComponent } from './header/header.component';
 
-//Feature Modules
-import { MarkbookModule } from './markbook/markbook.module';
+
 
 @NgModule({
   declarations: [
@@ -28,11 +33,12 @@ import { MarkbookModule } from './markbook/markbook.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     MyMaterialModule,
-    MarkbookModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AppRoutingModule
   ],
   exports: [],
   providers: [],

@@ -1,5 +1,13 @@
-<button md-button (click)="openDialog()">Launch dialog</button>
-You chose: {{selectedOption}}
+<button md-button (click)="openDialogPiece()">Create Assessment Piece</button>
+
+<br>
+
+<button md-button (click)="openDialogBlock()">Create Assessment Block</button>
+
+<br>
+
+<button md-button (click)="openDialogGroup()">Create Assessment Group</button>
+
 
 <form (ngSubmit)="setColumn(column.value)">
 <md-input-container>

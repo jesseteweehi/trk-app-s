@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MdDialog, MdDialogConfig } from '@angular/material';
+import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 
 import { LearningExperienceService } from '../models/learning-experience.service';
-import { LearningExperienceFormComponent } from '../learning-experience-form/learning-experience-form.component';
+import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent } from '../learning-experience-form/learning-experience-form.component';
 
 
 
@@ -17,26 +17,12 @@ export class LearningExperienceBlockComponent implements OnInit {
 	selectedOption: string;
 
    	form: FormGroup;
-  	examples: object;
-
   	num: number = 10
-  	x_axis: string[] = [];
-  	y_axis: string[] = [];
-
-    config: MdDialogConfig = {
-    disableClose: false,
-    hasBackdrop: false,
-    backdropClass: '',
-    width: '500px',
-    data: {
-      message: ''
-    }
-  };
-
    	
    	constructor(private fb:FormBuilder,
    				private ls: LearningExperienceService,
-   				public dialog: MdDialog ) {
+   				public dialog: MdDialog,
+          public snackBar: MdSnackBar ) {
 
    	    this.form = this.fb.group({
              field: ['']
@@ -60,19 +46,35 @@ export class LearningExperienceBlockComponent implements OnInit {
    		this.num = value;
    	}
 
-   	openDialog() {
-    let dialogRef = this.dialog.open(LearningExperienceFormComponent, this.config);
+   	openDialogPiece() {
+    let dialogRef = this.dialog.open(LearningExperienceFormPieceComponent);
     dialogRef.afterClosed().subscribe(result => {
       this.FireBaseLearningExperiencePiece(result)
     	});
   	}
 
+    openDialogBlock() {
+    let dialogRef = this.dialog.open(LearningExperienceFormBlockComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      });
+    }
+
+    openDialogGroup() {
+    let dialogRef = this.dialog.open(LearningExperienceFormGroupComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      });
+    }
+
     FireBaseLearningExperiencePiece(form) {
       this.ls.createNewLearningExperiencePiece(form.value).subscribe(
               () => {
-                  alert("lesson saved succesfully.");
+                  this.snackBar.open('Lesson Piece Saved','Awesome',{ duration:2000 })
               },
-              err => alert(`error saving lesson ${err}`)
+              err => { 
+                  this.snackBar.open('Error Saving Lesson Piece ${err}','Bugger',{ duration:2000 })
+              }
           );
 
     }

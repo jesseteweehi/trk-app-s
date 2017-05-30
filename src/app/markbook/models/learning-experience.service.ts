@@ -23,8 +23,6 @@ export class LearningExperienceService {
 
   createNewLearningExperiencePiece(le:any): Observable<any> {
 
-  	  console.log(le)
-
       const learningExperiencePieceToSave = Object.assign({}, le);
 
       const learningExperiencePieceToSaveKey = this.sdkDb.child('learningExperiencePiece').push().key;
@@ -32,8 +30,6 @@ export class LearningExperienceService {
       let dataToSave = {};
 
       dataToSave["learningExperiencePiece/" + learningExperiencePieceToSaveKey] = learningExperiencePieceToSave;
-
-      console.log(dataToSave)
    
       return this.firebaseUpdate(dataToSave);
   }
