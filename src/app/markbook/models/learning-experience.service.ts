@@ -1,6 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
 import {Observable, Subject} from "rxjs/Rx";
-import { LearningAssessmentParameterModel } from '../models/data-classes'
+import { 
+    LearningAssessmentParameterModel,
+    LearningAssessmentGroupModel,
+    LearningAssessmentBlockModel
+
+ } from '../models/data-classes'
 
 import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseApp } from 'angularfire2';
@@ -14,43 +19,87 @@ import * as firebase from 'firebase'
 @Injectable()
 export class LearningExperienceService {
 
-  sdkDb:any;
+    sdkDb:any;
 
-  constructor(@Inject(FirebaseApp) public fb : firebase.app.App ) {
+    constructor(
+        @Inject(FirebaseApp) public fb : firebase.app.App,
+        private db: AngularFireDatabase) {
 
-  	this.sdkDb = this.fb.database().ref();	
-  }
+    	this.sdkDb = this.fb.database().ref();	
+    }
 
-  createNewLearningExperiencePiece(le:any): Observable<any> {
+    findAllLearningExperienceGroups():Observable<LearningAssessmentGroupModel[]> {
 
-      const learningExperiencePieceToSave = Object.assign({}, le);
+        return this.db.list('learningExperienceGroup')
+            .do(console.log)
+            .map(LearningAssessmentGroupModel.fromJsonList);
 
-      const learningExperiencePieceToSaveKey = this.sdkDb.child('learningExperiencePiece').push().key;
+    }
 
-      let dataToSave = {};
+    findAllLearningExperienceBlocks ():Observable<LearningAssessmentBlockModel[]> {
 
-      dataToSave["learningExperiencePiece/" + learningExperiencePieceToSaveKey] = learningExperiencePieceToSave;
-   
-      return this.firebaseUpdate(dataToSave);
-  }
+        return this.db.list('learningExperienceBlock')
+            .do(console.log)
+            .map(LearningAssessmentGroupModel.fromJsonList);
 
-  firebaseUpdate(dataToSave) {
-      const subject = new Subject();
+    }
 
-      this.sdkDb.update(dataToSave)
-          .then(
-              val => {
-                  subject.next(val);
-                  subject.complete();
+    createNewLearningExperiencePiece(le:any): Observable<any> {
 
-              },
-              err => {
-                  subject.error(err);
-                  subject.complete();
-              }
-          );
+        const learningExperiencePieceToSave = Object.assign({}, le);
 
-      return subject.asObservable();
-  }
+        const learningExperiencePieceToSaveKey = this.sdkDb.child('learningExperiencePiece').push().key;
+
+        let dataToSave = {};
+
+        dataToSave["learningExperiencePiece/" + learningExperiencePieceToSaveKey] = learningExperiencePieceToSave;
+
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    createNewLearningExperienceBlock(le:any, ): Observable<any> {
+
+        const learningExperienceBlockToSave = Object.assign({}, le);
+
+        const learningExperienceBlockToSaveKey = this.sdkDb.child('learningExperienceBlock').push().key;
+
+        let dataToSave = {};
+
+        dataToSave['learningExperienceBlock/' + learningExperienceBlockToSaveKey] = learningExperienceBlockToSave;
+
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    createNewLearningExperienceGroup(le:any): Observable<any> {
+
+        const learningExperienceGroupToSave = Object.assign({}, le);
+
+        const learningExperienceGroupToSaveKey = this.sdkDb.child('learningExperienceGroup').push().key;
+
+        let dataToSave = {};
+
+        dataToSave['learningExperienceGroup/' + learningExperienceGroupToSaveKey] = learningExperienceGroupToSave;
+
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    firebaseUpdate(dataToSave) {
+        const subject = new Subject();
+
+        this.sdkDb.update(dataToSave)
+            .then(
+                val => {
+                    subject.next(val);
+                    subject.complete();
+
+                },
+                err => {
+                    subject.error(err);
+                    subject.complete();
+                }
+        );
+
+        return subject.asObservable();
+    }
 
 }

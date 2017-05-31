@@ -14,7 +14,7 @@ import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockCompon
 })
 export class LearningExperienceBlockComponent implements OnInit {
 
-	selectedOption: string;
+
 
    	form: FormGroup;
   	num: number = 10
@@ -49,7 +49,7 @@ export class LearningExperienceBlockComponent implements OnInit {
    	openDialogPiece() {
     let dialogRef = this.dialog.open(LearningExperienceFormPieceComponent);
     dialogRef.afterClosed().subscribe(result => {
-      this.FireBaseLearningExperiencePiece(result)
+      this.fireBaseLearningExperiencePiece(result)
     	});
   	}
 
@@ -67,7 +67,7 @@ export class LearningExperienceBlockComponent implements OnInit {
       });
     }
 
-    FireBaseLearningExperiencePiece(form) {
+    fireBaseLearningExperiencePiece(form) {
       this.ls.createNewLearningExperiencePiece(form.value).subscribe(
               () => {
                   this.snackBar.open('Lesson Piece Saved','Awesome',{ duration:2000 })

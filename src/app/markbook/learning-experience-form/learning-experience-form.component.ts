@@ -95,17 +95,25 @@ export class LearningExperienceFormBlockComponent  {
     <form novalidate [formGroup]="form">
 
         <md-input-container class="example-full-width">
-           <input placeholder="Subject Code" type="text" mdInput formControlName="title">
+           <input placeholder="Group Title" type="text" mdInput formControlName="title">
         </md-input-container>
 
-            <md-input-container class="example-full-width">
-               <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
-            </md-input-container>
+        <md-input-container class="example-full-width">
+           <textarea mdInput placeholder="Group Description" formControlName="description"></textarea> 
+        </md-input-container>
+
+        <md-input-container class="example-full-width">
+           <input placeholder="Learning Area" type="text" mdInput formControlName="learningArea">
+        </md-input-container>
+
+        <md-input-container class="example-full-width">
+           <input placeholder="Learning level" type="text" mdInput formControlName="learningLevel">
+        </md-input-container>
     
     </form>  
   </div>
   <div md-dialog-actions>
-       <button md-button (click)="dialogRef.close(form)">Create</button>
+       <button md-raised-button color="primary" (click)="dialogRef.close(form)">Create</button>
 
   </div>
   `,
@@ -121,7 +129,10 @@ export class LearningExperienceFormGroupComponent  {
 
       this.form = this.fb.group({
           title: [''],
-          description: ['']
+          description: [''],
+          learningArea: [''],
+          learningLevel: ['']
+
         });
     }
 }

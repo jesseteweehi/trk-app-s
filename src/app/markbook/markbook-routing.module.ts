@@ -1,6 +1,7 @@
 import { NgModule }     from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent } from './learning-experience-group/learning-experience-group.component';
 import { LearningExperienceBlockComponent } from './learning-experience-block/learning-experience-block.component';
 
 
@@ -8,9 +9,13 @@ import { LearningExperienceBlockComponent } from './learning-experience-block/le
 
 const MarkbookAppRoutes: Routes = [
 	{
-  		path: '',
-  		component: LearningExperienceBlockComponent
-	}
+  	path: '',
+  	component: LearningExperienceGroupListComponent,
+  },
+  {
+    path: ':id',
+    component: LearningExperienceBlockListComponent
+  }
 ];
 
 
@@ -19,3 +24,19 @@ const MarkbookAppRoutes: Routes = [
   exports: [RouterModule]
 })
 export class MarkbookRoutingModule {}
+
+
+// children: [
+//       {
+//         path: '',
+//         component: CrisisListComponent,
+//         children: [
+//           {
+//             path: ':id',
+//             component: CrisisDetailComponent
+//           },
+//           {
+//             path: '',
+//             component: CrisisCenterHomeComponent
+//           }
+//         ]

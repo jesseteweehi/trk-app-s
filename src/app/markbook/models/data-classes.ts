@@ -61,14 +61,14 @@ export class LearningAssessmentGroupModel {
 	static fromJsonList(array): LearningAssessmentGroupModel[] {
 		return array.map( LearningAssessmentGroupModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, LearningLevel}): LearningAssessmentGroupModel {
+	static fromJson({$key, created, title, description, learningArea, learningLevel}): LearningAssessmentGroupModel {
 		return new LearningAssessmentGroupModel(
 			$key,
 			created,
 			title,
 			description,
 			learningArea,
-			LearningLevel
+			learningLevel
 			)
 		}
 	}
