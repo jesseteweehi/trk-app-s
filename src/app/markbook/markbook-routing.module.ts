@@ -1,7 +1,7 @@
 import { NgModule }     from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent } from './learning-experience-group/learning-experience-group.component';
+import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-group/learning-experience-group.component';
 import { LearningExperienceBlockComponent } from './learning-experience-block/learning-experience-block.component';
 
 
@@ -13,8 +13,18 @@ const MarkbookAppRoutes: Routes = [
   	component: LearningExperienceGroupListComponent,
   },
   {
-    path: ':id',
-    component: LearningExperienceBlockListComponent
+    path: ':groupid',
+    children: [
+      {
+        path: '',
+        component: LearningExperienceBlockListComponent
+      },
+      {
+        path: ':blockid',
+        component: LearningExperiencePieceListComponent
+      }
+    ]
+    
   }
 ];
 

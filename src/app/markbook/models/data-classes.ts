@@ -1,15 +1,15 @@
-export class LearningAssessmentParameterModel {
+export class LearningAssessmentPieceModel {
 	constructor(
 		public $key: string,
 		public created: string,
 		public title: string,
 		public description: string,
 		){}
-	static fromJsonList(array): LearningAssessmentParameterModel[] {
-		return array.map( LearningAssessmentParameterModel.fromJson);
+	static fromJsonList(array): LearningAssessmentPieceModel[] {
+		return array.map( LearningAssessmentPieceModel.fromJson);
 		}
-	static fromJson({$key, created, title, description}): LearningAssessmentParameterModel {
-		return new LearningAssessmentParameterModel(
+	static fromJson({$key, created, title, description}): LearningAssessmentPieceModel {
+		return new LearningAssessmentPieceModel(
 			$key,
 			created,
 			title,

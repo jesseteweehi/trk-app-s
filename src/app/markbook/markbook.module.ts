@@ -14,7 +14,7 @@ import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockCompon
 
 import { LearningExperienceBlockComponent } from './learning-experience-block/learning-experience-block.component';
 import { LearningExperiencePieceComponent } from './learning-experience-piece/learning-experience-piece.component'
-import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent } from './learning-experience-group/learning-experience-group.component';
+import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-group/learning-experience-group.component';
 
 
 
@@ -34,7 +34,8 @@ import { LearningExperienceGroupListComponent, LearningExperienceBlockListCompon
   LearningExperienceBlockComponent, 
   LearningExperiencePieceComponent, 
   LearningExperienceGroupListComponent,
-  LearningExperienceBlockListComponent],
+  LearningExperienceBlockListComponent,
+  LearningExperiencePieceListComponent ],
   
   exports:[],
 
