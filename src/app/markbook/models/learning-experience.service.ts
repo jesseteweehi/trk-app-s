@@ -26,10 +26,19 @@ export class LearningExperienceService {
     	this.sdkDb = this.fb.database().ref();	
     }
 
+    findTemplate(learningBlock:string) {
+        return this.db.object('blocktemplate/' + learningBlock)
+    }
+
+    ///// Need to update to return an observable
+    saveTemplate(learningBlock:string, template:any) {
+        const itemObservable = this.db.object('blocktemplate/' + learningBlock);
+        itemObservable.update( template );     
+    }
+
     findAllLearningExperienceGroups():Observable<LearningAssessmentGroupModel[]> {
 
         return this.db.list('learningExperienceGroup')
-            .do(console.log)
             .map(LearningAssessmentGroupModel.fromJsonList);
 
     }

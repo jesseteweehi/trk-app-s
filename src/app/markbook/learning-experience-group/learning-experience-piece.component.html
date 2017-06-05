@@ -1,0 +1,19 @@
+<app-learning-experience-block-template-form></app-learning-experience-block-template-form>
+
+<br>
+
+<button md-button (click)="openDialogPiece()">Create Assessment Piece</button>
+
+<div class="wrapper" [ngStyle]="template()">
+
+<md-card class="grid-item" *ngFor="let group of groups">
+	<md-card-title>{{group.title}}</md-card-title>
+	<md-card-subtitle>{{group.learningArea}} | {{group.learningLevel}}</md-card-subtitle>
+	<md-card-content>{{group.description}}</md-card-content>
+	<md-card-actions>
+	    <a md-raised-button color="primary" routerLink="{{group.$key}}">Raised button</a>
+	  </md-card-actions>
+</md-card>
+
+</div>
+

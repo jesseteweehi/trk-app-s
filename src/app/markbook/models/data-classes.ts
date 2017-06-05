@@ -1,3 +1,18 @@
+export class LearningAssessmentBlockTemplateModel {
+	constructor(
+		public $key: string,
+		public created: string,
+		public columns: number,
+		) {}
+	static fromJson({$key, created, columns}): LearningAssessmentBlockTemplateModel {
+		return new LearningAssessmentBlockTemplateModel(
+			$key,
+			created,
+			columns)
+	    }
+	}
+
+
 export class LearningAssessmentPieceModel {
 	constructor(
 		public $key: string,

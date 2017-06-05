@@ -11,10 +11,10 @@ import { MyMaterialModule } from '../my-material/my-material.module';
 
 import { LearningExperienceService } from './models/learning-experience.service';
 import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, } from './learning-experience-form/learning-experience-form.component';
+import { LearningExperienceBlockTemplateFormComponent } from  './learning-experience-form/learning-experience-template-form.component'
 
-import { LearningExperienceBlockComponent } from './learning-experience-block/learning-experience-block.component';
-import { LearningExperiencePieceComponent } from './learning-experience-piece/learning-experience-piece.component'
 import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-group/learning-experience-group.component';
+
 
 
 
@@ -31,11 +31,10 @@ import { LearningExperienceGroupListComponent, LearningExperienceBlockListCompon
   LearningExperienceFormPieceComponent,
   LearningExperienceFormBlockComponent,
   LearningExperienceFormGroupComponent,   
-  LearningExperienceBlockComponent, 
-  LearningExperiencePieceComponent, 
   LearningExperienceGroupListComponent,
   LearningExperienceBlockListComponent,
-  LearningExperiencePieceListComponent ],
+  LearningExperiencePieceListComponent,
+  LearningExperienceBlockTemplateFormComponent ],
   
   exports:[],
 
