@@ -162,25 +162,21 @@ export class LearningExperienceBlockListComponent implements OnInit {
 @Component({
   selector: 'app-learning-experience-piece-list',
   templateUrl: './learning-experience-piece.component.html',
-  styles: [`
-  	.wrapper {
-  		display: grid;
-  	  	height: auto;
-  	  	grid-template-columns : repeat( 5, 1fr)
-  	}
-
-  	.grid-item {
-  	  grid-column: auto;
-  	  grid-row: auto;
-  	}
-  `]
+  styleUrls: ['./learning-experience-piece.component.css'],
 })
 
 export class LearningExperiencePieceListComponent implements OnInit {
-
-	groups: LearningAssessmentPieceModel[];
+  data: any = {
+    'columns': 1,
+    'header':1
+  }
+  
+  groups: LearningAssessmentPieceModel[];
 	blockId: string;
-	columns: number;
+
+
+  xheaders: string[] = [];
+  yheaders: string[] = [];
 
   	constructor(
   		private route: ActivatedRoute,
@@ -192,17 +188,60 @@ export class LearningExperiencePieceListComponent implements OnInit {
     ngOnInit() {
     	this.blockId = this.route.snapshot.params['blockid']
     	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);
-    	this.ls.findTemplate(this.blockId).subscribe(template => this.columns = template.columns)
+    	// this.ls.findTemplate(this.blockId).subscribe(template => this.tableTemplate = template)
     	
     }
 
+    xheader(i) {
+    // grid Area : row-start,row-end, column-start, column-end
+
+      let styles = {
+          'grid-row': + (i+1) + '/' + (i+3),
+          'grid-column': '1 / 2',
+          'text-align': 'center',
+      }
+      return styles
+    }
+
+    yheader(i) {
+      let styles = {
+          'grid-column': + (i+1) + '/' + (i+2),
+          'grid-row': '1 / 2',
+      }
+      return styles
+    }
+
+
     template() {
     	let styles = {
-    		'grid-template-columns' : 'repeat(' + this.columns + ', 1fr)' 
+    		'grid-template-columns' : 'repeat(' + (this.data.columns+1) + ', 1fr)' 
     	}
     	return styles
     }
 
+    createxheaders() {
+    }
+
+    getForm($event) {
+      const length:number = this.groups.length
+  
+      const xHeadersLength:number = length / (this.data.columns+1);
+      
+      console.log(length);
+      console.log(this.data.columns+1);
+      console.log(Math.ceil(xHeadersLength));
+
+
+      this.data = $event;
+      this.xheaders = Array.apply(null, Array(length)).map((x,i) => { return 'x' + (i + 1).toString() });
+      this.yheaders = Array.apply(null, Array(this.data.columns)).map((x,i) => { return 'y' +(i + 1).toString() });
+
+
+      // console.log(this.xheaders);
+      // console.log(this.yheaders);
+    }
+
+   
 
     openDialogPiece() {
     let dialogRef = this.dialog.open(LearningExperienceFormPieceComponent);

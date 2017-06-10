@@ -9,14 +9,23 @@ import { LearningExperienceService } from '../models/learning-experience.service
     selector: 'app-learning-experience-block-template-form',
     template: 
     `
-    {{ blockId }}
+    {{blockId}}
     <form [formGroup]="form">
 
     <md-input-container>
-        <input (keyup)="saveTemplate(form)" formControlName="columns" mdInput type="number">
+        <input formControlName="columns" mdInput type="number" placeholder="Columns">
+    </md-input-container>
+
+    <br>
+
+    <md-input-container>
+        <input formControlName="header" mdInput type="number" placeholder="Header">
     </md-input-container>
 
     </form>
+
+    <button md-button (click)="saveTemplate()">Save Form</button>
+
     `,
   styles:[]
 })
@@ -24,6 +33,7 @@ import { LearningExperienceService } from '../models/learning-experience.service
 export class LearningExperienceBlockTemplateFormComponent implements OnInit {
     form: FormGroup;
     blockId: string;
+    @Output() formSend: EventEmitter<FormGroup> = new EventEmitter<FormGroup>();
 
     constructor(
         private route: ActivatedRoute,
@@ -32,7 +42,9 @@ export class LearningExperienceBlockTemplateFormComponent implements OnInit {
         ) {
 
         this.form = this.fb.group({
-            columns: ['']
+            columns: [''],
+            header: ['']
+
         })
     }
 
@@ -40,17 +52,8 @@ export class LearningExperienceBlockTemplateFormComponent implements OnInit {
         this.blockId = this.route.snapshot.params['blockid']
     }
 
-    saveTemplate(form) {
-        console.log(form.value)
-        this.ls.saveTemplate(this.blockId, form.value)
-        // .subscribe(
-        //         () => {
-        //             this.snackBar.open('Template Saved','Awesome',{ duration:2000 })
-        //         },
-        //         err => { 
-        //             this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
-        //         }
-        //     );
+    saveTemplate() {
+        this.formSend.emit(this.form.value)
     }
 
 
