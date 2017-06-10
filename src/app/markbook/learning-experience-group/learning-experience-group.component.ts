@@ -167,8 +167,8 @@ export class LearningExperienceBlockListComponent implements OnInit {
 
 export class LearningExperiencePieceListComponent implements OnInit {
   data: any = {
-    'columns': 1,
-    'header':1
+    'columns': 2,
+    'header':2
   }
   
   groups: LearningAssessmentPieceModel[];
@@ -233,7 +233,7 @@ export class LearningExperiencePieceListComponent implements OnInit {
 
 
       this.data = $event;
-      this.xheaders = Array.apply(null, Array(length)).map((x,i) => { return 'x' + (i + 1).toString() });
+      this.xheaders = Array.apply(null, Array(Math.ceil(this.groups.length/this.data.columns))).map((x,i) => { return 'x' + (i + 1).toString() });
       this.yheaders = Array.apply(null, Array(this.data.columns)).map((x,i) => { return 'y' +(i + 1).toString() });
 
 
