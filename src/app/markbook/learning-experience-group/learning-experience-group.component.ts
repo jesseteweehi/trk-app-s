@@ -116,6 +116,7 @@ export class LearningExperienceGroupListComponent implements OnInit {
 
 export class LearningExperienceBlockListComponent implements OnInit {
 
+
 	groups: LearningAssessmentBlockModel[];
 	groupId: string;
 
@@ -131,14 +132,6 @@ export class LearningExperienceBlockListComponent implements OnInit {
 
     	
     }
-
-    // this.route.params
-    //       .map(params => params['id'])
-    //       .subscribe((id) => {
-    //         this.contactsService
-    //           .getContact(id)
-    //           .subscribe(contact => this.contact = contact);
-    //       });
 
     openDialogBlock() {
     let dialogRef = this.dialog.open(LearningExperienceFormGroupComponent);
@@ -157,6 +150,7 @@ export class LearningExperienceBlockListComponent implements OnInit {
     		    }
     		);
     }
+
 }
 
 @Component({
@@ -166,14 +160,12 @@ export class LearningExperienceBlockListComponent implements OnInit {
 })
 
 export class LearningExperiencePieceListComponent implements OnInit {
-  data: any = {
-    'columns': 2,
-    'header':2
-  }
+  showtitlex: string = ''
+
+  data: any = {}
   
   groups: LearningAssessmentPieceModel[];
 	blockId: string;
-
 
   xheaders: string[] = [];
   yheaders: string[] = [];
@@ -187,18 +179,16 @@ export class LearningExperiencePieceListComponent implements OnInit {
 
     ngOnInit() {
     	this.blockId = this.route.snapshot.params['blockid']
-    	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);
-    	// this.ls.findTemplate(this.blockId).subscribe(template => this.tableTemplate = template)
-    	
+    	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);    	
     }
 
     xheader(i) {
     // grid Area : row-start,row-end, column-start, column-end
-
       let styles = {
-          'grid-row': + (i+1) + '/' + (i+3),
+          'grid-row': + (i+1) + '/' + (i+2),
           'grid-column': '1 / 2',
-          'text-align': 'center',
+          // 'text-align': 'center',
+
       }
       return styles
     }
@@ -211,37 +201,61 @@ export class LearningExperiencePieceListComponent implements OnInit {
       return styles
     }
 
-
-    template() {
-    	let styles = {
-    		'grid-template-columns' : 'repeat(' + (this.data.columns+1) + ', 1fr)' 
-    	}
-    	return styles
-    }
-
-    createxheaders() {
+    template() { 
+    if (this.data.columns > 1)    	
+      {     
+        let styles = {
+              'grid-template-columns' : 'repeat(' + (this.data.columns+1) + ', 1fr)' 
+            }
+            return styles
+       }
+    else {
+          let styles = {
+            'grid-template-columns' : '25% 75%'
+          }
+          return styles
+         }
     }
 
     getForm($event) {
-      const length:number = this.groups.length
-  
-      const xHeadersLength:number = length / (this.data.columns+1);
-      
-      console.log(length);
-      console.log(this.data.columns+1);
-      console.log(Math.ceil(xHeadersLength));
-
-
       this.data = $event;
-      this.xheaders = Array.apply(null, Array(Math.ceil(this.groups.length/this.data.columns))).map((x,i) => { return 'x' + (i + 1).toString() });
-      this.yheaders = Array.apply(null, Array(this.data.columns)).map((x,i) => { return 'y' +(i + 1).toString() });
-
-
-      // console.log(this.xheaders);
-      // console.log(this.yheaders);
+      this.templateChange()
     }
 
-   
+    templateChange() {
+      this.xheaders = Array.apply(null, Array(Math.ceil(this.groups.length/this.data.columns))).map((x,i) => { return 'x' + (i + 1).toString() });
+      this.yheaders = Array.apply(null, Array(this.data.columns)).map((x,i) => { return 'y' +(i + 1).toString() });
+    }
+
+    unhide(header:string) {
+      this.showtitlex = header
+    }
+
+
+    convertToObject(a) {
+        return a.reduce(function(result, item){
+        result[item] = item;
+        return result;
+      }, {})
+    }
+
+    saveTitle(i, title) {
+      const header:string = 'x'+ (i+1)
+      this.ls.updateTemplateTitle(this.blockId, header, title )
+      console.log(i)
+      console.log(title)
+      this.showtitlex = ''
+    }
+
+    saveTemplate() {
+      const id:string = this.blockId;
+      const xheaders = this.convertToObject(this.xheaders)
+      const yheaders = this.convertToObject(this.yheaders)
+
+      const template = Object.assign({'yheaders': yheaders,'xheaders': xheaders});
+
+      this.ls.saveTemplate(id, template)
+    }
 
     openDialogPiece() {
     let dialogRef = this.dialog.open(LearningExperienceFormPieceComponent);
@@ -254,6 +268,7 @@ export class LearningExperiencePieceListComponent implements OnInit {
     	this.ls.createNewLearningExperiencePieceUnderBlock(this.blockId, form.value).subscribe(
     		    () => {
     		        this.snackBar.open('Lesson Group Saved','Awesome',{ duration:2000 })
+                this.templateChange()
     		    },
     		    err => { 
     		        this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })

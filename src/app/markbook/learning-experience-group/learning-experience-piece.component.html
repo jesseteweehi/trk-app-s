@@ -2,33 +2,41 @@
 
 <br>
 
-
-
 <button md-button (click)="openDialogPiece()">Create Assessment Piece</button>
-
-
 
 
 <div class="wrapper" [ngStyle]="template()">
 
-	<div class="blank"> BlANK</div>
+	<div class="blank"><button md-button (click)="saveTemplate()">Save Template</button></div>
 
-	<div *ngFor="let element of xheaders; let i = index" [ngStyle]="xheader(i+1)">
-  		{{element}}
-  		{{i+1}}
-    </div>
+	<md-card class="header" *ngFor="let element of xheaders; let i = index" [ngStyle]="xheader(i+1)">
+  		<md-card-footer>{{element}}</md-card-footer>
+    </md-card>
 
-    <div *ngFor="let element of yheaders; let i = index" [ngStyle]="yheader(i+1)">
-  		{{element}}
-  		{{i + 1}}
-    </div>
+    <md-card class="header" *ngFor="let element of yheaders; let i = index" [ngStyle]="yheader(i+1)">
+    	
+
+    	<md-card-header *ngIf="showtitlex!==i" (click)="unhide(i)">{{element}}</md-card-header>
+
+    	<md-card-header *ngIf="showtitlex===i">
+    	<md-input-container style="min-width: 200px; width: 400px" >
+    	  
+    	  <input #title mdInput  value="Here" (keyup.enter)="saveTitle(i, title.value)">
+    	</md-input-container>
+    	</md-card-header>
+
+
+        <md-card-header></md-card-header>
+  		<md-card-footer>{{element}}</md-card-footer>
+    </md-card>
 
 	
- 
-
-	<div class="box" *ngFor="let group of groups">
+	<md-card *ngFor="let group of groups">
 		<h5>{{group.title}}</h5>
 		<p>{{group.description}}</p>
-	</div>
-
+	</md-card>
 </div>
+
+<!-- <md-input-container style="min-width: 200px; width: 400px" *ngIf="showtitle===record.$key">
+  <input #title mdInput  value="{{record.title}}" (keyup.enter)="savetitle(record.$key, title.value)">
+</md-input-container> -->

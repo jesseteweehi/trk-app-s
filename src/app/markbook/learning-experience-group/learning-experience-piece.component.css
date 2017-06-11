@@ -9,14 +9,22 @@
 
 .wrapper {
   display: grid;
-  grid-gap: 1px;
+  grid-line: 5px;
 }
 
 .blank {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-  text-align: center;
   }
+
+.header {
+  background-color: LightGrey;
+}
+
+md-card-footer {
+  padding: 5px;
+  color: grey;
+}
 
 
 /*.x1 {

@@ -1,16 +1,16 @@
-export class LearningAssessmentBlockTemplateModel {
-	constructor(
-		public $key: string,
-		public created: string,
-		public columns: number,
-		) {}
-	static fromJson({$key, created, columns}): LearningAssessmentBlockTemplateModel {
-		return new LearningAssessmentBlockTemplateModel(
-			$key,
-			created,
-			columns)
-	    }
-	}
+// export class LearningAssessmentBlockHeaderModel {
+// 	constructor(
+// 		public $key: string,
+// 		public created: string,
+// 		public title: string,
+// 		) {}
+// 	static fromJson({$key, created, columns}): LearningAssessmentBlockHeaderModel {
+// 		return new LearningAssessmentBlockHeaderModel(
+// 			$key,
+// 			created,
+// 			columns)
+// 	    }
+// 	}
 
 
 export class LearningAssessmentPieceModel {

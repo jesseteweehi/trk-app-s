@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewChecked } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,19 +13,8 @@ import { LearningExperienceService } from '../models/learning-experience.service
     <form [formGroup]="form">
 
     <md-input-container>
-        <input formControlName="columns" mdInput type="number" placeholder="Columns">
+        <input (keyup)="saveTemplate()" formControlName="columns" mdInput type="number" placeholder="Columns">
     </md-input-container>
-
-    <br>
-
-    <md-input-container>
-        <input formControlName="header" mdInput type="number" placeholder="Header">
-    </md-input-container>
-
-    </form>
-
-    <button md-button (click)="saveTemplate()">Save Form</button>
-
     `,
   styles:[]
 })
@@ -42,14 +31,17 @@ export class LearningExperienceBlockTemplateFormComponent implements OnInit {
         ) {
 
         this.form = this.fb.group({
-            columns: [''],
-            header: ['']
-
+            columns: [1]
         })
     }
 
     ngOnInit() {
         this.blockId = this.route.snapshot.params['blockid']
+    }
+
+    /// Creates an error to check
+    ngAfterViewChecked() {
+        this.saveTemplate()
     }
 
     saveTemplate() {
