@@ -26,6 +26,18 @@ md-card-footer {
   color: grey;
 }
 
+md-card-title {
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+.right  {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
 
 /*.x1 {
   grid-column: 2 / 3;

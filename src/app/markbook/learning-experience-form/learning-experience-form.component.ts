@@ -137,4 +137,56 @@ export class LearningExperienceFormGroupComponent  {
     }
 }
 
+@Component({
+  selector: 'app-learning-experience-header-form',
+  template: 
+  `
+  <h1 md-dialog-title>Create Assessment Group </h1>
+  <div md-dialog-content>
+
+    <form novalidate [formGroup]="form">
+
+        <md-input-container class="example-full-width">
+           <input placeholder="Header Title" type="text" mdInput formControlName="title">
+        </md-input-container>
+
+        <md-input-container class="example-full-width">
+           <textarea mdInput placeholder="Header Description" formControlName="description"></textarea> 
+        </md-input-container>
+
+        <md-select placeholder="Axis" name="food" formControlName="header">
+            <md-option *ngFor="let choice of headerChoice" [value]="choice.value">
+              {{choice.viewValue}}
+            </md-option>
+        </md-select>
+
+    </form>  
+  </div>
+  <div md-dialog-actions>
+       <button md-raised-button color="primary" (click)="dialogRef.close(form)">Create</button>
+  </div>
+  `,
+  styles:[]
+})
+export class LearningExperienceFormHeaderComponent  {
+
+  form: FormGroup;
+
+  headerChoice = [
+    {value: 'x', viewValue: 'X'},
+    {value: 'y', viewValue: 'Y'}
+  ];
+
+    constructor(public dialogRef: MdDialogRef<LearningExperienceFormHeaderComponent>,
+          private fb: FormBuilder,
+          ) {
+
+      this.form = this.fb.group({
+          title: [''],
+          description: [''],
+          header: ['']  
+        });
+    }
+}
+
 

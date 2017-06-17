@@ -10,10 +10,12 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { MyMaterialModule } from '../my-material/my-material.module';
 
 import { LearningExperienceService } from './models/learning-experience.service';
-import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, } from './learning-experience-form/learning-experience-form.component';
-import { LearningExperienceBlockTemplateFormComponent } from  './learning-experience-form/learning-experience-template-form.component'
+import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
+import { LearningExperienceBlockTemplateFormComponent, BlockTemplateFormComponent, BlockTemplateListFormComponent } from  './learning-experience-form/learning-experience-template-form.component'
 
-import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-group/learning-experience-group.component';
+import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-lists/learning-experience-lists.component';
+
+import { LearningExperienceBlockComponent } from './learning-experience-lists/learning-experience-block/learning-experience-block.component';
 
 
 
@@ -30,11 +32,15 @@ import { LearningExperienceGroupListComponent, LearningExperienceBlockListCompon
   declarations: [
   LearningExperienceFormPieceComponent,
   LearningExperienceFormBlockComponent,
-  LearningExperienceFormGroupComponent,   
+  LearningExperienceFormGroupComponent,
+  LearningExperienceFormHeaderComponent,   
   LearningExperienceGroupListComponent,
   LearningExperienceBlockListComponent,
   LearningExperiencePieceListComponent,
-  LearningExperienceBlockTemplateFormComponent ],
+  LearningExperienceBlockTemplateFormComponent,
+  BlockTemplateFormComponent,
+  BlockTemplateListFormComponent,
+  LearningExperienceBlockComponent ],
   
   exports:[],
 
@@ -43,7 +49,8 @@ import { LearningExperienceGroupListComponent, LearningExperienceBlockListCompon
   entryComponents: [
   LearningExperienceFormPieceComponent, 
   LearningExperienceFormBlockComponent,
-  LearningExperienceFormGroupComponent]
+  LearningExperienceFormGroupComponent,
+  LearningExperienceFormHeaderComponent]
 
 })
 export class MarkbookModule { }

@@ -1,0 +1,61 @@
+<!-- <app-learning-experience-block-template-form  (formSend)="getForm($event)"></app-learning-experience-block-template-form> -->
+
+<br>
+
+
+
+
+
+<button md-button (click)="openDialogPiece()">Create Assessment Piece</button>
+
+<button md-button (click)="openDialogHeader()">Create Header Piece</button>
+
+
+
+<div class="wrapper" [ngStyle]="template()">
+
+	<div class="blank"><button md-button (click)="saveTemplate()">Save Template</button></div>
+
+	<md-card class='header' *ngFor="let x of xheaders; let i = index" [ngStyle]="xheader(i+1)">
+		<md-card-subtitle>
+			<button class="right" md-icon-button [mdMenuTriggerFor]="menu"><md-icon>more_horiz</md-icon></button>
+		</md-card-subtitle>
+
+		<md-card-title>{{x.title}}</md-card-title>
+		<md-card-content>{{x.description}}</md-card-content>
+
+	<md-menu #menu="mdMenu">
+	  <button md-menu-item> Settings </button>
+	  <button md-menu-item> Help </button>
+	</md-menu>
+		
+	</md-card>
+
+	
+
+	<md-card class='header' *ngFor="let y of yheaders; let i = index" [ngStyle]="yheader(i+1)">
+		<md-card-subtitle>
+			<button class="right" md-icon-button><md-icon>close</md-icon></button>
+		</md-card-subtitle>
+		<md-card-title>{{y.title}}</md-card-title>
+		<md-card-content>{{y.description}}</md-card-content>
+	</md-card>
+
+	<md-card *ngFor="let group of groups">
+		<md-card-subtitle>
+			<button class="right" md-icon-button><md-icon>close</md-icon></button>
+		</md-card-subtitle>
+		<md-card-title>{{group.title}}</md-card-title>
+		<md-card-content>{{group.description}}</md-card-content>
+		
+
+		<md-card-actions>
+		    <a md-raised-button color="primary" routerLink="">Students</a>
+		  </md-card-actions>
+	</md-card>
+	
+</div>
+
+<!-- <md-input-container style="min-width: 200px; width: 400px" *ngIf="showtitle===record.$key">
+  <input #title mdInput  value="{{record.title}}" (keyup.enter)="savetitle(record.$key, title.value)">
+</md-input-container> -->

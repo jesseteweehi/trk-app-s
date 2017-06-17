@@ -1,17 +1,21 @@
-// export class LearningAssessmentBlockHeaderModel {
-// 	constructor(
-// 		public $key: string,
-// 		public created: string,
-// 		public title: string,
-// 		) {}
-// 	static fromJson({$key, created, columns}): LearningAssessmentBlockHeaderModel {
-// 		return new LearningAssessmentBlockHeaderModel(
-// 			$key,
-// 			created,
-// 			columns)
-// 	    }
-// 	}
-
+export class HeaderModel {
+	constructor(
+		public $key: string,
+		public created: string,
+		public title: string,
+		public description: string,
+		) {}
+	static fromJsonList(array): HeaderModel[] {
+		return array.map( HeaderModel.fromJson);
+		}
+	static fromJson({$key, created, title, description}): HeaderModel {
+		return new HeaderModel(
+			$key,
+			created,
+			title,
+			description)
+	    }
+	}
 
 export class LearningAssessmentPieceModel {
 	constructor(

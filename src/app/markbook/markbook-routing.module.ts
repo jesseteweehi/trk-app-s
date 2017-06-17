@@ -1,7 +1,7 @@
 import { NgModule }     from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-group/learning-experience-group.component';
+import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-lists/learning-experience-lists.component';
 
 
 

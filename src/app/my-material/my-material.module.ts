@@ -10,9 +10,13 @@ import {MdMenuModule,
 		MdToolbarModule, 
 		MdAutocompleteModule, 
 		MdInputModule,
-        MdDialogModule,
+    MdDialogModule,
 		MdCardModule,
-        MdSnackBarModule} from '@angular/material';
+    MdSnackBarModule,
+    MdTooltipModule,
+    MdIconModule,
+    MdListModule,
+    MdSelectModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -24,7 +28,11 @@ import {MdMenuModule,
     MdAutocompleteModule,
     MdDialogModule,
     MdCardModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    MdTooltipModule,
+    MdIconModule,
+    MdListModule,
+    MdSelectModule
  
   ],
   exports: [
@@ -35,7 +43,11 @@ import {MdMenuModule,
     MdAutocompleteModule,
     MdDialogModule,
     MdCardModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    MdTooltipModule,
+    MdIconModule,
+    MdListModule,
+    MdSelectModule
  
   ],
   declarations: []

@@ -31,16 +31,12 @@ export class LearningExperienceService {
         item$.update({ title: title})
     }
 
-    findTemplate(learningBlock:string) {
-        return this.db.object('blocktemplate/' + learningBlock)
+    findXHeadersForBlocks(blockKey:string): Observable<any> {
+        return this.db.list('header/' + blockKey + '/x')
     }
 
-    ///// Need to update to return an observable
-    saveTemplate(learningBlock:string, template:any) {
-        console.log(template)
-        const itemObservable = this.db.object('blocktemplate/' + learningBlock + '/');
-        itemObservable.update( template );   
-
+    findYHeadersForBlocks(blockKey:string): Observable<any> {
+        return this.db.list('header/' + blockKey + '/y')
     }
 
     findAllLearningExperienceGroups():Observable<LearningAssessmentGroupModel[]> {
@@ -57,6 +53,23 @@ export class LearningExperienceService {
             .map(LearningAssessmentGroupModel.fromJsonList);
 
     }
+
+    createHeadingUnderBlock(blockKey: string, header:any): Observable<any> {
+
+        const HeaderToSave = Object.assign({}, header);
+        const HeaderToSaveKey = this.sdkDb.child('header').push().key;       
+        let dataToSave = {};
+        console.log(header.header)
+        if (header.header === 'x'){
+            dataToSave["header/" + blockKey + '/x/' + HeaderToSaveKey + '/' ] = HeaderToSave;
+        }
+        else {   
+            dataToSave["header/" + blockKey + '/y/' + HeaderToSaveKey + '/'] = HeaderToSave;
+        }      
+        return this.firebaseUpdate(dataToSave);
+
+    }
+
 
     createNewLearningExperiencePieceUnderBlock(blockKey: string, le:any): Observable<any> {
         
@@ -112,25 +125,6 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave);
     }
 
-    firebaseUpdate(dataToSave) {
-        const subject = new Subject();
-
-        this.sdkDb.update(dataToSave)
-            .then(
-                val => {
-                    subject.next(val);
-                    subject.complete();
-
-                },
-                err => {
-                    subject.error(err);
-                    subject.complete();
-                }
-        );
-
-        return subject.asObservable();
-    }
-
     //////////////////////////////// JOINS ////////////////////////////
 
     findBlockKeysForGroups(blockKeys$: Observable<any[]>) : Observable<any> {
@@ -154,9 +148,28 @@ export class LearningExperienceService {
     }
 
     findPiecesForBlocks(blockKey:string): Observable<any> {
-        console.log(blockKey)
         return this.findPieceKeysForBlock(this.db.list(`learningExperiencePieceForBlock/${blockKey}`))
             .map(LearningAssessmentPieceModel.fromJsonList)
     }
+
+    firebaseUpdate(dataToSave) {
+        const subject = new Subject();
+
+        this.sdkDb.update(dataToSave)
+            .then(
+                val => {
+                    subject.next(val);
+                    subject.complete();
+
+                },
+                err => {
+                    subject.error(err);
+                    subject.complete();
+                }
+        );
+
+        return subject.asObservable();
+    }
+   
 
 }

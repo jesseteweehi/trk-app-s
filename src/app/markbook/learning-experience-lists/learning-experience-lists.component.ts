@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Observable, Subject} from "rxjs/Rx";
+
 
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
-import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockComponent, LearningExperienceFormPieceComponent } from '../learning-experience-form/learning-experience-form.component';
+import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockComponent, LearningExperienceFormPieceComponent, LearningExperienceFormHeaderComponent } from '../learning-experience-form/learning-experience-form.component';
 
 import { LearningAssessmentGroupModel, LearningAssessmentBlockModel, LearningAssessmentPieceModel } from '../models/data-classes'
 
@@ -80,7 +82,7 @@ export class LearningExperienceGroupListComponent implements OnInit {
   selector: 'app-learning-experience-block-list',
   template: 
   `
-  {{ groupId }}
+ 
 
   <button md-button (click)="openDialogBlock()">Create Assessment Block</button>
 
@@ -164,22 +166,27 @@ export class LearningExperiencePieceListComponent implements OnInit {
 
   data: any = {}
   
+  templateSaved: any;
   groups: LearningAssessmentPieceModel[];
 	blockId: string;
 
-  xheaders: string[] = [];
-  yheaders: string[] = [];
+
+  xheaders: any[];
+  yheaders: any[];
 
   	constructor(
   		private route: ActivatedRoute,
   		private ls: LearningExperienceService,
   		public dialog: MdDialog,
-        public snackBar: MdSnackBar) {
+      public snackBar: MdSnackBar) {
   	}
 
     ngOnInit() {
     	this.blockId = this.route.snapshot.params['blockid']
-    	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);    	
+    	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);
+      this.ls.findXHeadersForBlocks(this.blockId).subscribe(xheaders => this.xheaders = xheaders);
+      this.ls.findYHeadersForBlocks(this.blockId).subscribe(yheaders => this.yheaders = yheaders);
+
     }
 
     xheader(i) {
@@ -202,60 +209,29 @@ export class LearningExperiencePieceListComponent implements OnInit {
     }
 
     template() { 
-    if (this.data.columns > 1)    	
-      {     
-        let styles = {
-              'grid-template-columns' : 'repeat(' + (this.data.columns+1) + ', 1fr)' 
+    if (this.yheaders){
+      if (this.yheaders.length > 1)      
+        {     
+          let styles = {
+                'grid-template-columns' : 'repeat(' + (this.yheaders.length + 1) + ', 1fr)' 
+              }
+              return styles
+         }
+      else {
+            let styles = {
+              'grid-template-columns' : '25% 75%'
             }
             return styles
-       }
-    else {
-          let styles = {
-            'grid-template-columns' : '25% 75%'
-          }
-          return styles
-         }
+           }
+      }
+
     }
+    
 
     getForm($event) {
       this.data = $event;
-      this.templateChange()
     }
 
-    templateChange() {
-      this.xheaders = Array.apply(null, Array(Math.ceil(this.groups.length/this.data.columns))).map((x,i) => { return 'x' + (i + 1).toString() });
-      this.yheaders = Array.apply(null, Array(this.data.columns)).map((x,i) => { return 'y' +(i + 1).toString() });
-    }
-
-    unhide(header:string) {
-      this.showtitlex = header
-    }
-
-
-    convertToObject(a) {
-        return a.reduce(function(result, item){
-        result[item] = item;
-        return result;
-      }, {})
-    }
-
-    saveTitle(i, title) {
-      const header:string = 'x'+ (i+1)
-      this.ls.updateTemplateTitle(this.blockId, header, title )
-      console.log(i)
-      console.log(title)
-      this.showtitlex = ''
-    }
-
-    saveTemplate() {
-      const id:string = this.blockId;
-      const xheaders = this.convertToObject(this.xheaders)
-      const yheaders = this.convertToObject(this.yheaders)
-
-      const template = Object.assign({'yheaders': yheaders,'xheaders': xheaders});
-
-      this.ls.saveTemplate(id, template)
-    }
 
     openDialogPiece() {
     let dialogRef = this.dialog.open(LearningExperienceFormPieceComponent);
@@ -264,15 +240,33 @@ export class LearningExperiencePieceListComponent implements OnInit {
         });
     }
 
+    openDialogHeader() {
+    let dialogRef = this.dialog.open(LearningExperienceFormHeaderComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      this.firebaseHeader(result)
+        });
+    }
+
     firebaseLearningExperienceBlock(form) {
     	this.ls.createNewLearningExperiencePieceUnderBlock(this.blockId, form.value).subscribe(
     		    () => {
     		        this.snackBar.open('Lesson Group Saved','Awesome',{ duration:2000 })
-                this.templateChange()
     		    },
     		    err => { 
     		        this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
     		    }
     		);
+    }
+    firebaseHeader(form) {
+      
+      this.ls.createHeadingUnderBlock(this.blockId, form.value).subscribe(
+            () => {
+                this.snackBar.open('Header Saved','Awesome',{ duration:2000 })
+            },
+            err => { 
+                this.snackBar.open('Error Saving Header ${err}','Bugger',{ duration:2000 })
+            }
+        );
+
     }
 }
