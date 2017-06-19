@@ -16,7 +16,8 @@ import {MdMenuModule,
     MdTooltipModule,
     MdIconModule,
     MdListModule,
-    MdSelectModule} from '@angular/material';
+    MdSelectModule,
+    MdSidenavModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import {MdMenuModule,
     MdTooltipModule,
     MdIconModule,
     MdListModule,
-    MdSelectModule
+    MdSelectModule,
+    MdSidenavModule
  
   ],
   exports: [
@@ -47,7 +49,8 @@ import {MdMenuModule,
     MdTooltipModule,
     MdIconModule,
     MdListModule,
-    MdSelectModule
+    MdSelectModule,
+    MdSidenavModule
  
   ],
   declarations: []

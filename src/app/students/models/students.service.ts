@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import {Observable, Subject} from "rxjs/Rx";
 import { 
-    StudentModel} from '../models/data-classes'
+    StudentModel,
+    StudentGroupModel} from '../models/data-classes'
 
 import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseApp } from 'angularfire2';
@@ -27,6 +28,29 @@ export class StudentsService {
         return this.db.list('students')
             .map(StudentModel.fromJsonList);
 
+    }
+
+
+    findAllStudentGroups(): Observable<StudentGroupModel[]> {
+        return this.db.list('groups')
+            .map(StudentGroupModel.fromJsonList);
+
+    }
+
+    createStudent(student:any): Observable<any> {
+        const studentToSave = Object.assign({}, student)
+        const studentToSaveKey = this.sdkDb.child('students').push().key;
+        let dataToSave = {};
+        dataToSave['students/' + studentToSaveKey] = studentToSave;
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    createStudentGroup(group:any): Observable<any> {
+        const groupToSave = Object.assign({}, group)
+        const groupToSaveKey = this.sdkDb.child('groups').push().key;
+        let dataToSave = {};
+        dataToSave['groups/' + groupToSaveKey] = groupToSave;
+        return this.firebaseUpdate(dataToSave)
     }
 
 	firebaseUpdate(dataToSave) {

@@ -1,0 +1,19 @@
+<md-card>
+<md-card-title>Add Students to Group</md-card-title>
+<md-card-content>
+  <md-input-container>
+    <input mdInput placeholder="Search"(keyup)="search(input.value)" #input>
+  </md-input-container>
+  <br>
+  <md-list>
+    <md-list-item *ngFor="let student of data.allStudents">
+    {{student.firstName}} {{student.lastName}} <p>{{student.yrlvl}}</p>
+    <button md-icon-button (click)="addstudents(student)"><md-icon>add</md-icon></button>
+    </md-list-item>
+  </md-list>
+<md-card-footer>
+  <md-chip-list>
+    <md-chip *ngFor="let student of students2add">{{student.firstName}} {{student.lastName}}</md-chip>>
+  </md-chip-list>
+</md-card-footer>
+</md-card-content>

@@ -11,10 +11,11 @@ import { MyMaterialModule } from '../my-material/my-material.module';
 
 import { StudentsService} from './models/students.service'
 
-import { StudentListComponent } from './student-list/student-list.component';
+import { StudentListComponent, StudentGroupListComponent } from './student-list/student-list.component';
 
 
-import { StudentsFormComponent } from './students-form/students-form.component';
+import { StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent } from './students-form/students-form.component';
+import { StudentContainerComponent } from './student-container/student-container.component';
 
 @NgModule({
   imports: [
@@ -26,12 +27,23 @@ import { StudentsFormComponent } from './students-form/students-form.component';
     AngularFireDatabaseModule
   ],
 
+  exports: [
+    StudentListComponent,
+    StudentGroupListComponent 
+  ],
+
   providers: [StudentsService],
 
-  declarations: [StudentListComponent, StudentsFormComponent],
-
+  declarations: [
+    StudentListComponent, 
+    StudentGroupListComponent,  
+    StudentsFormComponent,
+    StudentsGroupFormComponent, 
+    StudentContainerComponent,
+    Student2GroupListComponent
+  ],
   entryComponents: [
-  	StudentsFormComponent
+  	StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent
   ]
 })
 export class StudentsModule { }

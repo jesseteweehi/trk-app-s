@@ -1,16 +1,23 @@
 import { NgModule }     from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { StudentListComponent } from './student-list/student-list.component';
+import { StudentContainerComponent } from './student-container/student-container.component';
+
+import { StudentListComponent, StudentGroupListComponent } from './student-list/student-list.component'
 
 
 
 
 const StudentsAppRoutes: Routes = [
 	{
-  	path: '',
-  	component: StudentListComponent,
-  }
+  		path: '',
+  		component: StudentContainerComponent,
+	},
+	{
+		path: 'groups',
+		component: StudentGroupListComponent,
+		pathMatch: 'full'
+	}		
 ];
 
 

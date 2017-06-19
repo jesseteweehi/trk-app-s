@@ -8,6 +8,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 //Shared Module
 import { MyMaterialModule } from '../my-material/my-material.module';
+import { StudentsModule } from '../students/students.module'
 
 import { LearningExperienceService } from './models/learning-experience.service';
 import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
@@ -27,7 +28,8 @@ import { LearningExperienceBlockComponent } from './learning-experience-lists/le
     ReactiveFormsModule,
     MyMaterialModule,
     MarkbookRoutingModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    StudentsModule
   ],
   declarations: [
   LearningExperienceFormPieceComponent,
