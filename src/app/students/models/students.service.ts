@@ -53,6 +53,25 @@ export class StudentsService {
         return this.firebaseUpdate(dataToSave)
     }
 
+    putStudentsInGroup(groupKey: string, students: StudentModel[]): Observable<any> {
+        let dataToSave = {}
+        students.forEach(student => {
+            dataToSave["studentsForGroup/" + groupKey + "/" + student.$key] = true
+        })
+
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    
+    createSubjectForGroup( groupkey:string, subjectkey:string): Observable<any>{
+        let dataToSave = {};
+
+        dataToSave[`subjectsforsubjectgroups/${groupkey}/${subjectkey}`] = true
+
+        return this.firebaseUpdate(dataToSave);
+    }
+   
+
 	firebaseUpdate(dataToSave) {
         const subject = new Subject();
 

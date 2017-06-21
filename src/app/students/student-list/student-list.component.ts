@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent
  } from '../students-form/students-form.component'
@@ -42,46 +42,32 @@ import { StudentsService } from '../models/students.service'
     }
   `]
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent {
+  @Output() formSend = new EventEmitter<any>(); 
+	@Input() allStudents: StudentModel[];
 
-	allStudents: StudentModel[];
-	filtered: StudentModel[];
+  filtered: StudentModel[];
 
 	constructor(
-	  	private ss: StudentsService,
       public dialog: MdDialog,
       public snackBar: MdSnackBar ) {}
 
-	ngOnInit() {
-	  	this.ss.findAllStudents().subscribe(students => this.allStudents = this.filtered = students)
+  ngOnChanges() {
+    this.filtered = this.allStudents
+  }
 
-    }
+  openDialogStudent() {
+  let dialogRef = this.dialog.open(StudentsFormComponent);
+  dialogRef.afterClosed().subscribe(result => {
+    this.formSend.emit(result);
+      });
+  }
 
-    openDialogStudent() {
-    let dialogRef = this.dialog.open(StudentsFormComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      this.saveStudent(result)
-        });
-    }
-
-    saveStudent(form){
-      this.ss.createStudent(form.value).subscribe(
-            () => {
-                this.snackBar.open('Student Saved','Awesome',{ duration:2000 })
-            },
-            err => { 
-                this.snackBar.open('Error Saving Student ${err}','Bugger',{ duration:2000 })
-            }
-        );
-    }
-
-    search(search:string) {
-        this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
+  search(search:string) {
+    this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
     }
 
 }
-
-
 
 
 @Component({
@@ -105,56 +91,48 @@ export class StudentListComponent implements OnInit {
   <md-card-content>{{group.description}}</md-card-content>
 
   <md-card-actions>
-      <button md-button (click)="openDialogStudent(group.$key)">Create Group</button>
+      <button md-button olor="primary" (click)="openDialogStudent(group)">Add Students</button>
+       <a md-raised-button color="primary" routerLink="{{group.$key}}">Raised button</a>
   </md-card-actions>
    
   </md-card>
   `,
   styles: []
 })
-export class StudentGroupListComponent implements OnInit {
+export class StudentGroupListComponent {
+  @Output() formSend = new EventEmitter<any>();
+  @Output() student2GroupFormSend = new EventEmitter<any>(); 
+  @Input() allStudentGroups: StudentGroupModel[];
 
-  allStudentGroups: StudentGroupModel[];
   filtered: StudentGroupModel[];
 
-  constructor(
-      private ss: StudentsService,
-      public dialog: MdDialog,
-      public snackBar: MdSnackBar ) {}
+  constructor(public dialog: MdDialog) {}
 
-  ngOnInit() {
-      this.ss.findAllStudentGroups().subscribe(students => this.allStudentGroups = this.filtered = students)
-
-    }
+  ngOnChanges() {
+    this.filtered = this.allStudentGroups
+  }
 
     openDialogGroup() {
     let dialogRef = this.dialog.open(StudentsGroupFormComponent);
     dialogRef.afterClosed().subscribe(result => {
-      this.saveStudentGroup(result)
+      this.formSend.emit(result);
         });
     }
 
-    openDialogStudent(key) {
+    openDialogStudent(group) {
     let dialogRef = this.dialog.open(Student2GroupListComponent, {
-        data: {'allStudentGroups': this.allStudentGroups ,
-                'studentGroup' : key
-              }
+        data: {
+                'studentGroup' : group 
+              },
+        height: '90%',
+        width: '500px'
       });
+    
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
+      this.student2GroupFormSend.emit(result) 
     })
   }
 
-    saveStudentGroup(form){
-      this.ss.createStudentGroup(form.value).subscribe(
-            () => {
-                this.snackBar.open('Student Group Saved','Awesome',{ duration:2000 })
-            },
-            err => { 
-                this.snackBar.open('Error Saving Student Group ${err}','Bugger',{ duration:2000 })
-            }
-        );
-    }
 
     search(search:string) {
         this.filtered = this.allStudentGroups.filter(group => group.title.toLowerCase().includes(search) );

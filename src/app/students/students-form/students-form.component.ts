@@ -1,11 +1,13 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, OnChanges } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
 import { 
     StudentModel,
     StudentGroupModel
-    } from '../models/data-classes'
+    } from '../models/data-classes';
+
+import { StudentsService } from '../models/students.service'
 
 @Component({
   selector: 'app-students-form',
@@ -126,6 +128,19 @@ export class StudentsGroupFormComponent {
   selector: 'app-student2group-list',
   templateUrl: './student2group.component.html',
   styles: [`
+    md-dialog-content {
+      max-height: 100px;
+    }
+
+    .right {
+      margin-left: auto
+    }
+
+    md-list {
+      height: 300px;
+      overflow: scroll;
+    }
+
     md-list-item:not(:last-child) {
         border-bottom: solid 1px lightgrey
     }
@@ -136,27 +151,40 @@ export class StudentsGroupFormComponent {
     }
   `]
 })
-export class Student2GroupListComponent {
+export class Student2GroupListComponent implements OnInit{
 
-  // Going to have two pieces of data
-  // All the students so they can be added to the group
-  // Group id so they student list can be added correctly under the right group.
-  // the student list with the ability to pick students and pass them to the parent is going
-  // to be needed multiple times so may be best to build this first.
+  allStudents: StudentModel[];
+  filtered: StudentModel[];
 
-  // Maybe we should pass it on from the outside...???? Or build it somewhere else and than inject it here????
-  students2add: StudentModel[]
+  group: StudentGroupModel = this.data.studentGroup;
 
-  filtered: StudentModel[]
-  allStudents: StudentModel[] = this.data.allStudentGroups;
- 
+  students2Add: StudentModel[] = []
 
-  constructor(public dialogRef: MdDialogRef<StudentsGroupFormComponent>,
+  constructor(private ss: StudentsService,
+              public dialogRef: MdDialogRef<StudentsGroupFormComponent>,
               @Inject(MD_DIALOG_DATA) public data: any) {}
+
+
+  ngOnInit() {
+    this.ss.findAllStudents().subscribe(students => this.allStudents = this.filtered = students)
+  }
 
   search(search:string) {
         this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
     }
+
+  addStudents(student){
+    if (this.students2Add.includes(student) === false) {
+      this.students2Add.push(student) }
+    }
+
+  createResult() {
+    let result = {
+      "groupKey" : this.group.$key,
+      "student" : this.students2Add
+      }
+    this.dialogRef.close(result)
+  }
 
 }
 

@@ -17,7 +17,18 @@ const StudentsAppRoutes: Routes = [
 		path: 'groups',
 		component: StudentGroupListComponent,
 		pathMatch: 'full'
-	}		
+		// children: [
+  //     {
+  //       path: '',
+  //       component: LearningExperienceBlockListComponent
+  //     },
+  //     {
+  //       path: ':blockid',
+  //       component: LearningExperiencePieceListComponent
+  //     }
+  //   ]
+	},
+
 ];
 
 
