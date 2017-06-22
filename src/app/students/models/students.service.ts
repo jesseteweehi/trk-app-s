@@ -24,17 +24,41 @@ export class StudentsService {
 	}
 
 	findAllStudents():Observable<StudentModel[]> {
-
         return this.db.list('students')
             .map(StudentModel.fromJsonList);
 
     }
 
-
     findAllStudentGroups(): Observable<StudentGroupModel[]> {
         return this.db.list('groups')
             .map(StudentGroupModel.fromJsonList);
 
+    }
+
+    // findSubjectGroupKeysForStudentKeys(subjectgroupkeys$: Observable<any[]>) :Observable<any> {
+    //     return subjectgroupkeys$
+    //         .map(sgps => sgps.map(subjectgroupkey => this.db.object('subjectgroups/' + subjectgroupkey.$key)) )
+    //         .flatMap(fbojs => Observable.combineLatest(fbojs))
+    // }
+
+    // findSubjectGroupForStudent(studentkey:string) :Observable<any> {
+    //     return this.findSubjectGroupKeysForStudentKeys(this.db.list(`subjectgroupsforstudent/${studentkey}`))
+    //         .map(SubjectGroupModel.fromJsonList)
+
+    // }
+
+
+
+
+    findStudentKeysForGroup(studentkeys$: Observable<any[]>) :Observable<any> {
+        return studentkeys$
+                .map(spg => spg.map(student => this.db.object('students/' + student.$key)) )
+                .flatMap(fbojs => Observable.combineLatest(fbojs))
+    }
+
+    findStudentsForGroup(studentkey:string): Observable<any> {
+        return this.findStudentKeysForGroup(this.db.list(`studentsForGroup/${studentkey}`))
+            .map(StudentModel.fromJsonList)
     }
 
     createStudent(student:any): Observable<any> {

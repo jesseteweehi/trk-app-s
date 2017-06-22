@@ -92,7 +92,8 @@ export class StudentListComponent {
 
   <md-card-actions>
       <button md-button olor="primary" (click)="openDialogStudent(group)">Add Students</button>
-       <a md-raised-button color="primary" routerLink="{{group.$key}}">Raised button</a>
+       <a md-raised-button color="primary" routerLink="groups/{{group.$key
+       }}">Students</a>
   </md-card-actions>
    
   </md-card>

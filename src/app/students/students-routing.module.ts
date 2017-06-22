@@ -5,6 +5,8 @@ import { StudentContainerComponent } from './student-container/student-container
 
 import { StudentListComponent, StudentGroupListComponent } from './student-list/student-list.component'
 
+import { StudentGroupComponent } from './student/student.component'
+
 
 
 
@@ -15,18 +17,16 @@ const StudentsAppRoutes: Routes = [
 	},
 	{
 		path: 'groups',
-		component: StudentGroupListComponent,
-		pathMatch: 'full'
-		// children: [
-  //     {
-  //       path: '',
-  //       component: LearningExperienceBlockListComponent
-  //     },
-  //     {
-  //       path: ':blockid',
-  //       component: LearningExperiencePieceListComponent
-  //     }
-  //   ]
+		children: [
+      {
+        path: '',
+        component: StudentGroupListComponent
+      },
+      {
+        path: ':id',
+        component: StudentGroupComponent
+      }
+    ]
 	},
 
 ];

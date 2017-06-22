@@ -16,6 +16,7 @@ import { StudentListComponent, StudentGroupListComponent } from './student-list/
 
 import { StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent } from './students-form/students-form.component';
 import { StudentContainerComponent } from './student-container/student-container.component';
+import { StudentGroupComponent } from './student/student.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { StudentContainerComponent } from './student-container/student-container
     StudentsFormComponent,
     StudentsGroupFormComponent, 
     StudentContainerComponent,
-    Student2GroupListComponent
+    Student2GroupListComponent,
+    StudentGroupComponent
   ],
   entryComponents: [
   	StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent
