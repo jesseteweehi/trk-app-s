@@ -16,8 +16,9 @@ import { LearningExperienceBlockTemplateFormComponent, BlockTemplateFormComponen
 
 import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-lists/learning-experience-lists.component';
 
-import { LearningExperienceBlockComponent } from './learning-experience-lists/learning-experience-block/learning-experience-block.component';
-
+import { LEStudentListPieceDialogComponent,
+         LEStudentListBlockDialogComponent,
+         LEStudentListGroupDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component'
 
 
 
@@ -42,7 +43,9 @@ import { LearningExperienceBlockComponent } from './learning-experience-lists/le
   LearningExperienceBlockTemplateFormComponent,
   BlockTemplateFormComponent,
   BlockTemplateListFormComponent,
-  LearningExperienceBlockComponent ],
+  LEStudentListPieceDialogComponent,
+  LEStudentListBlockDialogComponent,
+  LEStudentListGroupDialogComponent],
   
   exports:[],
 
@@ -52,7 +55,10 @@ import { LearningExperienceBlockComponent } from './learning-experience-lists/le
   LearningExperienceFormPieceComponent, 
   LearningExperienceFormBlockComponent,
   LearningExperienceFormGroupComponent,
-  LearningExperienceFormHeaderComponent]
+  LearningExperienceFormHeaderComponent,
+  LEStudentListPieceDialogComponent,
+  LEStudentListBlockDialogComponent,
+  LEStudentListGroupDialogComponent]
 
 })
 export class MarkbookModule { }

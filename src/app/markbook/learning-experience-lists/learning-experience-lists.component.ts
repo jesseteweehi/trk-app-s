@@ -3,12 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Observable, Subject} from "rxjs/Rx";
 
-
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
 import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockComponent, LearningExperienceFormPieceComponent, LearningExperienceFormHeaderComponent } from '../learning-experience-form/learning-experience-form.component';
 
 import { LearningAssessmentGroupModel, LearningAssessmentBlockModel, LearningAssessmentPieceModel } from '../models/data-classes'
+
+import { LEStudentListPieceDialogComponent,
+         LEStudentListBlockDialogComponent,
+         LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component'
+
+import { Student2GroupListComponent} from '../../students/students-form/students-form.component';
+import { StudentModel } from '../../students/models/data-classes';
 
 @Component({
   selector: 'app-learning-experience-group-list',
@@ -23,7 +29,8 @@ import { LearningAssessmentGroupModel, LearningAssessmentBlockModel, LearningAss
   	<md-card-subtitle>{{group.learningArea}} | {{group.learningLevel}}</md-card-subtitle>
   	<md-card-content>{{group.description}}</md-card-content>
   	<md-card-actions>
-  	    <a md-raised-button color="primary" routerLink="{{group.$key}}">Raised button</a>
+  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment Blocks</a>
+        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
   	  </md-card-actions>
   </md-card>
 
@@ -66,6 +73,20 @@ export class LearningExperienceGroupListComponent implements OnInit {
         });
     }
 
+    openDialogFindStudent(group) {
+    let dialogRef = this.dialog.open(LEStudentListGroupDialogComponent, {
+        data: {
+                'lePiece' : group 
+              },
+        height: '90%',
+        width: '500px'
+      });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      })
+    }
+
     firebaseLearningExperienceGroup(form) {
     	this.ls.createNewLearningExperienceGroup(form.value).subscribe(
     		    () => {
@@ -93,7 +114,8 @@ export class LearningExperienceGroupListComponent implements OnInit {
   	<md-card-subtitle>{{group.learningArea}} | {{group.learningLevel}}</md-card-subtitle>
   	<md-card-content>{{group.description}}</md-card-content>
   	<md-card-actions>
-  	    <a md-raised-button color="primary" routerLink="{{group.$key}}">Raised button</a>
+  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessments</a>
+        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
   	  </md-card-actions>
   </md-card>
 
@@ -130,9 +152,21 @@ export class LearningExperienceBlockListComponent implements OnInit {
 
     ngOnInit() {
     	this.groupId = this.route.snapshot.params['groupid']
-    	this.ls.findBlocksForGroup(this.groupId).subscribe(groups => this.groups = groups);
+    	this.ls.findBlocksForGroup(this.groupId).subscribe(groups => this.groups = groups);   	
+    }
 
-    	
+    openDialogFindStudent(group) {
+    let dialogRef = this.dialog.open(LEStudentListBlockDialogComponent, {
+        data: {
+                'lePiece' : group 
+              },
+        height: '90%',
+        width: '500px'
+      });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      })
     }
 
     openDialogBlock() {
@@ -141,6 +175,8 @@ export class LearningExperienceBlockListComponent implements OnInit {
     	this.firebaseLearningExperienceBlock(result)
         });
     }
+
+
 
     firebaseLearningExperienceBlock(form) {
     	this.ls.createNewLearningExperienceBlockUnderGroup(this.groupId, form.value).subscribe(
@@ -169,6 +205,7 @@ export class LearningExperiencePieceListComponent implements OnInit {
   templateSaved: any;
   groups: LearningAssessmentPieceModel[];
 	blockId: string;
+  groupId: string;
 
 
   xheaders: any[];
@@ -182,12 +219,23 @@ export class LearningExperiencePieceListComponent implements OnInit {
   	}
 
     ngOnInit() {
-    	this.blockId = this.route.snapshot.params['blockid']
+    	this.blockId = this.route.snapshot.params['blockid'];
+      this.groupId = this.route.snapshot.params['groupid']
     	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);
       this.ls.findXHeadersForBlocks(this.blockId).subscribe(xheaders => this.xheaders = xheaders);
       this.ls.findYHeadersForBlocks(this.blockId).subscribe(yheaders => this.yheaders = yheaders);
 
     }
+
+    // delete(group) {
+    //   this.ls.deletePost(this.groupId, this.blockId, group.$key).subscribe(
+    //         () => {
+    //             this.snackBar.open('Students Learning Piece Deleted','Awesome',{ duration:2000 })
+    //         },
+    //         err => { 
+    //             this.snackBar.open('Error Deleting Learning Piece Students ${err}','Bugger',{ duration:2000 })
+    //         }
+    // }
 
     xheader(i) {
     // grid Area : row-start,row-end, column-start, column-end
@@ -246,6 +294,49 @@ export class LearningExperiencePieceListComponent implements OnInit {
       this.firebaseHeader(result)
         });
     }
+
+    openDialogAddStudent(group) {
+    let dialogRef = this.dialog.open(Student2GroupListComponent, {
+        data: {
+                'studentGroup' : group 
+              },
+        height: '90%',
+        width: '500px'
+      });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      this.createStudent2LearningBlock(result.groupKey, result.student) 
+    })
+  }
+
+  openDialogFindStudent(group) {
+    let dialogRef = this.dialog.open(LEStudentListPieceDialogComponent, {
+        data: {
+                'lePiece' : group 
+              },
+        height: '90%',
+        width: '500px'
+      });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      // this.createStudent2LearningBlock(result.groupKey, result.student) 
+    })
+  }
+
+  createStudent2LearningBlock(learningBlock:string, students: StudentModel[]){
+    this.ls.putStudentsInLearningPiece(this.groupId, this.blockId, learningBlock, students).subscribe(
+            () => {
+                this.snackBar.open('Students Saved','Awesome',{ duration:2000 })
+            },
+            err => { 
+                this.snackBar.open('Error Saving Lesson Students ${err}','Bugger',{ duration:2000 })
+            }
+        );
+  }
+  
+
+
 
     firebaseLearningExperienceBlock(form) {
     	this.ls.createNewLearningExperiencePieceUnderBlock(this.blockId, form.value).subscribe(

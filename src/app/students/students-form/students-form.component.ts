@@ -188,4 +188,72 @@ export class Student2GroupListComponent implements OnInit{
 
 }
 
+@Component({
+  selector: 'app-student-edit',
+  template: 
+  `
+  <div md-dialog-title></div>
+
+
+  <div md-dialog-content>
+      <form novalidate [formGroup]="form">
+
+        <md-input-container class="example-full-width">
+           <input value="{{student.title}}" type="text" mdInput formControlName="title">
+        </md-input-container>
+
+        <md-input-container class="example-full-width">
+           <input value="{{student.description}}" placeholder="description" type="text" mdInput formControlName="description">
+        </md-input-container>
+
+        <md-input-container class="example-full-width">
+           <input value="{{student.id}}" placeholder="Identification Code" type="text" mdInput formControlName="id">
+        </md-input-container>
+
+        <md-input-container class="example-full-width">
+           <input value="{{student.ethnicMain}}" placeholder="Year Level" type="text" mdInput formControlName="yrlvl">
+        </md-input-container>
+    
+    </form>
+
+
+  <div md-dialog-actions>
+    <button md-button (click)="dialogRef.close(form)">Create</button>
+   
+  </div>
+
+  `,
+  styles: [`
+  `]
+})
+export class StudentComponent implements OnInit{
+  form: FormGroup;
+
+  student: StudentModel;
+  
+ 
+
+  constructor(
+              public dialogRef: MdDialogRef<StudentComponent>,
+              @Inject(MD_DIALOG_DATA) public data: any,
+              private fb: FormBuilder,
+          ) {
+
+      this.form = this.fb.group({
+        firstName: [''],
+        lastName: [''],
+        id: [''],
+        gender: [''],
+        yrlvl: [''],
+        ethnicMain: ['']
+        });
+      } 
+
+
+  ngOnInit() {
+   
+  }
+
+}
+
 

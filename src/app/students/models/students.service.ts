@@ -23,9 +23,89 @@ export class StudentsService {
 		this.sdkDb = this.fb.database().ref();	
 	}
 
+    findStudentKeysForObservable(studentkeys$: Observable<any[]>) :Observable<any> {
+        return studentkeys$
+            .map(splp => splp.map(students => this.db.object('students/' + students.$key)))
+            .flatMap(fbojs => Observable.combineLatest(fbojs))
+  
+    }
+
+    findStudentsForLP(lpKey:string): Observable<any> {
+        return this.findStudentKeysForObservable(this.db.list(`studentsForLearningPiece/${lpKey}`))
+            .map(StudentModel.fromJsonList)
+    }
+
+
+    findStudentsFromStudentKeys(studentKeys$: Observable<any[]> ) : Observable<any> {
+        return studentKeys$
+            .map(studentkeys => studentkeys.map(key => this.db.object('students/' + key)) )
+            .flatMap(fbojs => Observable.combineLatest(fbojs))
+    }
+
+    findLPForLB(lpKey$: Observable<any[]> ): Observable<any> {
+        return lpKey$.map(x=> x.map(next => this.db.list(`studentsForLearningPiece/${next.$key}`)))
+                           .flatMap(next => Observable.combineLatest(next))
+                           .map(arrayofobjects => {
+                               let result = []
+                               let a = [].concat.apply([], arrayofobjects)
+                               a.forEach(value => {
+                                   if (!result.includes(value.$key)) {
+                                           result.push(value.$key)
+                                        }
+                                   
+                               })
+                               return result
+                               })
+        }
+
+    findLPForLBKeys(lpKey$: Observable<any[]> ): Observable<any> {
+        return lpKey$.map(x=> x.map(next => this.db.list(`studentsForLearningPiece/${next}`)))
+                           .flatMap(next => Observable.combineLatest(next))
+                           .map(arrayofobjects => {
+                               let result = []
+                               let a = [].concat.apply([], arrayofobjects)
+                               a.forEach(value => {
+                                   if (!result.includes(value.$key)) {
+                                           result.push(value.$key)
+                                        }
+                                   
+                               })
+                               return result
+                               })
+        }
+
+
+    FindLBForLG(lgKeys$: Observable<any[]>): Observable<any> {
+        return lgKeys$.map(x=> x.map(next => this.db.list(`learningExperiencePieceForBlock/${next.$key}`)))
+                      .flatMap(next => Observable.combineLatest(next))
+                      .map(arrayofobjects => {
+                          let result = []
+                          let a = [].concat.apply([], arrayofobjects)
+                          a.forEach(value => {
+                              if (!result.includes(value.$key)) {
+                                      result.push(value.$key)
+                                   }
+                              
+                          })
+                          return result
+                          })
+
+    }
+
+    findStudentsForLB(lbKey:string) : Observable<any> {
+        return this.findStudentsFromStudentKeys(this.findLPForLB(this.db.list(`learningExperiencePieceForBlock/${lbKey}`)))
+            .map(StudentModel.fromJsonList)
+    }
+
+    findStudentsForLG(lgKey:string) : Observable<any> {
+        // Returns a list of LG keys
+        return this.findStudentsFromStudentKeys(this.findLPForLBKeys(this.FindLBForLG(this.db.list(`learningExperienceBlockForGroup/${lgKey}`))))
+            .map(StudentModel.fromJsonList)
+    }
+
 	findAllStudents():Observable<StudentModel[]> {
         return this.db.list('students')
-            .map(StudentModel.fromJsonList);
+            .map(StudentModel.fromJsonList)
 
     }
 
@@ -35,19 +115,10 @@ export class StudentsService {
 
     }
 
-    // findSubjectGroupKeysForStudentKeys(subjectgroupkeys$: Observable<any[]>) :Observable<any> {
-    //     return subjectgroupkeys$
-    //         .map(sgps => sgps.map(subjectgroupkey => this.db.object('subjectgroups/' + subjectgroupkey.$key)) )
-    //         .flatMap(fbojs => Observable.combineLatest(fbojs))
-    // }
-
-    // findSubjectGroupForStudent(studentkey:string) :Observable<any> {
-    //     return this.findSubjectGroupKeysForStudentKeys(this.db.list(`subjectgroupsforstudent/${studentkey}`))
-    //         .map(SubjectGroupModel.fromJsonList)
-
-    // }
-
-
+    findStudentGroup(groupKey:string): Observable<StudentGroupModel> {
+        return this.db.object('groups/' + groupKey)
+            .map(StudentGroupModel.fromJson)
+    }
 
 
     findStudentKeysForGroup(studentkeys$: Observable<any[]>) :Observable<any> {
@@ -57,7 +128,7 @@ export class StudentsService {
     }
 
     findStudentsForGroup(studentkey:string): Observable<any> {
-        return this.findStudentKeysForGroup(this.db.list(`studentsForGroup/${studentkey}`))
+        return this.findStudentKeysForObservable(this.db.list(`studentsForGroup/${studentkey}`))
             .map(StudentModel.fromJsonList)
     }
 

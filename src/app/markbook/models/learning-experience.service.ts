@@ -5,6 +5,9 @@ import {
     LearningAssessmentGroupModel,
     LearningAssessmentBlockModel} from '../models/data-classes'
 
+import { StudentModel } from '../../students/models/data-classes';
+
+// import {Http, Response} from "@angular/http";
 import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseApp } from 'angularfire2';
 
@@ -24,6 +27,31 @@ export class LearningExperienceService {
         private db: AngularFireDatabase) {
 
     	this.sdkDb = this.fb.database().ref();	
+    }
+
+    
+
+
+    findStudentKeysForLearningPiece(studentsKeys$: Observable<any[]>) : Observable<any> {
+        return studentsKeys$
+            .map(splp =>splp.map(student => this.db.object('students/' + student.$key)) )
+            .flatMap(fbojs => Observable.combineLatest(fbojs))
+    }
+
+    findStudentsForLearningPiece(lpkey:string): Observable<any> {
+        return this.findStudentKeysForLearningPiece(this.db.list(`studentsForLearningPiece/${lpkey}`))
+            .map(StudentModel.fromJsonList)
+    }
+
+
+
+    putStudentsInLearningPiece(lGroupKey:string, lBlockKey:string, pieceKey: string, students: StudentModel[]): Observable<any> {
+        let dataToSave = {}
+        students.forEach(student => {
+            dataToSave["studentsForLearningPiece/" + pieceKey + "/" + student.$key] = true;
+        })
+
+        return this.firebaseUpdate(dataToSave)
     }
 
     updateTemplateTitle(learningBlock:string, header:string, title:string) {
@@ -152,6 +180,11 @@ export class LearningExperienceService {
             .map(LearningAssessmentPieceModel.fromJsonList)
     }
 
+    // find learning block list
+
+
+
+
     firebaseUpdate(dataToSave) {
         const subject = new Subject();
 
@@ -170,6 +203,8 @@ export class LearningExperienceService {
 
         return subject.asObservable();
     }
+
+
    
 
 }

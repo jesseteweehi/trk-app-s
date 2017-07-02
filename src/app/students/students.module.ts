@@ -30,7 +30,8 @@ import { StudentGroupComponent } from './student/student.component';
 
   exports: [
     StudentListComponent,
-    StudentGroupListComponent 
+    StudentGroupListComponent,
+    Student2GroupListComponent 
   ],
 
   providers: [StudentsService],
