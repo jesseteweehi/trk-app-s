@@ -11,14 +11,73 @@ import {
 import { StudentsService } from '../models/students.service'
 
 @Component({
+  selector: 'app-student-dialog-list',
+  template: `
+ 
+  {{allStudents?.length}}
+
+
+  <md-input-container>
+    <input mdInput placeholder="Search"(keyup)="search(input.value)" #input>
+  </md-input-container>
+
+
+
+  <md-list>
+    <md-list-item *ngFor="let student of filtered">
+    {{student.firstName}} {{student.lastName}} <p>{{student.yrlvl}}</p>
+    <button class="right" md-icon-button (click)="removeStudents(student)"><md-icon>add</md-icon></button>
+    </md-list-item>
+
+  </md-list>
+  `,
+  styles: [`
+    .right {
+      margin-left: auto
+    }
+    
+    md-list-item:not(:last-child) {
+        border-bottom: solid 1px lightgrey
+    }
+
+    md-list-item p {
+      padding-left: 20px;
+      color: lightgrey;
+    }
+  `]
+})
+export class StudentListDialogComponent {
+  @Output() studentsToRemove = new EventEmitter<StudentModel[]>(); 
+  @Input() allStudents: StudentModel[];
+
+  filtered: StudentModel[];
+
+  constructor(
+      public dialog: MdDialog,
+      public snackBar: MdSnackBar ) {}
+
+  ngOnChanges() {
+    this.filtered = this.allStudents
+  }
+
+  openDialogStudent() {
+  let dialogRef = this.dialog.open(StudentsFormComponent);
+  dialogRef.afterClosed().subscribe(result => {
+    this.formSend.emit(result);
+      });
+  }
+
+  search(search:string) {
+    this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
+    }
+}
+
+
+@Component({
   selector: 'app-student-list',
   template: `
-  Take this Button Out and move to container
-  <button md-button (click)="openDialogStudent()">Create Student</button>
-
-  <br>
-
-   {{allStudents?.length}}
+ 
+  {{allStudents?.length}}
 
 
   <md-input-container>
@@ -74,7 +133,6 @@ export class StudentListComponent {
   search(search:string) {
     this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
     }
-
 }
 
 
