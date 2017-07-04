@@ -9,7 +9,7 @@ import { StudentsModule } from './students/students.module';
 const appRoutes: Routes = [
 	{ 
 		path: '',
-		redirectTo: 'students',
+		redirectTo: 'individual',
 		pathMatch: 'full'
 
 	},
@@ -21,7 +21,10 @@ const appRoutes: Routes = [
     path: 'students',
     loadChildren: 'app/students/students.module#StudentsModule'
   },
-
+  {
+    path: 'individual',
+    loadChildren: 'app/my-student/my-student.module#MyStudentModule'
+  }
 ];
 
 

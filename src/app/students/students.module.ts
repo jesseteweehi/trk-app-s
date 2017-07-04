@@ -8,10 +8,12 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 // Shared Module
 import { MyMaterialModule } from '../my-material/my-material.module';
+import { StudentSharedModule} from '../student-shared/student-shared.module'
+
 
 import { StudentsService} from './models/students.service'
 
-import { StudentListComponent, StudentGroupListComponent } from './student-list/student-list.component';
+import {  StudentGroupListComponent } from './student-list/student-list.component';
 
 
 import { StudentsFormComponent, StudentsGroupFormComponent} from './students-form/students-form.component';
@@ -25,19 +27,17 @@ import { StudentGroupComponent } from './student/student.component';
     ReactiveFormsModule,
     MyMaterialModule,
     StudentsRoutingModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    StudentSharedModule
   ],
 
-  exports: [
-    StudentListComponent,
+  exports: [   
     StudentGroupListComponent
- 
   ],
 
   providers: [StudentsService],
 
-  declarations: [
-    StudentListComponent, 
+  declarations: [    
     StudentGroupListComponent,  
     StudentsFormComponent,
     StudentsGroupFormComponent, 

@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { StudentContainerComponent } from './student-container/student-container.component';
 
-import { StudentListComponent, StudentGroupListComponent } from './student-list/student-list.component'
+import { StudentGroupListComponent } from './student-list/student-list.component'
 
 import { StudentGroupComponent } from './student/student.component'
 

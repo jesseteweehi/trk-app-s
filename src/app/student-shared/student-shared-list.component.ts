@@ -2,6 +2,52 @@ import { Component, Inject, OnInit, EventEmitter, Output, Input } from '@angular
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { StudentModel } from '.././students/models/data-classes';
 
+@Component({
+  selector: 'app-student-list',
+  template: `
+ 
+  <md-input-container>
+    <input class="full-width" mdInput placeholder="Search"(keyup)="search(input.value)" #input>
+  </md-input-container>
+
+  <md-list>
+    <md-list-item *ngFor="let student of filtered">
+    {{student.firstName}} {{student.lastName}} <p>{{student.yrlvl}}</p>
+    </md-list-item>
+  </md-list>
+
+  `,
+  styles: [`
+    .full-width {
+      width: 100%;
+    }
+   
+    md-list-item:not(:last-child) {
+        border-bottom: solid 1px lightgrey
+    }
+
+    md-list-item p {
+      padding-left: 20px;
+      color: lightgrey;
+    }
+  `]
+})
+
+export class StudentListComponent {
+  @Input() allStudents: StudentModel[];
+
+  filtered: StudentModel[];
+
+  constructor() {}
+
+  ngOnChanges() {
+    this.filtered = this.allStudents
+  }
+
+  search(search:string) {
+    this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
+    }
+}
 
 @Component({
   selector: 'app-student-add-list',

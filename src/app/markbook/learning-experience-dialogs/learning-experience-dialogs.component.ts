@@ -73,6 +73,10 @@ export class LEStudentListPieceAddDialogComponent implements OnInit {
     }  
 }
 
+// This will hold the Dialogs to see how many students are within a Group or Block. However they should not need
+// The ability to change data as this should only be done via Learning Piece Section
+
+
 @Component({
   selector: 'learning-block-student-list',
   template: 
@@ -113,7 +117,6 @@ export class LEStudentListBlockDialogComponent implements OnInit {
   styles:[]
 })
 export class LEStudentListGroupDialogComponent implements OnInit {
-
   allStudents: StudentModel[];
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
-import { StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent
+import { StudentsFormComponent, StudentsGroupFormComponent
  } from '../students-form/students-form.component'
 
 import { 
@@ -74,69 +74,6 @@ export class StudentListDialogComponent {
 
 
 @Component({
-  selector: 'app-student-list',
-  template: `
- 
-  {{allStudents?.length}}
-
-
-  <md-input-container>
-    <input mdInput placeholder="Search"(keyup)="search(input.value)" #input>
-  </md-input-container>
-
-
-
-  <md-list>
-    <md-list-item *ngFor="let student of filtered">
-    {{student.firstName}} {{student.lastName}} <p>{{student.yrlvl}}</p>
-    <button class="right" md-icon-button (click)="addStudents(student)"><md-icon>add</md-icon></button>
-    </md-list-item>
-
-  </md-list>
-  `,
-  styles: [`
-    .right {
-      margin-left: auto
-    }
-    
-    md-list-item:not(:last-child) {
-        border-bottom: solid 1px lightgrey
-    }
-
-    md-list-item p {
-      padding-left: 20px;
-      color: lightgrey;
-    }
-  `]
-})
-export class StudentListComponent {
-  @Output() formSend = new EventEmitter<any>(); 
-	@Input() allStudents: StudentModel[];
-
-  filtered: StudentModel[];
-
-	constructor(
-      public dialog: MdDialog,
-      public snackBar: MdSnackBar ) {}
-
-  ngOnChanges() {
-    this.filtered = this.allStudents
-  }
-
-  openDialogStudent() {
-  let dialogRef = this.dialog.open(StudentsFormComponent);
-  dialogRef.afterClosed().subscribe(result => {
-    this.formSend.emit(result);
-      });
-  }
-
-  search(search:string) {
-    this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
-    }
-}
-
-
-@Component({
   selector: 'app-student-group-list',
   template: `
   <br>
@@ -186,19 +123,19 @@ export class StudentGroupListComponent {
         });
     }
 
-    openDialogStudent(group) {
-    let dialogRef = this.dialog.open(Student2GroupListComponent, {
-        data: {
-                'studentGroup' : group 
-              },
-        height: '90%',
-        width: '500px'
-      });
+  //   openDialogStudent(group) {
+  //   let dialogRef = this.dialog.open(, {
+  //       data: {
+  //               'studentGroup' : group 
+  //             },
+  //       height: '90%',
+  //       width: '500px'
+  //     });
     
-    dialogRef.afterClosed().subscribe(result => {
-      this.student2GroupFormSend.emit(result) 
-    })
-  }
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     this.student2GroupFormSend.emit(result) 
+  //   })
+  // }
 
 
     search(search:string) {

@@ -34,18 +34,3 @@ const MarkbookAppRoutes: Routes = [
 })
 export class MarkbookRoutingModule {}
 
-
-// children: [
-//       {
-//         path: '',
-//         component: CrisisListComponent,
-//         children: [
-//           {
-//             path: ':id',
-//             component: CrisisDetailComponent
-//           },
-//           {
-//             path: '',
-//             component: CrisisCenterHomeComponent
-//           }
-//         ]

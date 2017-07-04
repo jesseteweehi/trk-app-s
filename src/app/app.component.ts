@@ -6,5 +6,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  navLinks = [
+  {
+  	link: 'assessment',
+  	label: 'Assessment'
+  },
+  {
+  	link: 'students',
+  	label: 'Students'
+  }
+  	
+
+  ]
 }
+
+// <a routerLink="assessment">Assessment</a>
+// <a routerLink="individual">Individual Student</a>
+// <a routerLink="students">Students</a>
