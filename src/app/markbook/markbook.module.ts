@@ -9,6 +9,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 //Shared Module
 import { MyMaterialModule } from '../my-material/my-material.module';
 import { StudentsModule } from '../students/students.module'
+import { StudentSharedModule} from '../student-shared/student-shared.module'
 
 import { LearningExperienceService } from './models/learning-experience.service';
 import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
@@ -16,7 +17,8 @@ import { LearningExperienceBlockTemplateFormComponent, BlockTemplateFormComponen
 
 import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-lists/learning-experience-lists.component';
 
-import { LEStudentListPieceDialogComponent,
+import { LEStudentListPieceAddDialogComponent,
+         LEStudentListPieceRemoveDialogComponent,
          LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component'
 
@@ -30,7 +32,8 @@ import { LEStudentListPieceDialogComponent,
     MyMaterialModule,
     MarkbookRoutingModule,
     AngularFireDatabaseModule,
-    StudentsModule
+    StudentsModule,
+    StudentSharedModule
   ],
   declarations: [
   LearningExperienceFormPieceComponent,
@@ -43,7 +46,8 @@ import { LEStudentListPieceDialogComponent,
   LearningExperienceBlockTemplateFormComponent,
   BlockTemplateFormComponent,
   BlockTemplateListFormComponent,
-  LEStudentListPieceDialogComponent,
+  LEStudentListPieceAddDialogComponent,
+  LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent],
   
@@ -56,7 +60,8 @@ import { LEStudentListPieceDialogComponent,
   LearningExperienceFormBlockComponent,
   LearningExperienceFormGroupComponent,
   LearningExperienceFormHeaderComponent,
-  LEStudentListPieceDialogComponent,
+  LEStudentListPieceAddDialogComponent,
+  LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent]
 

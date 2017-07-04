@@ -14,7 +14,7 @@ import { StudentsService} from './models/students.service'
 import { StudentListComponent, StudentGroupListComponent } from './student-list/student-list.component';
 
 
-import { StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent } from './students-form/students-form.component';
+import { StudentsFormComponent, StudentsGroupFormComponent} from './students-form/students-form.component';
 import { StudentContainerComponent } from './student-container/student-container.component';
 import { StudentGroupComponent } from './student/student.component';
 
@@ -30,8 +30,8 @@ import { StudentGroupComponent } from './student/student.component';
 
   exports: [
     StudentListComponent,
-    StudentGroupListComponent,
-    Student2GroupListComponent 
+    StudentGroupListComponent
+ 
   ],
 
   providers: [StudentsService],
@@ -41,12 +41,10 @@ import { StudentGroupComponent } from './student/student.component';
     StudentGroupListComponent,  
     StudentsFormComponent,
     StudentsGroupFormComponent, 
-    StudentContainerComponent,
-    Student2GroupListComponent,
+    StudentContainerComponent,  
     StudentGroupComponent
   ],
   entryComponents: [
-  	StudentsFormComponent, StudentsGroupFormComponent, Student2GroupListComponent
-  ]
+  	StudentsFormComponent, StudentsGroupFormComponent  ]
 })
 export class StudentsModule { }

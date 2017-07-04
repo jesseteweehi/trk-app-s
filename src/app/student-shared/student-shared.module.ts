@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyMaterialModule } from '../my-material/my-material.module';
 
-import {StudentListComponent} from './student-shared-list.component'
+import {StudentListRemoveComponent, StudentListAddComponent} from './student-shared-list.component'
 
 import { StudentsService } from './student-shared.service'
 
@@ -14,17 +14,17 @@ import { StudentsService } from './student-shared.service'
  
   ],
   exports: [
-      StudentListComponent
-
+      StudentListRemoveComponent,
+      StudentListAddComponent
   ],
 
   providers: [StudentsService],
 
   declarations: [
-      StudentListComponent
+      StudentListRemoveComponent,
+      StudentListAddComponent
   ],
   entryComponents: [
-      StudentListComponent
   ]
 })
 export class StudentSharedModule { }

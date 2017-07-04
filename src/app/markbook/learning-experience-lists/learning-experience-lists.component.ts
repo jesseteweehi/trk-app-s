@@ -9,11 +9,11 @@ import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockCompon
 
 import { LearningAssessmentGroupModel, LearningAssessmentBlockModel, LearningAssessmentPieceModel } from '../models/data-classes'
 
-import { LEStudentListPieceDialogComponent,
+import { LEStudentListPieceRemoveDialogComponent,
+         LEStudentListPieceAddDialogComponent,
          LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component'
 
-import { Student2GroupListComponent} from '../../students/students-form/students-form.component';
 import { StudentModel } from '../../students/models/data-classes';
 
 @Component({
@@ -296,10 +296,15 @@ export class LearningExperiencePieceListComponent implements OnInit {
     }
 
     openDialogAddStudent(group) {
-    let dialogRef = this.dialog.open(Student2GroupListComponent, {
+    let dialogRef = this.dialog.open(LEStudentListPieceAddDialogComponent, {
         data: {
                 'studentGroup' : group 
               },
+        position: {
+          top: '0',
+
+        }
+        ,
         height: '90%',
         width: '500px'
       });
@@ -309,11 +314,17 @@ export class LearningExperiencePieceListComponent implements OnInit {
     })
   }
 
-  openDialogFindStudent(group) {
-    let dialogRef = this.dialog.open(LEStudentListPieceDialogComponent, {
+  openDialogRemoveStudent(group) {
+    let dialogRef = this.dialog.open(LEStudentListPieceRemoveDialogComponent, {
         data: {
                 'lePiece' : group 
               },
+  
+        position: {
+          top: '0',
+
+        }
+        ,
         height: '90%',
         width: '500px'
       });

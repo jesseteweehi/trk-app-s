@@ -8,22 +8,23 @@ import { StudentModel } from '../../students/models/data-classes'
 
 
 @Component({
-  selector: 'learning-piece-student-list',
+  selector: 'learning-piece-removestudent-list',
   template: 
   `
-  <app-student-list 
-  [allStudents]="allStudents" 
+  <app-student-remove-list 
+  [allStudents]="allStudents"
+  (studentsToRemove)="studentsToRemove($event)"
   >
-  </app-student-list> 
+  </app-student-remove-list> 
   `,
   styles:[]
 })
-export class LEStudentListPieceDialogComponent implements OnInit {
+export class LEStudentListPieceRemoveDialogComponent implements OnInit {
 
 	allStudents: StudentModel[];
 
 
-    constructor(public dialogRef: MdDialogRef<LEStudentListPieceDialogComponent>,
+    constructor(public dialogRef: MdDialogRef<LEStudentListPieceRemoveDialogComponent>,
     			@Inject(MD_DIALOG_DATA) public data: any,
     			private ss: StudentsService
           ) {}
@@ -32,7 +33,44 @@ export class LEStudentListPieceDialogComponent implements OnInit {
     	//// This will have to likely moved to a shared module in the future
     // this.ss.findStudentsForLE(this.data.lePiece.$key).subscribe(students => this.allStudents = students)
     this.ss.findStudentsForLP(this.data.lePiece.$key).subscribe(result => this.allStudents = result)
-  }    
+  }  
+
+    studentsToRemove($event) {
+      console.log($event)
+    }  
+}
+
+@Component({
+  selector: 'learning-piece-addstudent-list',
+  template: 
+  `
+  <app-student-add-list 
+  [allStudents]="allStudents"
+  (studentsToAdd)="studentsToAdd($event)"
+  >
+  </app-student-add-list> 
+  `,
+  styles:[]
+})
+export class LEStudentListPieceAddDialogComponent implements OnInit {
+
+  allStudents: StudentModel[];
+
+
+    constructor(public dialogRef: MdDialogRef<LEStudentListPieceAddDialogComponent>,
+          @Inject(MD_DIALOG_DATA) public data: any,
+          private ss: StudentsService
+          ) {}
+
+    ngOnInit() {
+      //// This will have to likely moved to a shared module in the future
+    // this.ss.findStudentsForLE(this.data.lePiece.$key).subscribe(students => this.allStudents = students)
+    this.ss.findAllStudents().subscribe(result => this.allStudents = result)
+  }  
+
+    studentsToAdd($event) {
+      console.log($event)
+    }  
 }
 
 @Component({

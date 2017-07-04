@@ -47,7 +47,7 @@ import { StudentsService } from '../models/students.service'
   `]
 })
 export class StudentListDialogComponent {
-  @Output() studentsToRemove = new EventEmitter<StudentModel[]>(); 
+  @Output() formSend = new EventEmitter<StudentModel[]>(); 
   @Input() allStudents: StudentModel[];
 
   filtered: StudentModel[];

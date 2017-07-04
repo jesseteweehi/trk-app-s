@@ -125,70 +125,6 @@ export class StudentsGroupFormComponent {
 }
 
 @Component({
-  selector: 'app-student2group-list',
-  templateUrl: './student2group.component.html',
-  styles: [`
-    md-dialog-content {
-      max-height: 100px;
-    }
-
-    .right {
-      margin-left: auto
-    }
-
-    md-list {
-      height: 300px;
-      overflow: scroll;
-    }
-
-    md-list-item:not(:last-child) {
-        border-bottom: solid 1px lightgrey
-    }
-
-    md-list-item p {
-      padding-left: 20px;
-      color: lightgrey;
-    }
-  `]
-})
-export class Student2GroupListComponent implements OnInit{
-
-  allStudents: StudentModel[];
-  filtered: StudentModel[];
-
-  group: StudentGroupModel = this.data.studentGroup;
-
-  students2Add: StudentModel[] = []
-
-  constructor(private ss: StudentsService,
-              public dialogRef: MdDialogRef<StudentsGroupFormComponent>,
-              @Inject(MD_DIALOG_DATA) public data: any) {}
-
-
-  ngOnInit() {
-    this.ss.findAllStudents().subscribe(students => this.allStudents = this.filtered = students)
-  }
-
-  search(search:string) {
-        this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
-    }
-
-  addStudents(student){
-    if (this.students2Add.includes(student) === false) {
-      this.students2Add.push(student) }
-    }
-
-  createResult() {
-    let result = {
-      "groupKey" : this.group.$key,
-      "student" : this.students2Add
-      }
-    this.dialogRef.close(result)
-  }
-
-}
-
-@Component({
   selector: 'app-student-edit',
   template: 
   `
@@ -253,7 +189,6 @@ export class StudentComponent implements OnInit{
   ngOnInit() {
    
   }
-
 }
 
 
