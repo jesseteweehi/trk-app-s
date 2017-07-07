@@ -19,7 +19,8 @@ import {MdMenuModule,
     MdSelectModule,
     MdSidenavModule,
     MdChipsModule,
-    MdTabsModule
+    MdTabsModule,
+    MdTableModule
     } from '@angular/material';
 
 @NgModule({
@@ -39,7 +40,8 @@ import {MdMenuModule,
     MdSelectModule,
     MdSidenavModule,
     MdChipsModule,
-    MdTabsModule
+    MdTabsModule,
+    MdTableModule
  
   ],
   exports: [
@@ -57,7 +59,8 @@ import {MdMenuModule,
     MdSelectModule,
     MdSidenavModule,
     MdChipsModule,
-    MdTabsModule
+    MdTabsModule,
+    MdTableModule
  
   ],
   declarations: []
