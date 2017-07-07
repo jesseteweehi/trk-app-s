@@ -1,0 +1,59 @@
+.full-width {
+  display: flex; /* or inline-flex */
+  flex-direction:row;
+  width: 100%;
+
+}
+
+.container {
+  display: flex; /* or inline-flex */
+  flex-direction:row;
+  width: 100%;
+
+}
+
+.smallitem {
+	flex: 1;
+	margin: 2px;
+    padding: 10px;
+}
+
+.item {
+  flex: 3; /* default auto */
+  background-color: orange;
+  margin: 2px;
+  padding: 10px;
+}
+
+.bigitem {
+  flex: 5; /* default auto */
+  background-color: blue;
+  margin: 2px;
+  padding: 10px;
+}
+
+.current {
+	background-color: pink;
+}
+
+.header {
+	background-color: white;
+	font-weight: bolder;
+	font-size: 15px;
+}
+
+.subject {
+	display: block;
+	width: 100%;
+	font-size: 25px;
+	margin-left: 25px;
+}
+
+/*.bigitem {
+   -webkit-flex: 2 0 0; 
+   flex: 2 0 0; 
+}
+.smallitem {
+   -webkit-flex: 1 0 0;
+   flex: 1 0 0;
+}*/

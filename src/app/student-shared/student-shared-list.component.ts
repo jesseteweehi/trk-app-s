@@ -12,7 +12,7 @@ import { StudentModel } from '.././students/models/data-classes';
 
   <md-list>
     <md-list-item *ngFor="let student of filtered">
-    {{student.firstName}} {{student.lastName}} <p>{{student.yrlvl}}</p>
+    {{student.firstName}} {{student.lastName}} 
     </md-list-item>
   </md-list>
 

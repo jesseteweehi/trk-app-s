@@ -14,6 +14,10 @@ export class AppComponent {
   {
   	link: 'students',
   	label: 'Students'
+  },
+  {
+    link: 'individual',
+    label: 'students'
   }
   	
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { StudentsService } from '../models/students.service'
 import { MdSnackBar } from '@angular/material';
 
@@ -21,8 +21,11 @@ export class StudentContainerComponent implements OnInit {
   		public snackBar: MdSnackBar) { }
 
   	ngOnInit() {
-  		this.ss.findAllStudents().subscribe(students => this.allStudents = students)
   		this.ss.findAllStudentGroups().subscribe(students => this.allStudentGroups =  students)
+    }
+
+    ngAfterContentInit() {
+      this.ss.findAllStudents().subscribe(students => this.allStudents = students)
     }
 
   	handleStudentForm($event) {

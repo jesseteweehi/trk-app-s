@@ -1,3 +1,111 @@
-<p>
-  {{studentId}}
-</p>
+
+<div class="subject">
+	Core
+</div>
+
+
+<div class="full-width">
+	<div class="smallitem">
+			</div>
+
+			<div class="item header">
+				Title		
+			</div>
+			<div class="bigitem current header">
+				Current Stage		
+			</div>
+			<div class="smallitem header">
+				<!-- // will have to create a custom pipe here eventually -->
+				Date	
+			</div>
+			<div class="bigitem header">
+				Goal Stage		
+			</div>
+			<div class="smallitem header">
+				<!-- // will have to create a custom pipe here eventually -->
+				Date		
+			</div>
+</div>
+
+<div *ngFor="let item of dummy_data" class="full-width">
+	<div  class="container">
+
+		<div class="smallitem">
+		</div>
+
+		<div class="item">
+			{{item.title}}		
+		</div>
+		<div class="bigitem current">
+			{{item.current_description}}		
+		</div>
+		<div class="smallitem">
+			<!-- // will have to create a custom pipe here eventually -->
+			{{item.current_date_completed | date}}		
+		</div>
+		<div class="bigitem">
+			{{item.goal_description}}		
+		</div>
+		<div class="smallitem">
+			<!-- // will have to create a custom pipe here eventually -->
+			{{item.goal_date_completed | date}}		
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="subject">
+	Core
+</div>
+
+
+<div class="full-width">
+<div class="smallitem">
+		</div>
+
+		<div class="item header">
+			Title		
+		</div>
+		<div class="bigitem current header">
+			Current Stage		
+		</div>
+		<div class="smallitem header">
+			<!-- // will have to create a custom pipe here eventually -->
+			Date	
+		</div>
+		<div class="bigitem header">
+			Goal Stage		
+		</div>
+		<div class="smallitem header">
+			<!-- // will have to create a custom pipe here eventually -->
+			Date		
+		</div>
+</div>
+<div *ngFor="let item of dummy_data" class="full-width">
+	<div  class="container">
+
+		<div class="smallitem">
+		</div>
+
+		<div class="item">
+			{{item.title}}		
+		</div>
+		<div class="bigitem current">
+			{{item.current_description}}		
+		</div>
+		<div class="smallitem">
+			<!-- // will have to create a custom pipe here eventually -->
+			{{item.current_date_completed | date}}		
+		</div>
+		<div class="bigitem">
+			{{item.goal_description}}		
+		</div>
+		<div class="smallitem">
+			<!-- // will have to create a custom pipe here eventually -->
+			{{item.goal_date_completed | date}}		
+		</div>
+
+	</div>
+</div>
