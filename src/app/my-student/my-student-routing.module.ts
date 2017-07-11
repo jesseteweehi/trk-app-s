@@ -2,14 +2,19 @@ import { NgModule }     from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MyStudentContainerComponent } from './my-student-container/my-student-container.component';
+import { FindStudentComponent } from './find-student/find-student.component'
 
 
 
 const MyStudentAppRoutes: Routes = [
 	{
+  	path: '',
+  	component: FindStudentComponent
+  	},
+  	{
   	path: ':studentid',
   	component: MyStudentContainerComponent
-  }
+    }
 ];
 
 

@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { students }  from './mock-data/students';
+import { FirebaseApp } from 'angularfire2';
+
+import * as firebase from 'firebase'
 
 @Component({
   selector: 'app-root',
@@ -6,22 +10,46 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  sdkDb:any;
+
+  constructor(
+      @Inject(FirebaseApp) private fb : firebase.app.App)
+  {  
+    this.sdkDb = this.fb.database().ref();  
+  }
+
+
   navLinks = [
   {
   	link: 'assessment',
   	label: 'Assessment'
   },
-  {
-  	link: 'students',
-  	label: 'Students'
-  },
+  // {
+  // 	link: 'students',
+  // 	label: 'Students'
+  // },
   {
     link: 'individual',
-    label: 'students'
+    label: 'Students'
   }
-  	
-
   ]
+
+    students(){
+    students.forEach( student => {
+      console.log('adding student')
+
+      this.sdkDb.child('students').push({
+        id:student.id,
+        firstName:student.firstName,
+        lastName:student.lastName,
+        gender:student.gender,
+        yrlvl:student.yrlvl,
+        ethnicMain:student.ethnicMain
+      })
+    })
+  }
+
 }
 
 // <a routerLink="assessment">Assessment</a>

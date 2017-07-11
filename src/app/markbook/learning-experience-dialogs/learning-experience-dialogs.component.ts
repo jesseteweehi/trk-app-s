@@ -36,7 +36,7 @@ export class LEStudentListPieceRemoveDialogComponent implements OnInit {
   }  
 
     studentsToRemove($event) {
-      console.log($event)
+      this.dialogRef.close($event)
     }  
 }
 
@@ -69,7 +69,8 @@ export class LEStudentListPieceAddDialogComponent implements OnInit {
   }  
 
     studentsToAdd($event) {
-      console.log($event)
+      
+      this.dialogRef.close($event)
     }  
 }
 

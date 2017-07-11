@@ -45,10 +45,25 @@ export class LearningExperienceService {
 
 
 
-    putStudentsInLearningPiece(lGroupKey:string, lBlockKey:string, pieceKey: string, students: StudentModel[]): Observable<any> {
+    putStudentsInLearningPiece(groupKey: string, blockKey:string, pieceKey: string, students: StudentModel[]): Observable<any> {
+        const infoToSave = Object.assign({}, 
+            { 'group': groupKey,
+              'block': blockKey,
+              'piece': pieceKey, });
         let dataToSave = {}
         students.forEach(student => {
             dataToSave["studentsForLearningPiece/" + pieceKey + "/" + student.$key] = true;
+            dataToSave[`studentLearning/${student.$key}/${pieceKey}`] = infoToSave
+        })
+
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    removeStudentsFromLearningPiece(groupKey: string, blockKey:string, pieceKey: string, students: StudentModel[]): Observable<any> {
+        let dataToSave = {}
+        students.forEach(student => {
+            dataToSave["studentsForLearningPiece/" + pieceKey + "/" + student.$key] = null;
+            dataToSave[`studentlearning/${student.$key}/${groupKey}/${blockKey}/${pieceKey}`] = null
         })
 
         return this.firebaseUpdate(dataToSave)

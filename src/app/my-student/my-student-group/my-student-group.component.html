@@ -1,17 +1,75 @@
-<table mdSort (mdSortChange)="sortData($event)">
-  <tr>
-    <th md-sort-header="name">Dessert (100g)</th>
-    <th md-sort-header="calories">Calories</th>
-    <th md-sort-header="fat">Fat (g)</th>
-    <th md-sort-header="carbs">Carbs (g)</th>
-    <th md-sort-header="protein">Protein (g)</th>
-  </tr>
+<div class="container">
+<div class="items heading mat-body-2">Subject</div>
+<!-- <div class="items description mat-body-1"></div> -->
 
-  <tr *ngFor="let dessert of sortedData">
-    <td>{{dessert.name}}</td>
-    <td>{{dessert.calories}}</td>
-    <td>{{dessert.fat}}</td>
-    <td>{{dessert.carbs}}</td>
-    <td>{{dessert.protein}}</td>
-  </tr>
-</table>
+<div class="items heading mat-body-2">Assessment</div>
+<!-- <div class="items description mat-body-1"></div> -->
+
+<div class="items heading mat-body-2">Level</div>
+<!-- <div class="items description mat-body-1"></div> -->
+</div>
+
+
+
+<app-my-student-group-item *ngFor="let item of studentFirebase"
+[itemData]="item">		
+</app-my-student-group-item>
+
+
+
+
+
+	 
+
+<!-- 
+<div class="header">
+Header
+</div>
+
+<div class="container">
+	<div class="heading">Header</div>
+	<div class="description">Current Desciprtion</div>
+	<div class="date">Date</div>
+	<div class="description">Goal Description</div>
+	<div class="date">Date</div>
+</div>
+<div class="container">
+	<div class="heading">Header</div>
+	<div class="description">Current Desciprtion</div>
+	<div class="date">Date</div>
+	<div class="description">Goal Description</div>
+	<div class="date">Date</div>
+</div>
+<div class="container">
+	<div class="heading">Header</div>
+	<div class="description">Current Desciprtion</div>
+	<div class="date">Date</div>
+	<div class="description">Goal Description</div>
+	<div class="date">Date</div>
+</div>
+
+<div class="header">
+Header
+</div>
+
+<div class="container">
+	<div class="heading">Header</div>
+	<div class="description">Current Desciprtion</div>
+	<div class="date">Date</div>
+	<div class="description">Goal Description</div>
+	<div class="date">Date</div>
+</div>
+<div class="container">
+	<div class="heading">Header</div>
+	<div class="description">Current Desciprtion</div>
+	<div class="date">Date</div>
+	<div class="description">Goal Description</div>
+	<div class="date">Date</div>
+</div>
+<div class="container">
+	<div class="heading">Header</div>
+	<div class="description">Current Desciprtion</div>
+	<div class="date">Date</div>
+	<div class="description">Goal Description</div>
+	<div class="date">Date</div>
+</div>  -->

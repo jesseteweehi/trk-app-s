@@ -1,1 +1,23 @@
-<app-my-student-group>..loading</app-my-student-group>
+<!-- Things to eventually add
+- Student Notes See trello
+- Student Goals
+- Student Pathways and Aspirations Data
+- Student formative and summative repository of Digital Work. Organised aginst their achievement
+ -->
+
+
+<!-- Student Individal Information -->
+<app-my-student-info
+	[student]="studentInfo">..loading
+</app-my-student-info>
+
+
+<!-- Student Group Belonging Information -->
+
+
+
+<!-- Student Subject Information -->
+<app-my-student-group 
+	[studentFirebase]="studentLearning"
+	[studentData]="dummy_data">..loading
+</app-my-student-group>

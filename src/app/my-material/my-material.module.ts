@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 import 'hammerjs';
 
+import {CdkTableModule} from '@angular/cdk';
+
 
 import {MdMenuModule, 
 		MdButtonModule, 
@@ -41,8 +43,8 @@ import {MdMenuModule,
     MdSidenavModule,
     MdChipsModule,
     MdTabsModule,
+    CdkTableModule,
     MdTableModule
- 
   ],
   exports: [
     MdMenuModule,
@@ -60,8 +62,8 @@ import {MdMenuModule,
     MdSidenavModule,
     MdChipsModule,
     MdTabsModule,
+    CdkTableModule,
     MdTableModule
- 
   ],
   declarations: []
 })

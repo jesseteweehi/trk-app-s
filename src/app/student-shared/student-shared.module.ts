@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MyMaterialModule } from '../my-material/my-material.module';
 import { Routes, RouterModule } from "@angular/router";
 
-import {StudentListRemoveComponent, StudentListAddComponent, StudentListComponent} from './student-shared-list.component'
+import {StudentListCardComponent, StudentListRemoveComponent, StudentListAddComponent, StudentListComponent} from './student-shared-list.component'
 
-import { StudentsService } from './student-shared.service'
+import { StudentsSharedService } from './student-shared.service'
 
 
 @NgModule({
@@ -18,15 +18,17 @@ import { StudentsService } from './student-shared.service'
   exports: [
       StudentListRemoveComponent,
       StudentListAddComponent,
-      StudentListComponent
+      StudentListComponent,
+      StudentListCardComponent
   ],
 
-  providers: [StudentsService],
+  providers: [StudentsSharedService],
 
   declarations: [
       StudentListRemoveComponent,
       StudentListAddComponent,
-      StudentListComponent
+      StudentListComponent,
+      StudentListCardComponent
   ],
   entryComponents: [
   ]

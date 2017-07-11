@@ -11,6 +11,8 @@ import { MyMaterialModule } from '../my-material/my-material.module';
 import { StudentsModule } from '../students/students.module'
 import { StudentSharedModule} from '../student-shared/student-shared.module'
 
+import { AutofocusDirective } from './models/custom-directives';
+
 import { LearningExperienceService } from './models/learning-experience.service';
 import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
 import { LearningExperienceBlockTemplateFormComponent, BlockTemplateFormComponent, BlockTemplateListFormComponent } from  './learning-experience-form/learning-experience-template-form.component'
@@ -49,7 +51,8 @@ import { LEStudentListPieceAddDialogComponent,
   LEStudentListPieceAddDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
-  LEStudentListGroupDialogComponent],
+  LEStudentListGroupDialogComponent,
+  AutofocusDirective],
   
   exports:[],
 

@@ -227,15 +227,14 @@ export class LearningExperiencePieceListComponent implements OnInit {
 
     }
 
-    // delete(group) {
-    //   this.ls.deletePost(this.groupId, this.blockId, group.$key).subscribe(
-    //         () => {
-    //             this.snackBar.open('Students Learning Piece Deleted','Awesome',{ duration:2000 })
-    //         },
-    //         err => { 
-    //             this.snackBar.open('Error Deleting Learning Piece Students ${err}','Bugger',{ duration:2000 })
-    //         }
-    // }
+    unhide(key:string) {
+      this.showtitlex = key
+    }
+
+    savetitle(key, title){
+      console.log(key, title)
+      this.showtitlex = ''
+    }
 
     xheader(i) {
     // grid Area : row-start,row-end, column-start, column-end
@@ -310,7 +309,9 @@ export class LearningExperiencePieceListComponent implements OnInit {
       });
     
     dialogRef.afterClosed().subscribe(result => {
-      this.createStudent2LearningBlock(result.groupKey, result.student) 
+      if (result) {
+      this.createStudent2LearningBlock(this.groupId, this.blockId, group.$key, result) 
+      }
     })
   }
 
@@ -330,18 +331,30 @@ export class LearningExperiencePieceListComponent implements OnInit {
       });
     
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      // this.createStudent2LearningBlock(result.groupKey, result.student) 
+      if (result) {
+        this.removeStudent2LearningBlock(this.groupId, this.blockId, group.$key, result)
+      }    
     })
   }
 
-  createStudent2LearningBlock(learningBlock:string, students: StudentModel[]){
-    this.ls.putStudentsInLearningPiece(this.groupId, this.blockId, learningBlock, students).subscribe(
+  createStudent2LearningBlock(groupKey:string, blockKey:string, pieceKey:string, students: StudentModel[]){
+    this.ls.putStudentsInLearningPiece(groupKey, blockKey, pieceKey, students).subscribe(
             () => {
                 this.snackBar.open('Students Saved','Awesome',{ duration:2000 })
             },
             err => { 
                 this.snackBar.open('Error Saving Lesson Students ${err}','Bugger',{ duration:2000 })
+            }
+        );
+  }
+
+  removeStudent2LearningBlock(groupKey:string, blockKey:string, pieceKey:string, students: StudentModel[]){
+    this.ls.removeStudentsFromLearningPiece(groupKey, blockKey, pieceKey, students).subscribe(
+            () => {
+                this.snackBar.open('Students Deleted','Awesome',{ duration:2000 })
+            },
+            err => { 
+                this.snackBar.open('Error Deleting Students ${err}','Bugger',{ duration:2000 })
             }
         );
   }

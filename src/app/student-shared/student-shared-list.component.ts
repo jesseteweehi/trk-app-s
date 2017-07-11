@@ -1,6 +1,51 @@
 import { Component, Inject, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { MdDialog, MdDialogRef, MD_DIALOG_DATA, MdDialogConfig, MdSnackBar } from '@angular/material';
-import { StudentModel } from '.././students/models/data-classes';
+import { StudentModel } from './data-classes';
+
+@Component({
+  selector: 'app-student-card-list',
+  template: `
+ 
+  <md-input-container>
+    <input class="full-width" mdInput placeholder="Search"(keyup)="search(input.value)" #input>
+  </md-input-container>
+
+  <div class="wrapper">
+    <md-card *ngFor="let student of filtered">
+      <md-card-title>{{student.firstName}} {{student.lastName}}</md-card-title>
+      <md-card-subtitle>{{student.yrlvl}} <br> {{student.id}}</md-card-subtitle> 
+    <md-card-actions>
+      <a md-icon-button routerLink="{{student.$key}}"><md-icon>info</md-icon></a>
+    </md-card-actions>
+    </md-card>
+  </div>
+
+  `,
+  styles: [`
+    .wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr
+    }
+  `]
+})
+
+export class StudentListCardComponent {
+  @Input() allStudents: StudentModel[];
+
+  filtered: StudentModel[];
+
+  constructor() {}
+
+  ngOnChanges() {
+    this.filtered = this.allStudents
+  }
+
+  search(search:string) {
+    this.filtered = this.allStudents.filter(student => student.firstName.toLowerCase().includes(search) );
+    }
+}
+
+
 
 @Component({
   selector: 'app-student-list',
