@@ -6,22 +6,29 @@ import { StudentModel } from './data-classes';
   selector: 'app-student-card-list',
   template: `
  
-  <md-input-container>
-    <input class="full-width" mdInput placeholder="Search"(keyup)="search(input.value)" #input>
+  <md-input-container mat-typography class="full-width">
+    <input mdInput placeholder="Search"(keyup)="search(input.value)" #input>
   </md-input-container>
 
   <div class="wrapper">
     <md-card *ngFor="let student of filtered">
       <md-card-title>{{student.firstName}} {{student.lastName}}</md-card-title>
       <md-card-subtitle>{{student.yrlvl}} <br> {{student.id}}</md-card-subtitle> 
-    <md-card-actions>
-      <a md-icon-button routerLink="{{student.$key}}"><md-icon>info</md-icon></a>
-    </md-card-actions>
+    <md-card-footer>
+      <a md-icon-button color="primary" routerLink="{{student.$key}}"><md-icon>info</md-icon></a>
+    </md-card-footer>
     </md-card>
   </div>
 
   `,
   styles: [`
+    .full-width {
+      width: 100%;
+      font-size: 25px;
+      font: Roboto;
+      text-align: center;
+    }
+
     .wrapper {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr

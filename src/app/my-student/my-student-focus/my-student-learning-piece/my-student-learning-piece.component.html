@@ -1,10 +1,4 @@
 
-<button md-button (click)="openDialogPiece()">Create Assessment Piece</button>
-<br>
-<button md-button (click)="openDialogHeader()">Create Header Piece</button>
-<br>
-
-
 <div class="wrapper" [ngStyle]="template()">
 
       <div class="blank"></div>
@@ -19,11 +13,6 @@
         </md-card-title>
 
         <md-card-content>{{x.description}}</md-card-content>
-
-      <md-menu #menu="mdMenu">
-        <button md-menu-item> Settings </button>
-        <button md-menu-item> Help </button>
-      </md-menu>
         
       </md-card>
 
@@ -45,16 +34,12 @@
         <md-card-content>{{group.description}}</md-card-content>
         
 
-        <md-card-actions>
+      <!--   <md-card-actions>
             <button md-button color="primary" (click)="openDialogAddStudent(group)">Add Students</button>
             <button md-button color="primary" (click)="openDialogRemoveStudent(group)">Students</button>
-          </md-card-actions>
+          </md-card-actions> -->
       </md-card>
       
 </div>
 
 <br>
-
-
-
-

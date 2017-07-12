@@ -1,19 +1,24 @@
 <div class="container">
-<div class="items heading mat-body-2">Subject</div>
+<div class="items heading mat-body-2">Learning Area</div>
 <!-- <div class="items description mat-body-1"></div> -->
 
-<div class="items heading mat-body-2">Assessment</div>
+<div class="items heading mat-body-2">Learning Experience</div>
 <!-- <div class="items description mat-body-1"></div> -->
 
-<div class="items heading mat-body-2">Level</div>
+<div class="items heading mat-body-2">Attainment</div>
+<!-- <div class="items description mat-body-1"></div> -->
+
+<div class="items heading mat-body-2">More</div>
 <!-- <div class="items description mat-body-1"></div> -->
 </div>
 
 
 
 <app-my-student-group-item *ngFor="let item of studentFirebase"
-[itemData]="item">		
+[itemData]="item"
+(sendData)="handleData($event)">		
 </app-my-student-group-item>
+
 
 
 

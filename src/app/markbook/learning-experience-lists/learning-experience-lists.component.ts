@@ -198,11 +198,8 @@ export class LearningExperienceBlockListComponent implements OnInit {
 })
 
 export class LearningExperiencePieceListComponent implements OnInit {
-  showtitlex: string = ''
-
   data: any = {}
   
-  templateSaved: any;
   groups: LearningAssessmentPieceModel[];
 	blockId: string;
   groupId: string;
@@ -225,15 +222,6 @@ export class LearningExperiencePieceListComponent implements OnInit {
       this.ls.findXHeadersForBlocks(this.blockId).subscribe(xheaders => this.xheaders = xheaders);
       this.ls.findYHeadersForBlocks(this.blockId).subscribe(yheaders => this.yheaders = yheaders);
 
-    }
-
-    unhide(key:string) {
-      this.showtitlex = key
-    }
-
-    savetitle(key, title){
-      console.log(key, title)
-      this.showtitlex = ''
     }
 
     xheader(i) {
@@ -274,12 +262,6 @@ export class LearningExperiencePieceListComponent implements OnInit {
 
     }
     
-
-    getForm($event) {
-      this.data = $event;
-    }
-
-
     openDialogPiece() {
     let dialogRef = this.dialog.open(LearningExperienceFormPieceComponent);
     dialogRef.afterClosed().subscribe(result => {
@@ -359,20 +341,18 @@ export class LearningExperiencePieceListComponent implements OnInit {
         );
   }
   
-
-
-
-    firebaseLearningExperienceBlock(form) {
-    	this.ls.createNewLearningExperiencePieceUnderBlock(this.blockId, form.value).subscribe(
-    		    () => {
-    		        this.snackBar.open('Lesson Group Saved','Awesome',{ duration:2000 })
+  firebaseLearningExperienceBlock(form) {
+    this.ls.createNewLearningExperiencePieceUnderBlock(this.blockId, form.value).subscribe(
+    	      () => {
+    		      this.snackBar.open('Lesson Group Saved','Awesome',{ duration:2000 })
     		    },
     		    err => { 
-    		        this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
+    		      this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
     		    }
     		);
-    }
-    firebaseHeader(form) {
+  }
+  
+  firebaseHeader(form) {
       
       this.ls.createHeadingUnderBlock(this.blockId, form.value).subscribe(
             () => {
@@ -382,6 +362,5 @@ export class LearningExperiencePieceListComponent implements OnInit {
                 this.snackBar.open('Error Saving Header ${err}','Bugger',{ duration:2000 })
             }
         );
-
-    }
+  }
 }

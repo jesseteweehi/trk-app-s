@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -7,11 +7,10 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
   styleUrls: ['./my-student-group.component.css']
 })
 export class MyStudentGroupComponent {
-	@Input() studentData: any;
 	@Input() studentFirebase: any;
+	@Output() sendData = new EventEmitter();
 
-	ngOnChanges() {
-		// this.studentFirebase[1].piece.subscribe(x => console.log(x))
+	handleData($event){
+		this.sendData.emit($event)
 	}
-
 }

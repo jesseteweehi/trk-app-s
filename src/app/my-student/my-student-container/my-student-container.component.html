@@ -6,18 +6,30 @@
  -->
 
 
-<!-- Student Individal Information -->
-<app-my-student-info
-	[student]="studentInfo">..loading
-</app-my-student-info>
+<div class="wrapper">
+
+<div class="column-left">
+	<!-- Student Individal Information -->
+	<app-my-student-info
+		[student]="studentInfo">..loading
+	</app-my-student-info>
 
 
-<!-- Student Group Belonging Information -->
+	<!-- Student Subject Information -->
+	<app-my-student-group 
+		[studentFirebase]="studentLearning"
+		(sendData)="handleData($event)">
+		>
+	</app-my-student-group>
+</div>
+
+<div class="column-right">
+    <app-my-student-focus
+    [group]="chosenGroup"
+    [block]="chosenBlock"
+    [piece]="chosenPiece"
+    >	
+    </app-my-student-focus>
+</div>
 
 
-
-<!-- Student Subject Information -->
-<app-my-student-group 
-	[studentFirebase]="studentLearning"
-	[studentData]="dummy_data">..loading
-</app-my-student-group>

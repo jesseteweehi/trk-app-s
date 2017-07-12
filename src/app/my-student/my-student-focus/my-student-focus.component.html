@@ -1,0 +1,32 @@
+<div class="wrapper">
+<md-card>
+  	<md-card-title>{{group?.title}}</md-card-title>
+  	<md-card-subtitle>{{group?.learningArea}} | {{group?.learningLevel}}</md-card-subtitle>
+  	<md-card-content>{{group?.description}}</md-card-content>
+ <!--  	<md-card-actions>
+  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment Blocks</a>
+        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
+  	</md-card-actions>
+ -->
+ </md-card>
+
+ <md-card>
+  	<md-card-title>{{block?.title}}</md-card-title>
+  	<md-card-subtitle>{{block?.learningArea}} | {{block?.learningLevel}}</md-card-subtitle>
+  	<md-card-content>{{block?.description}}</md-card-content>
+ <!--  	<md-card-actions>
+  	    <a md-button color="primary" routerLink="{{block.$key}}">Assessment Blocks</a>
+        <button md-button color="primary" (click)="openDialogFindStudent(block)">Students</button>
+  	</md-card-actions>
+ -->
+ </md-card>
+ </div>
+
+ <app-my-student-learning-piece
+[learningPiece]="piece"
+[learningBlock]="block"
+>
+</app-my-student-learning-piece>
+
+
+
