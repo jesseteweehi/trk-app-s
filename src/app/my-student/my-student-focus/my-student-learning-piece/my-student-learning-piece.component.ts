@@ -8,20 +8,52 @@ import { LearningAssessmentPieceModel } from '../../../markbook/models/data-clas
   styleUrls: ['./my-student-learning-piece.component.css']
 })
 export class MyStudentLearningPieceComponent {
-	@Input() learningPiece: any;
-	@Input() learningBlock: any;
+	@Input() learningPiece;
+	@Input() learningBlock;
+  @Input() student;
 
 	groups: LearningAssessmentPieceModel[];
 	xheaders: any[];
-    yheaders: any[];
+  yheaders: any[];
+  allStudentPieces: any;
+  unique: any[];
 
   	constructor(private ls: LearningExperienceService) { }
 
   	ngOnChanges() {
   		this.ls.findPiecesForBlocks(this.learningBlock.$key).subscribe(groups => this.groups = groups);
   		this.ls.findXHeadersForBlocks(this.learningBlock.$key).subscribe(xheaders => this.xheaders = xheaders);
-  		this.ls.findYHeadersForBlocks(this.learningBlock.$key).subscribe(yheaders => this.yheaders = yheaders); 
+  		this.ls.findYHeadersForBlocks(this.learningBlock.$key).subscribe(yheaders => this.yheaders = yheaders);
+      /// I think I have this already. May not need this call????  Check
+      this.ls.findLearningPiecesForStudent(this.student.$key).subscribe(lps => this.allStudentPieces = lps)
+
+      // this.highlightAttainedPieces() 
   	}
+
+    highlightAttainedPieces(){
+       let groups = [];
+       this.groups.forEach(element => {
+          groups.push(element.$key)    
+       })
+       this.allStudentPieces.forEach(element => {
+         if (groups.includes(element.piece)) {
+           this.unique.push(element.piece)
+         }
+       })
+    }
+
+    // highlight(key) {
+    //   if (this.unique.includes(key)){
+    //     return true
+    //   }
+    //   else {
+    //     return false
+    //   }
+    // }
+
+    // [class.highlight]="highlight(group.$key)"
+
+
 
   	xheader(i) {
     // grid Area : row-start,row-end, column-start, column-end

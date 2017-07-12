@@ -9,6 +9,7 @@ export class MyStudentFocusComponent {
   @Input() group;
   @Input() block;
   @Input() piece;
+  @Input() student;
 
   constructor() { }
 

@@ -29,6 +29,10 @@ export class LearningExperienceService {
     	this.sdkDb = this.fb.database().ref();	
     }
 
+    findLearningPiecesForStudent(studentKey:string): Observable<any[]> {
+        return this.db.list(`studentLearning/${studentKey}`)
+    }
+
     
 
 
@@ -63,7 +67,7 @@ export class LearningExperienceService {
         let dataToSave = {}
         students.forEach(student => {
             dataToSave["studentsForLearningPiece/" + pieceKey + "/" + student.$key] = null;
-            dataToSave[`studentlearning/${student.$key}/${groupKey}/${blockKey}/${pieceKey}`] = null
+            dataToSave[`studentLearning/${student.$key}/${pieceKey}`] = null
         })
 
         return this.firebaseUpdate(dataToSave)
