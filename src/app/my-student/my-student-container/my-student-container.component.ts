@@ -13,6 +13,7 @@ export class MyStudentContainerComponent implements OnInit {
 	studentInfo: StudentModel
 	studentId : string;
 	studentLearning: any;
+  learningPieceKeys: string[] = [];
 
   chosenGroup: any;
   chosenBlock: any;
@@ -24,7 +25,13 @@ export class MyStudentContainerComponent implements OnInit {
   	ngOnInit() {
   		this.studentId = this.route.snapshot.params['studentid']
   		this.ms.findStudentForKey(this.studentId).subscribe(student => this.studentInfo = student)
-  		this.ms.findStudentPiecesForKey(this.studentId).subscribe(studentLearning => this.studentLearning = studentLearning)		
+  		this.ms.findStudentPiecesForKey(this.studentId).subscribe(studentLearning => {
+          this.studentLearning = studentLearning;
+          studentLearning.forEach(element => {
+          this.learningPieceKeys.push(element.pieceKey)
+          })
+      });
+      console.log(this.learningPieceKeys)
   	}
 
     handleData($event){

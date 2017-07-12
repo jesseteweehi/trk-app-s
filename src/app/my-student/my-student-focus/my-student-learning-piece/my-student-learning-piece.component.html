@@ -1,4 +1,6 @@
 
+
+
 <div class="wrapper" [ngStyle]="template()">
 
       <div class="blank"></div>
@@ -26,7 +28,7 @@
         <md-card-content>{{y.description}}</md-card-content>
       </md-card>
 
-      <md-card *ngFor="let group of groups">
+      <md-card *ngFor="let group of groups" [class.highlight]="highlight(group.$key)">
         <md-card-subtitle>
          
         </md-card-subtitle>
@@ -42,6 +44,3 @@
       
 </div>
 
-<br>
-
-{{ allStudentPieces | json }}

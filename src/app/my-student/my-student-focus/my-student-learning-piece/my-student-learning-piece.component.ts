@@ -11,12 +11,12 @@ export class MyStudentLearningPieceComponent {
 	@Input() learningPiece;
 	@Input() learningBlock;
   @Input() student;
+  @Input() learningPieceKeys: string[];
 
 	groups: LearningAssessmentPieceModel[];
 	xheaders: any[];
   yheaders: any[];
   allStudentPieces: any;
-  unique: any[];
 
   	constructor(private ls: LearningExperienceService) { }
 
@@ -24,34 +24,17 @@ export class MyStudentLearningPieceComponent {
   		this.ls.findPiecesForBlocks(this.learningBlock.$key).subscribe(groups => this.groups = groups);
   		this.ls.findXHeadersForBlocks(this.learningBlock.$key).subscribe(xheaders => this.xheaders = xheaders);
   		this.ls.findYHeadersForBlocks(this.learningBlock.$key).subscribe(yheaders => this.yheaders = yheaders);
-      /// I think I have this already. May not need this call????  Check
-      this.ls.findLearningPiecesForStudent(this.student.$key).subscribe(lps => this.allStudentPieces = lps)
-
-      // this.highlightAttainedPieces() 
   	}
 
-    highlightAttainedPieces(){
-       let groups = [];
-       this.groups.forEach(element => {
-          groups.push(element.$key)    
-       })
-       this.allStudentPieces.forEach(element => {
-         if (groups.includes(element.piece)) {
-           this.unique.push(element.piece)
-         }
-       })
+    highlight(key) {
+      if (this.learningPieceKeys.includes(key)){
+        return true
+      }
+      else {
+        return false
+      }
     }
 
-    // highlight(key) {
-    //   if (this.unique.includes(key)){
-    //     return true
-    //   }
-    //   else {
-    //     return false
-    //   }
-    // }
-
-    // [class.highlight]="highlight(group.$key)"
 
 
 

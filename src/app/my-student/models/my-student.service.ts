@@ -60,6 +60,7 @@ export class MyStudentsService {
 				data['group'] = this.findGroupForKey(result.group);
 				data['block'] = this.findBlockForKey(result.block);
 				data['piece'] = this.findPieceForKey(result.piece);
+				data['pieceKey'] = result.piece
 				return data}))
 	}
 

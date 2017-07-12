@@ -10,6 +10,7 @@ export class MyStudentFocusComponent {
   @Input() block;
   @Input() piece;
   @Input() student;
+  @Input() learningPieceKeys: string[]
 
   constructor() { }
 
