@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -6,16 +6,17 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   templateUrl: './my-student-group.component.html',
   styleUrls: ['./my-student-group.component.css']
 })
-export class MyStudentGroupComponent implements OnInit {
+export class MyStudentGroupComponent {
 	@Input() studentFirebase: any;
 	@Output() sendData = new EventEmitter();
 
-
-	ngOnInit(){
-		
-	}
+	key: string = ''
 
 	handleData($event){
-		this.sendData.emit($event)
+		this.sendData.emit($event);
+	}
+
+	handleKey($event){
+		this.key = $event;
 	}
 }

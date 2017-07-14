@@ -8,7 +8,7 @@
 <div class="items heading mat-body-2">Attainment</div>
 <!-- <div class="items description mat-body-1"></div> -->
 
-<div class="items heading mat-body-2">More</div>
+<div class="items heading mat-body-2"></div>
 <!-- <div class="items description mat-body-1"></div> -->
 </div>
 
@@ -16,8 +16,10 @@
 
 <app-my-student-group-item *ngFor="let item of studentFirebase; let last = last"
 [last]="last"
+[highlightKey]="key"
 [itemData]="item"
-(sendData)="handleData($event)">		
+(sendData)="handleData($event)"
+(sendKey)="handleKey($event)">		
 </app-my-student-group-item>
 
 

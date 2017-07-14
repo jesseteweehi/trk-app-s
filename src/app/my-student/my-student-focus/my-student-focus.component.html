@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" *ngIf="block.title">
 <md-card>
   	<md-card-title>{{group?.title}}</md-card-title>
   	<md-card-subtitle>{{group?.learningArea}} | {{group?.learningLevel}}</md-card-subtitle>
@@ -21,6 +21,7 @@
  -->
  </md-card>
  </div>
+<!--  <div *ngIf="!block.title">Student has no Attainments Yet</div> -->
 
  <app-my-student-learning-piece
  [learningBlock]="block"

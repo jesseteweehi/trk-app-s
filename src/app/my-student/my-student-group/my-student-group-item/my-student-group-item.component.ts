@@ -7,8 +7,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class MyStudentGroupItemComponent implements OnInit {
   @Output() sendData = new EventEmitter();
+  @Output() sendKey = new EventEmitter();
 	@Input() itemData: any;
   @Input() last: any;
+  @Input() highlightKey: string;
 
 	group: any;
 	block: any;
@@ -30,8 +32,11 @@ export class MyStudentGroupItemComponent implements OnInit {
   choose() {
     const dataToSend = {
       'group': this.group,
-      'block': this.block,
+      'block': this.block
     };
     this.sendData.emit(dataToSend);
+    this.sendKey.emit(this.piece.$key)
   }
+
+
 }
