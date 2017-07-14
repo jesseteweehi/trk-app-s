@@ -1,7 +1,10 @@
 import { Component, Inject, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
-
+import { LearningExperienceService } from '../models/learning-experience.service';
+import { 
+    LearningAssessmentPieceModel,
+    } from '../models/data-classes'
 
 // Learning Experience Piece Common Form
 @Component({
@@ -19,7 +22,7 @@ import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
     <md-input-container class="example-full-width">
       <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
     </md-input-container>
-    
+   
   </div>
   `
 })
@@ -39,6 +42,7 @@ export class LearningExperienceFormPieceComponent {
     [formGroup]="form"
     [heading]="heading">
     </app-learning-experience-piece-form>
+     <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
   </form>
   `
 })
@@ -57,8 +61,11 @@ export class LearningExperienceCreatePieceComponent implements OnInit {
     });
   }
 
-
+  save(form){
+    this.formToSend.emit(form)
+  }
 }
+
 
 //Learning Experience Edit Form NEEED TO COMPLETE
 @Component({
@@ -70,25 +77,40 @@ export class LearningExperienceCreatePieceComponent implements OnInit {
     [formGroup]="form"
     [heading]="heading">
     </app-learning-experience-piece-form>
+    <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
   </form>
   `
 })
 
   export class LearningExperienceEditPieceComponent implements OnInit {
-    // Type likely to be an LearningExperiencePieceModel may need changing
-    @Input() currentPiece: any;
+    @Output() formToSend = new EventEmitter();
+    @Input() key: string;
+
+    currentFormValues: LearningAssessmentPieceModel;
 
     form: FormGroup;
-    constructor(private fb:FormBuilder) {}
+    constructor(private fb:FormBuilder,
+                private ls: LearningExperienceService) {}
  
-  ngOnInit(){
+    ngOnInit() {
+      this.ls.findLearningPieceForKey(this.key).subscribe(
+          result => this.currentFormValues = result
+        )
+
     this.form = this.fb.group({
       title: '',
       description: ''
-    });
+      });
 
-    this.form.setValue(this.currentPiece);
-  }
+    this.form.setValue({
+        title: this.currentFormValues.title,
+        description: this.currentFormValues.description
+      });
+    }
+
+    save(form){
+      this.formToSend.emit(form)
+    }
 
 }
 

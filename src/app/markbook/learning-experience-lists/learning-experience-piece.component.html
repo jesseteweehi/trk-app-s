@@ -1,5 +1,5 @@
 
-<button md-button (click)="openDialogPiece()">Create Assessment Piece</button>
+<button md-button (click)="openDialogCreatePiece()">Create Assessment Piece</button>
 <br>
 <button md-button (click)="openDialogHeader()">Create Header Piece</button>
 <br>
@@ -39,10 +39,20 @@
 
       <md-card *ngFor="let group of groups">
         <md-card-subtitle>
-         
+          <button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
+             <md-icon>more_vert</md-icon>
+          </button>        
         </md-card-subtitle>
         <md-card-title>{{group.title}}</md-card-title>
         <md-card-content>{{group.description}}</md-card-content>
+
+        <md-menu #appMenu="mdMenu">
+          <button md-menu-item (click)="removePiece(group.$key)"> Remove </button>
+          <button md-menu-item (click)="openDialogEditPiece(group.$key)">Edit</button>
+          <button md-menu-item> Lock </button>
+        </md-menu>
+
+        
         
 
         <md-card-actions>

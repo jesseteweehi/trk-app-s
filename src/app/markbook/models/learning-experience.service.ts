@@ -32,7 +32,10 @@ export class LearningExperienceService {
         return this.db.list(`studentLearning/${studentKey}`)
     }
 
-    
+    findLearningPieceForKey(lpKey:string): Observable<LearningAssessmentPieceModel> {
+        return this.db.object(`learningExperiencePiece/${lpKey}`)
+            .map(LearningAssessmentPieceModel.fromJson)
+    }
 
 
     findStudentKeysForLearningPiece(studentsKeys$: Observable<any[]>) : Observable<any> {
@@ -124,6 +127,22 @@ export class LearningExperienceService {
         let dataToSave = {};
         dataToSave["learningExperiencePiece/" + learningExperiencePieceToSaveKey] = learningExperiencePieceToSave;
         dataToSave["learningExperiencePieceForBlock/" + blockKey + "/" + learningExperiencePieceToSaveKey] = true
+
+        return this.firebaseUpdate(dataToSave);
+
+    }
+
+    editLearningExperiencePiece(pieceKey: string, le:any): Observable<any> {
+        const learningExperiencePieceToSave = Object.assign({}, le);      
+        let dataToSave = {};
+        dataToSave["learningExperiencePiece/" + pieceKey] = learningExperiencePieceToSave;
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    removeLearningExperiencePieceUnderBlock(blockKey: string, pieceKey:any): Observable<any> {      
+        let dataToSave = {};
+        dataToSave["learningExperiencePiece/" + pieceKey] = null;
+        dataToSave["learningExperiencePieceForBlock/" + blockKey + "/" + pieceKey] = null
 
         return this.firebaseUpdate(dataToSave);
 

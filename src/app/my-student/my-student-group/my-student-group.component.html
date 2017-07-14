@@ -14,7 +14,7 @@
 
 
 
-<app-my-student-group-item *ngFor="let item of studentFirebase; let last = last"
+<app-my-student-group-item *ngFor="let item of studentFirebase?.slice().reverse(); let last = first"
 [last]="last"
 [highlightKey]="key"
 [itemData]="item"

@@ -7,12 +7,15 @@ import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/ma
 import { LearningExperienceService } from '../models/learning-experience.service';
 import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockComponent, LearningExperienceFormPieceComponent, LearningExperienceFormHeaderComponent } from '../learning-experience-form/learning-experience-form.component';
 
-import { LearningAssessmentGroupModel, LearningAssessmentBlockModel, LearningAssessmentPieceModel } from '../models/data-classes'
+import { LearningAssessmentGroupModel, LearningAssessmentBlockModel, LearningAssessmentPieceModel } from '../models/data-classes';
 
 import { LEStudentListPieceRemoveDialogComponent,
          LEStudentListPieceAddDialogComponent,
          LEStudentListBlockDialogComponent,
-         LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component'
+         LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
+
+import { LePieceCreateDialogComponent,
+         LePieceEditDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs-forms.component';
 
 import { StudentModel } from '../../students/models/data-classes';
 
@@ -261,9 +264,33 @@ export class LearningExperiencePieceListComponent implements OnInit {
       }
 
     }
+
+    removePiece(key){
+      this.ls.removeLearningExperiencePieceUnderBlock(this.blockId, key).subscribe(
+            () => {
+                this.snackBar.open('Learning Piece Deleted','Awesome',{ duration:2000 })
+            },
+            err => { 
+                this.snackBar.open('Error Deleting Learning Piece ${err}','Bugger',{ duration:2000 })
+            }
+        );
+
+    }
+
+    openDialogEditPiece(key) {
+      let dialogRef = this.dialog.open(LePieceEditDialogComponent, {  
+        data: {
+          'key': key
+        }
+       });
+      
+      dialogRef.afterClosed().subscribe(result => {
+         this.editLearningPiece(key, result)
+      });
+    }
     
-    openDialogPiece() {
-    let dialogRef = this.dialog.open(LearningExperienceFormPieceComponent);
+    openDialogCreatePiece() {
+    let dialogRef = this.dialog.open(LePieceCreateDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
     	this.firebaseLearningExperienceBlock(result)
         });
@@ -350,6 +377,17 @@ export class LearningExperiencePieceListComponent implements OnInit {
     		      this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
     		    }
     		);
+  }
+
+  editLearningPiece(key, form) {
+    this.ls.editLearningExperiencePiece(key, form.value).subscribe(
+            () => {
+              this.snackBar.open('Lesson Group Saved','Awesome',{ duration:2000 })
+            },
+            err => { 
+              this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
+            }
+        );
   }
   
   firebaseHeader(form) {

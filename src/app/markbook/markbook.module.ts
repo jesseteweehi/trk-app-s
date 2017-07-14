@@ -28,9 +28,10 @@ import { LearningExperienceGroupListComponent,
 import { LEStudentListPieceAddDialogComponent,
          LEStudentListPieceRemoveDialogComponent,
          LEStudentListBlockDialogComponent,
-         LEStudentListGroupDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component'
+         LEStudentListGroupDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component';
 
-
+import { LePieceCreateDialogComponent,
+         LePieceEditDialogComponent } from './learning-experience-dialogs/learning-experience-dialogs-forms.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,10 @@ import { LEStudentListPieceAddDialogComponent,
   LearningExperienceGroupListComponent,
   LearningExperienceBlockListComponent,
   LearningExperiencePieceListComponent,
+
+  LePieceCreateDialogComponent,
+  LePieceEditDialogComponent,
+
   LEStudentListPieceAddDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
@@ -74,6 +79,8 @@ import { LEStudentListPieceAddDialogComponent,
   LearningExperienceFormGroupComponent,
   LearningExperienceFormHeaderComponent,
   LEStudentListPieceAddDialogComponent,
+  LePieceCreateDialogComponent,
+  LePieceEditDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent]

@@ -10,8 +10,11 @@ export class MyStudentGroupComponent {
 	@Input() studentFirebase: any;
 	@Output() sendData = new EventEmitter();
 
-	key: string = ''
 
+	// creates error as its changed on check due to being first a string then loading
+	// child component which then changes the key. And the orders its checked thows up an error.
+	key: string;
+	
 	handleData($event){
 		this.sendData.emit($event);
 	}

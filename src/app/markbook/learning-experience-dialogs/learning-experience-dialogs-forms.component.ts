@@ -9,10 +9,12 @@ import { LearningExperienceService } from '../models/learning-experience.service
 // - Learning Groups
 
 @Component({
-	selector: 'learning-piece-form-dialog',
+	selector: 'learning-piece-formcreate-dialog',
 	template:
 	`
-	<app-learning-experience-piece-create></app-learning-experience-piece-create>
+	<app-learning-experience-piece-create
+	(formToSend)="handleForm($event)"
+	></app-learning-experience-piece-create>
 	`
 })
 
@@ -21,6 +23,32 @@ export class LePieceCreateDialogComponent {
 	constructor(public dialogRef: MdDialogRef<LePieceCreateDialogComponent>,
 		@Inject(MD_DIALOG_DATA) public data: any,
 		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
+	selector: 'learning-piece-formedit-dialog',
+	template:
+	`
+	<app-learning-experience-piece-edit
+	(formToSend)="handleForm($event)"
+	[key]="data.key"
+	></app-learning-experience-piece-edit>
+	`
+})
+
+export class LePieceEditDialogComponent {
+
+	constructor(public dialogRef: MdDialogRef<LePieceEditDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
 }
 
 
