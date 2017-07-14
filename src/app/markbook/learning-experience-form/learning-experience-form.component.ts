@@ -1,48 +1,101 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
+
+// Learning Experience Piece Common Form
 @Component({
   selector: 'app-learning-experience-piece-form',
   template: 
   `
-  <h1 md-dialog-title>Create Assessment Parameter</h1>
-  <div md-dialog-content>
+  <h1>{{heading}}</h1>
 
-    <form novalidate [formGroup]="form">
+  <div [formGroup]="formGroup">
 
-        <md-input-container class="example-full-width">
-           <input placeholder="Subject Code" type="text" mdInput formControlName="title">
-        </md-input-container>
+    <md-input-container class="example-full-width">
+      <input placeholder="Subject Code" type="text" mdInput formControlName="title">
+    </md-input-container>
 
-            <md-input-container class="example-full-width">
-               <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
-            </md-input-container>
+    <md-input-container class="example-full-width">
+      <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
+    </md-input-container>
     
-    </form>  
   </div>
-  <div md-dialog-actions>
-       <button md-button (click)="dialogRef.close(form)">Create</button>
-
-  </div>
-  `,
-  styles:[]
+  `
 })
 
-export class LearningExperienceFormPieceComponent  {
-
-	form: FormGroup;
-
-  	constructor(public dialogRef: MdDialogRef<LearningExperienceFormPieceComponent>,
-  				private fb: FormBuilder,
-  				) {
-
-  		this.form = this.fb.group({
-  		    title: [''],
-  		    description: ['']
-  			});
-  	}
+export class LearningExperienceFormPieceComponent {
+  @Input() formGroup: FormGroup;
+  @Input() heading: string;
 }
+
+//Learning Experience Piece Create Form
+@Component({
+  selector: 'app-learning-experience-piece-create',
+  template:
+  `
+  <form novalidate [formGroup]="form">
+    <app-learning-experience-piece-form
+    [formGroup]="form"
+    [heading]="heading">
+    </app-learning-experience-piece-form>
+  </form>
+  `
+})
+
+export class LearningExperienceCreatePieceComponent implements OnInit {
+  @Output() formToSend = new EventEmitter();
+  form: FormGroup;
+  constructor(private fb:FormBuilder) {}
+
+  heading: string = 'Create Learning Experience Piece'
+ 
+  ngOnInit(){
+    this.form = this.fb.group({
+      title: '',
+      description: ''
+    });
+  }
+
+
+}
+
+//Learning Experience Edit Form NEEED TO COMPLETE
+@Component({
+  selector: 'app-learning-experience-piece-edit',
+  template:
+  `
+  <form novalidate [formGroup]="form">
+    <app-learning-experience-piece-form
+    [formGroup]="form"
+    [heading]="heading">
+    </app-learning-experience-piece-form>
+  </form>
+  `
+})
+
+  export class LearningExperienceEditPieceComponent implements OnInit {
+    // Type likely to be an LearningExperiencePieceModel may need changing
+    @Input() currentPiece: any;
+
+    form: FormGroup;
+    constructor(private fb:FormBuilder) {}
+ 
+  ngOnInit(){
+    this.form = this.fb.group({
+      title: '',
+      description: ''
+    });
+
+    this.form.setValue(this.currentPiece);
+  }
+
+}
+
+
+
+
+
 
 @Component({
   selector: 'app-learning-experience-block-form',

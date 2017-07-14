@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { LearningExperienceService } from '../../../markbook/models/learning-experience.service';
 import { LearningAssessmentPieceModel } from '../../../markbook/models/data-classes'
 
@@ -8,22 +8,22 @@ import { LearningAssessmentPieceModel } from '../../../markbook/models/data-clas
   styleUrls: ['./my-student-learning-piece.component.css']
 })
 export class MyStudentLearningPieceComponent {
-	@Input() learningPiece;
 	@Input() learningBlock;
-  @Input() student;
   @Input() learningPieceKeys: string[];
 
 	groups: LearningAssessmentPieceModel[];
 	xheaders: any[];
   yheaders: any[];
-  allStudentPieces: any;
 
   	constructor(private ls: LearningExperienceService) { }
 
-  	ngOnChanges() {
+  	ngOnChanges(changes: SimpleChanges) {
+      /// Error happening becasue the change hasn't come yet and its trying to call it.
+      if (changes['learningBlock'].currentValue != null) {
   		this.ls.findPiecesForBlocks(this.learningBlock.$key).subscribe(groups => this.groups = groups);
   		this.ls.findXHeadersForBlocks(this.learningBlock.$key).subscribe(xheaders => this.xheaders = xheaders);
   		this.ls.findYHeadersForBlocks(this.learningBlock.$key).subscribe(yheaders => this.yheaders = yheaders);
+      }
   	}
 
     highlight(key) {

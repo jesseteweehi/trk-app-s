@@ -14,10 +14,12 @@
 
 
 
-<app-my-student-group-item *ngFor="let item of studentFirebase"
+<app-my-student-group-item *ngFor="let item of studentFirebase; let last = last"
+[last]="last"
 [itemData]="item"
 (sendData)="handleData($event)">		
 </app-my-student-group-item>
+
 
 
 

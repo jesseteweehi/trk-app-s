@@ -28,7 +28,7 @@
         <md-card-content>{{y.description}}</md-card-content>
       </md-card>
 
-      <md-card *ngFor="let group of groups" [class.highlight]="highlight(group.$key)">
+      <md-card *ngFor="let group of groups" [class.highlight]="highlight(group?.$key)">
         <md-card-subtitle>
          
         </md-card-subtitle>

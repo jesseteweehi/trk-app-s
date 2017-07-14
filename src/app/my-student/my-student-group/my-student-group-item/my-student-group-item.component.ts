@@ -8,6 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class MyStudentGroupItemComponent implements OnInit {
   @Output() sendData = new EventEmitter();
 	@Input() itemData: any;
+  @Input() last: any;
 
 	group: any;
 	block: any;
@@ -18,18 +19,19 @@ export class MyStudentGroupItemComponent implements OnInit {
   ngOnInit() {
       this.itemData.group.subscribe(group => this.group = group)
       this.itemData.block.subscribe(group => this.block = group)
-      this.itemData.piece.subscribe(group => this.piece = group)
+      this.itemData.piece.subscribe(group => {
+          this.piece = group
+          if (this.last){
+            this.choose()
+          }
+      })
   }
 
-  ngOnChanges() {  	
-  }
-
-  choose(){
+  choose() {
     const dataToSend = {
       'group': this.group,
       'block': this.block,
-      'piece': this.piece
-    }
-    this.sendData.emit(dataToSend)
+    };
+    this.sendData.emit(dataToSend);
   }
 }

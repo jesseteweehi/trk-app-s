@@ -7,7 +7,6 @@ import {
 
 import { StudentModel } from '../../students/models/data-classes';
 
-// import {Http, Response} from "@angular/http";
 import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseApp } from 'angularfire2';
 

@@ -14,10 +14,16 @@ import { StudentSharedModule} from '../student-shared/student-shared.module'
 import { AutofocusDirective } from './models/custom-directives';
 
 import { LearningExperienceService } from './models/learning-experience.service';
-import { LearningExperienceFormPieceComponent, LearningExperienceFormBlockComponent, LearningExperienceFormGroupComponent, LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
-import { LearningExperienceBlockTemplateFormComponent, BlockTemplateFormComponent, BlockTemplateListFormComponent } from  './learning-experience-form/learning-experience-template-form.component'
+import { LearningExperienceFormPieceComponent, 
+         LearningExperienceCreatePieceComponent, 
+         LearningExperienceEditPieceComponent, 
+         LearningExperienceFormBlockComponent, 
+         LearningExperienceFormGroupComponent, 
+         LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
 
-import { LearningExperienceGroupListComponent, LearningExperienceBlockListComponent, LearningExperiencePieceListComponent } from './learning-experience-lists/learning-experience-lists.component';
+import { LearningExperienceGroupListComponent, 
+         LearningExperienceBlockListComponent, 
+         LearningExperiencePieceListComponent } from './learning-experience-lists/learning-experience-lists.component';
 
 import { LEStudentListPieceAddDialogComponent,
          LEStudentListPieceRemoveDialogComponent,
@@ -38,16 +44,21 @@ import { LEStudentListPieceAddDialogComponent,
     StudentSharedModule
   ],
   declarations: [
+  // ------Forms-------
+  //Piece
   LearningExperienceFormPieceComponent,
+  LearningExperienceCreatePieceComponent, 
+  LearningExperienceEditPieceComponent,
+  // Block
   LearningExperienceFormBlockComponent,
+  // Group
   LearningExperienceFormGroupComponent,
-  LearningExperienceFormHeaderComponent,   
+  // Header
+  LearningExperienceFormHeaderComponent,
+
   LearningExperienceGroupListComponent,
   LearningExperienceBlockListComponent,
   LearningExperiencePieceListComponent,
-  LearningExperienceBlockTemplateFormComponent,
-  BlockTemplateFormComponent,
-  BlockTemplateListFormComponent,
   LEStudentListPieceAddDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
@@ -58,8 +69,7 @@ import { LEStudentListPieceAddDialogComponent,
 
   providers: [LearningExperienceService],
   
-  entryComponents: [
-  LearningExperienceFormPieceComponent, 
+  entryComponents: [ 
   LearningExperienceFormBlockComponent,
   LearningExperienceFormGroupComponent,
   LearningExperienceFormHeaderComponent,

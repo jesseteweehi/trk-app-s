@@ -8,8 +8,6 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MyStudentFocusComponent {
   @Input() group;
   @Input() block;
-  @Input() piece;
-  @Input() student;
   @Input() learningPieceKeys: string[]
 
   constructor() { }

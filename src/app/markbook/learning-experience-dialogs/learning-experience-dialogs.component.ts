@@ -1,10 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
-// import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
-import { StudentsService } from '../../students/models/students.service'
+import { StudentsSharedService } from '../../student-shared/student-shared.service';
 
-import { StudentModel } from '../../students/models/data-classes'
+import { StudentModel } from '../../student-shared/data-classes'
+
+///Contains the dialogs for Adding and Removing Students from Learning Pieces
+// Contains the dialogs for seeing the students for each Block and Group
+// Student Service is used to retrieve data which is in the dialogs view
+// Actual changing of data is handled on handed back to original component 
+// Likely to use the methods here from the Students Service to be moved to Shared Student Service.
 
 
 @Component({
@@ -20,18 +26,15 @@ import { StudentModel } from '../../students/models/data-classes'
   styles:[]
 })
 export class LEStudentListPieceRemoveDialogComponent implements OnInit {
-
 	allStudents: StudentModel[];
 
 
     constructor(public dialogRef: MdDialogRef<LEStudentListPieceRemoveDialogComponent>,
     			@Inject(MD_DIALOG_DATA) public data: any,
-    			private ss: StudentsService
+    			private ss: StudentsSharedService
           ) {}
 
     ngOnInit() {
-    	//// This will have to likely moved to a shared module in the future
-    // this.ss.findStudentsForLE(this.data.lePiece.$key).subscribe(students => this.allStudents = students)
     this.ss.findStudentsForLP(this.data.lePiece.$key).subscribe(result => this.allStudents = result)
   }  
 
@@ -57,26 +60,19 @@ export class LEStudentListPieceAddDialogComponent implements OnInit {
   allStudents: StudentModel[];
 
 
-    constructor(public dialogRef: MdDialogRef<LEStudentListPieceAddDialogComponent>,
+  constructor(public dialogRef: MdDialogRef<LEStudentListPieceAddDialogComponent>,
           @Inject(MD_DIALOG_DATA) public data: any,
-          private ss: StudentsService
+          private ss: StudentsSharedService
           ) {}
 
-    ngOnInit() {
-      //// This will have to likely moved to a shared module in the future
-    // this.ss.findStudentsForLE(this.data.lePiece.$key).subscribe(students => this.allStudents = students)
-    this.ss.findAllStudents().subscribe(result => this.allStudents = result)
+  ngOnInit() {
+  this.ss.findAllStudents().subscribe(result => this.allStudents = result)
   }  
 
-    studentsToAdd($event) {
-      
-      this.dialogRef.close($event)
-    }  
+  studentsToAdd($event) {      
+    this.dialogRef.close($event)
+  }  
 }
-
-// This will hold the Dialogs to see how many students are within a Group or Block. However they should not need
-// The ability to change data as this should only be done via Learning Piece Section
-
 
 @Component({
   selector: 'learning-block-student-list',
@@ -96,12 +92,10 @@ export class LEStudentListBlockDialogComponent implements OnInit {
 
     constructor(public dialogRef: MdDialogRef<LEStudentListBlockDialogComponent>,
           @Inject(MD_DIALOG_DATA) public data: any,
-          private ss: StudentsService
+          private ss: StudentsSharedService
           ) {}
 
     ngOnInit() {
-      //// This will have to likely moved to a shared module in the future
-    // this.ss.findStudentsForLE(this.data.lePiece.$key).subscribe(students => this.allStudents = students)
     this.ss.findStudentsForLB(this.data.lePiece.$key).subscribe(result => this.allStudents = result)
   }    
 }
@@ -123,12 +117,10 @@ export class LEStudentListGroupDialogComponent implements OnInit {
 
     constructor(public dialogRef: MdDialogRef<LEStudentListGroupDialogComponent>,
           @Inject(MD_DIALOG_DATA) public data: any,
-          private ss: StudentsService
+          private ss: StudentsSharedService
           ) {}
 
     ngOnInit() {
-      //// This will have to likely moved to a shared module in the future
-    // this.ss.findStudentsForLE(this.data.lePiece.$key).subscribe(students => this.allStudents = students)
     this.ss.findStudentsForLG(this.data.lePiece.$key).subscribe(result => this.allStudents = result)
   }    
 }

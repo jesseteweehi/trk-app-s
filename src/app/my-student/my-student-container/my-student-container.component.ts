@@ -15,9 +15,8 @@ export class MyStudentContainerComponent implements OnInit {
 	studentLearning: any;
   learningPieceKeys: string[] = [];
 
-  chosenGroup: any;
-  chosenBlock: any;
-  chosenPiece: any;
+  chosenGroup: any = {};
+  chosenBlock: any = {};
 
   	constructor(private route: ActivatedRoute,
   				private ms: MyStudentsService) { }
@@ -31,13 +30,11 @@ export class MyStudentContainerComponent implements OnInit {
           this.learningPieceKeys.push(element.pieceKey)
           })
       });
-      console.log(this.learningPieceKeys)
   	}
 
     handleData($event){
       this.chosenGroup = $event.group
       this.chosenBlock = $event.block
-      this.chosenPiece = $event.piece
     }
 
 }
