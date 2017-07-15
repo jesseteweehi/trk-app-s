@@ -23,16 +23,18 @@ export class LearningAssessmentPieceModel {
 		public created: string,
 		public title: string,
 		public description: string,
+		public locked: Boolean,
 		){}
 	static fromJsonList(array): LearningAssessmentPieceModel[] {
 		return array.map( LearningAssessmentPieceModel.fromJson);
 		}
-	static fromJson({$key, created, title, description}): LearningAssessmentPieceModel {
+	static fromJson({$key, created, title, description, locked}): LearningAssessmentPieceModel {
 		return new LearningAssessmentPieceModel(
 			$key,
 			created,
 			title,
-			description
+			description,
+			locked
 			)
 		}
 	}

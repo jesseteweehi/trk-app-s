@@ -28,6 +28,12 @@ export class LearningExperienceService {
     	this.sdkDb = this.fb.database().ref();	
     }
 
+    lockLearningPiece(pieceKey:string): Observable<any> {
+        let dataToSave = {}
+        dataToSave["learningExperiencePiece/" + pieceKey +'/' + 'locked'] = true;
+        return this.firebaseUpdate(dataToSave)
+    }
+
     findLearningPiecesForStudent(studentKey:string): Observable<any[]> {
         return this.db.list(`studentLearning/${studentKey}`)
     }

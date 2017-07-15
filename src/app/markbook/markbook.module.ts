@@ -22,8 +22,7 @@ import { LearningExperienceFormPieceComponent,
          LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
 
 import { LearningExperienceGroupListComponent, 
-         LearningExperienceBlockListComponent, 
-         LearningExperiencePieceListComponent } from './learning-experience-lists/learning-experience-lists.component';
+         LearningExperienceBlockListComponent } from './learning-experience-lists/learning-experience-lists.component';
 
 import { LEStudentListPieceAddDialogComponent,
          LEStudentListPieceRemoveDialogComponent,
@@ -32,6 +31,9 @@ import { LEStudentListPieceAddDialogComponent,
 
 import { LePieceCreateDialogComponent,
          LePieceEditDialogComponent } from './learning-experience-dialogs/learning-experience-dialogs-forms.component';
+         
+import { LearningExperienceContainerComponent } from './learning-experience-container/learning-experience-container.component';
+import { LearningExperiencePieceItemComponent } from './learning-experience-container/learning-experience-piece-item/learning-experience-piece-item.component';
 
 @NgModule({
   imports: [
@@ -59,7 +61,8 @@ import { LePieceCreateDialogComponent,
 
   LearningExperienceGroupListComponent,
   LearningExperienceBlockListComponent,
-  LearningExperiencePieceListComponent,
+  // Main Assessment Component
+  LearningExperienceContainerComponent,
 
   LePieceCreateDialogComponent,
   LePieceEditDialogComponent,
@@ -68,7 +71,9 @@ import { LePieceCreateDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent,
-  AutofocusDirective],
+  AutofocusDirective,
+  LearningExperiencePieceItemComponent,
+  ],
   
   exports:[],
 

@@ -115,10 +115,6 @@ export class LearningExperienceCreatePieceComponent implements OnInit {
 }
 
 
-
-
-
-
 @Component({
   selector: 'app-learning-experience-block-form',
   template: 
