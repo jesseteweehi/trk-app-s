@@ -1,22 +1,3 @@
-export class HeaderModel {
-	constructor(
-		public $key: string,
-		public created: string,
-		public title: string,
-		public description: string,
-		) {}
-	static fromJsonList(array): HeaderModel[] {
-		return array.map( HeaderModel.fromJson);
-		}
-	static fromJson({$key, created, title, description}): HeaderModel {
-		return new HeaderModel(
-			$key,
-			created,
-			title,
-			description)
-	    }
-	}
-
 export class LearningAssessmentPieceModel {
 	constructor(
 		public $key: string,
@@ -24,17 +5,21 @@ export class LearningAssessmentPieceModel {
 		public title: string,
 		public description: string,
 		public locked: Boolean,
+		public xheader: string,
+		public yheader: string
 		){}
 	static fromJsonList(array): LearningAssessmentPieceModel[] {
 		return array.map( LearningAssessmentPieceModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, locked}): LearningAssessmentPieceModel {
+	static fromJson({$key, created, title, description, locked, xheader, yheader}): LearningAssessmentPieceModel {
 		return new LearningAssessmentPieceModel(
 			$key,
 			created,
 			title,
 			description,
-			locked
+			locked,
+			xheader,
+			yheader
 			)
 		}
 	}
@@ -48,15 +33,13 @@ export class LearningAssessmentBlockModel {
 		public description: string,
 		public learningArea: string,
 		public learningLevel: string,
-		public rows: number,
-		public x_headers: String[],
-		public y_headers: String[],
+
 
 		){}
 	static fromJsonList(array): LearningAssessmentBlockModel[] {
 		return array.map( LearningAssessmentBlockModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, LearningLevel, rows, x_headers, y_headers}): LearningAssessmentBlockModel {
+	static fromJson({$key, created, title, description, learningArea, LearningLevel}): LearningAssessmentBlockModel {
 		return new LearningAssessmentBlockModel(
 			$key,
 			created,
@@ -64,9 +47,6 @@ export class LearningAssessmentBlockModel {
 			description,
 			learningArea,
 			LearningLevel,
-			rows,
-			x_headers,
-			y_headers
 			)
 		}
 	}
@@ -79,18 +59,46 @@ export class LearningAssessmentGroupModel {
 		public description: string,
 		public learningArea: string,
 		public learningLevel: string,
+		public archive: boolean
 		){}
 	static fromJsonList(array): LearningAssessmentGroupModel[] {
 		return array.map( LearningAssessmentGroupModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, learningLevel}): LearningAssessmentGroupModel {
+	static fromJson({$key, created, title, description, learningArea, learningLevel, archive}): LearningAssessmentGroupModel {
 		return new LearningAssessmentGroupModel(
 			$key,
 			created,
 			title,
 			description,
 			learningArea,
-			learningLevel
+			learningLevel,
+			archive
 			)
 		}
 	}
+
+export class LearningAssessmentHeaderModel {
+	constructor(
+		public $key:string,
+		public created: string,
+		public title: string,
+		public description: string,
+		//Axis
+		public header: string,
+		public purpose: string,
+		){}
+	static fromJsonList(array): LearningAssessmentHeaderModel[] {
+		return array.map( LearningAssessmentGroupModel.fromJson);
+		}
+	static fromJson({$key, created, title, description, header, purpose}): LearningAssessmentHeaderModel {
+		return new LearningAssessmentHeaderModel(
+			$key,
+			created,
+			title,
+			description,
+			header,
+			purpose	
+			)
+	}
+
+}

@@ -14,6 +14,7 @@ import { LearningExperienceService } from '../models/learning-experience.service
 	`
 	<app-learning-experience-piece-create
 	(formToSend)="handleForm($event)"
+	[blockId]="data.block"
 	></app-learning-experience-piece-create>
 	`
 })
@@ -36,6 +37,7 @@ export class LePieceCreateDialogComponent {
 	<app-learning-experience-piece-edit
 	(formToSend)="handleForm($event)"
 	[key]="data.key"
+	[blockId]="data.block"
 	></app-learning-experience-piece-edit>
 	`
 })
@@ -43,6 +45,51 @@ export class LePieceCreateDialogComponent {
 export class LePieceEditDialogComponent {
 
 	constructor(public dialogRef: MdDialogRef<LePieceEditDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
+	selector: 'header-formcreate-dialog',
+	template:
+	`
+	<app-header-create
+	(formToSend)="handleForm($event)"
+	></app-header-create>
+	`
+})
+
+export class HeaderCreateDialogComponent {
+
+	constructor(public dialogRef: MdDialogRef<HeaderCreateDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
+	selector: 'header-formedit-dialog',
+	template:
+	`
+	<app-header-edit
+	(formToSend)="handleForm($event)"
+	[blockId]="data.block"
+	[key]="data.key"
+	[axis]="data.axis"
+	></app-header-edit>
+	`
+})
+
+export class HeaderEditDialogComponent {
+
+	constructor(public dialogRef: MdDialogRef<HeaderCreateDialogComponent>,
 		@Inject(MD_DIALOG_DATA) public data: any,
 		) {}
 

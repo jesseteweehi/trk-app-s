@@ -1,23 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Observable, Subject} from "rxjs/Rx";
 
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
-import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockComponent, LearningExperienceFormPieceComponent, LearningExperienceFormHeaderComponent } from '../learning-experience-form/learning-experience-form.component';
+import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockComponent, LearningExperienceFormPieceComponent } from '../learning-experience-form/learning-experience-form.component';
 
-import { LearningAssessmentGroupModel, LearningAssessmentBlockModel, LearningAssessmentPieceModel } from '../models/data-classes';
+import { LearningAssessmentGroupModel, LearningAssessmentBlockModel } from '../models/data-classes';
 
-import { LEStudentListPieceRemoveDialogComponent,
-         LEStudentListPieceAddDialogComponent,
-         LEStudentListBlockDialogComponent,
+import { LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
 
-import { LePieceCreateDialogComponent,
-         LePieceEditDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs-forms.component';
-
-import { StudentModel } from '../../students/models/data-classes';
 
 @Component({
   selector: 'app-learning-experience-group-list',
@@ -173,7 +165,8 @@ export class LearningExperienceBlockListComponent implements OnInit {
     }
 
     openDialogBlock() {
-    let dialogRef = this.dialog.open(LearningExperienceFormGroupComponent);
+    /// could create area change back to group or define type
+    let dialogRef = this.dialog.open(LearningExperienceFormBlockComponent);
     dialogRef.afterClosed().subscribe(result => {
     	this.firebaseLearningExperienceBlock(result)
         });

@@ -13,9 +13,9 @@ import { LEStudentListPieceRemoveDialogComponent,
          LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
 
 import { LePieceCreateDialogComponent,
-         LePieceEditDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs-forms.component';
-
-import { LearningExperienceFormHeaderComponent } from '../learning-experience-form/learning-experience-form.component'
+         LePieceEditDialogComponent,
+         HeaderCreateDialogComponent,
+         HeaderEditDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs-forms.component';
 
 import { StudentModel } from '../../student-shared/data-classes';
 
@@ -30,26 +30,25 @@ export class LearningExperienceContainerComponent implements OnInit {
   	blockId: string;
     groupId: string;
 
-
     xheaders: any[];
     yheaders: any[];
 
-    	constructor(
+    constructor(
     		private route: ActivatedRoute,
     		private ls: LearningExperienceService,
     		public dialog: MdDialog,
         public snackBar: MdSnackBar) {
-    	}
+    	  }
 
-      ngOnInit() {
-      	this.blockId = this.route.snapshot.params['blockid'];
-        this.groupId = this.route.snapshot.params['groupid']
-      	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);
-        this.ls.findXHeadersForBlocks(this.blockId).subscribe(xheaders => this.xheaders = xheaders);
-        this.ls.findYHeadersForBlocks(this.blockId).subscribe(yheaders => this.yheaders = yheaders);
+    ngOnInit() {
+    	this.blockId = this.route.snapshot.params['blockid'];
+      this.groupId = this.route.snapshot.params['groupid']
+    	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);
+      this.ls.findXHeadersForBlocks(this.blockId).subscribe(xheaders => this.xheaders = xheaders);
+      this.ls.findYHeadersForBlocks(this.blockId).subscribe(yheaders => this.yheaders = yheaders);
       }
 
-      xheader(i) {
+    yheader(i) {
       // grid Area : row-start,row-end, column-start, column-end
         let styles = {
             'grid-row': + (i+1) + '/' + (i+2),
@@ -60,20 +59,21 @@ export class LearningExperienceContainerComponent implements OnInit {
         return styles
       }
 
-      yheader(i) {
-        let styles = {
+    xheader(i) {
+      let styles = {
             'grid-column': + (i+1) + '/' + (i+2),
             'grid-row': '1 / 2',
         }
         return styles
       }
 
-      template() { 
+    template() { 
       if (this.yheaders){
         if (this.yheaders.length > 1)      
           {     
             let styles = {
-                  'grid-template-columns' : 'repeat(' + (this.yheaders.length + 1) + ', 1fr)' 
+                 // this.xheader.length + 1
+                  'grid-template-columns' : 'repeat(' + (this.yheaders.length+1) + ', 1fr)' 
                 }
                 return styles
            }
@@ -87,8 +87,8 @@ export class LearningExperienceContainerComponent implements OnInit {
 
       }
 
-      lock(key) {
-        this.ls.lockLearningPiece(key).subscribe(
+    lockPiece(key) {
+      this.ls.lockLearningPiece(key).subscribe(
                       () => {
                           this.snackBar.open('Learning Piece Locked','Awesome',{ duration:2000 })
                       },
@@ -98,9 +98,19 @@ export class LearningExperienceContainerComponent implements OnInit {
                   );
       }
 
+    lockHeader(key,axis) {
+        this.ls.lockHeader(this.blockId, axis, key).subscribe(
+               () => {
+                   this.snackBar.open('Header locked','Awesome',{ duration:2000 })
+               },
+               err => { 
+                   this.snackBar.open('Error locking Header ${err}','Bugger',{ duration:2000 })
+               }
+            );
+    }
 
-      removePiece(key){
-        if (this.groups.length === 1) { 
+    removePiece(key){
+      if (this.groups.length === 1) { 
           this.ls.removeLearningExperiencePieceUnderBlock(this.blockId, key).subscribe(
                       () => {
                           this.snackBar.open('Learning Piece Deleted','Awesome',{ duration:2000 })
@@ -109,9 +119,9 @@ export class LearningExperienceContainerComponent implements OnInit {
                           this.snackBar.open('Error Deleting Learning Piece ${err}','Bugger',{ duration:2000 })
                       }
                   );
-          this.groups = []
+          this.groups = [];
           }
-        else {
+      else {
           this.ls.removeLearningExperiencePieceUnderBlock(this.blockId, key).subscribe(
                       () => {
                           this.snackBar.open('Learning Piece Deleted','Awesome',{ duration:2000 })
@@ -123,10 +133,59 @@ export class LearningExperienceContainerComponent implements OnInit {
         }
       }
 
-      openDialogEditPiece(key) {
-        let dialogRef = this.dialog.open(LePieceEditDialogComponent, {  
+    removeXHeader(key) {
+      if (this.xheaders.length === 1) {
+        this.ls.removeXHeaderUnderBlock(this.blockId, key).subscribe(
+                      () => {
+                          this.snackBar.open('Header Deleted','Awesome',{ duration:2000 })
+                      },
+                      err => { 
+                          this.snackBar.open('Error Deleting Header ${err}','Bugger',{ duration:2000 })
+                      }
+                  );
+        this.xheaders = [];
+        }
+      else {
+        this.ls.removeXHeaderUnderBlock(this.blockId, key).subscribe(
+                      () => {
+                          this.snackBar.open('Header Deleted','Awesome',{ duration:2000 })
+                      },
+                      err => { 
+                          this.snackBar.open('Error Deleting Header ${err}','Bugger',{ duration:2000 })
+                      }
+                  );
+        }
+      }
+
+    removeYHeader(key) {
+      if (this.yheaders.length === 1) {
+        this.ls.removeYHeaderUnderBlock(this.blockId, key).subscribe(
+                      () => {
+                          this.snackBar.open('Header Deleted','Awesome',{ duration:2000 })
+                      },
+                      err => { 
+                          this.snackBar.open('Error Deleting Header ${err}','Bugger',{ duration:2000 })
+                      }
+                  );
+        this.yheaders = [];
+        }
+        else {
+        this.ls.removeYHeaderUnderBlock(this.blockId, key).subscribe(
+                      () => {
+                          this.snackBar.open('Header Deleted','Awesome',{ duration:2000 })
+                      },
+                      err => { 
+                          this.snackBar.open('Error Deleting Header ${err}','Bugger',{ duration:2000 })
+                      }
+                  );
+        }
+      }
+
+    openDialogEditPiece(key) {
+      let dialogRef = this.dialog.open(LePieceEditDialogComponent, {  
           data: {
-            'key': key
+            'key': key,
+            'block': this.blockId
           }
          });
         
@@ -136,23 +195,43 @@ export class LearningExperienceContainerComponent implements OnInit {
         });
       }
       
-      openDialogCreatePiece() {
-      let dialogRef = this.dialog.open(LePieceCreateDialogComponent);
+    openDialogCreatePiece() {
+      let dialogRef = this.dialog.open(LePieceCreateDialogComponent,{
+        data: {
+          'block': this.blockId
+        }       
+        });
       dialogRef.afterClosed().subscribe(result => {
         if (result)
       	{this.firebaseLearningExperienceBlock(result)}
           });
       }
 
-      openDialogHeader() {
-      let dialogRef = this.dialog.open(LearningExperienceFormHeaderComponent);
+    openDialogHeader() {
+      let dialogRef = this.dialog.open(HeaderCreateDialogComponent);
       dialogRef.afterClosed().subscribe(result => {
         if (result)
-        {this.firebaseHeader(result)}
+        {this.addHeader(result)}
           });
       }
 
-      openDialogAddStudent(group) {
+    openDialogEditHeader(key, axis) {
+        let dialogRef = this.dialog.open(HeaderEditDialogComponent, {
+          data: {
+            'key':key,
+            'block': this.blockId,
+            'axis' : axis
+          }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result)
+            {
+              this.editHeader(axis, key, result)
+            }
+            });
+        }
+
+    openDialogAddStudent(group) {
       let dialogRef = this.dialog.open(LEStudentListPieceAddDialogComponent, {
           data: {
                   'studentGroup' : group 
@@ -169,7 +248,7 @@ export class LearningExperienceContainerComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
         this.createStudent2LearningBlock(this.groupId, this.blockId, group.$key, result) 
-        }
+          }
         })
       }
 
@@ -193,7 +272,7 @@ export class LearningExperienceContainerComponent implements OnInit {
           this.removeStudent2LearningBlock(this.groupId, this.blockId, group.$key, result)
         }    
       })
-    }
+      }
 
     createStudent2LearningBlock(groupKey:string, blockKey:string, pieceKey:string, students: StudentModel[]){
       this.ls.putStudentsInLearningPiece(groupKey, blockKey, pieceKey, students).subscribe(
@@ -204,7 +283,7 @@ export class LearningExperienceContainerComponent implements OnInit {
                   this.snackBar.open('Error Saving Lesson Students ${err}','Bugger',{ duration:2000 })
               }
           );
-    }
+      }
 
     removeStudent2LearningBlock(groupKey:string, blockKey:string, pieceKey:string, students: StudentModel[]){
       this.ls.removeStudentsFromLearningPiece(groupKey, blockKey, pieceKey, students).subscribe(
@@ -215,7 +294,7 @@ export class LearningExperienceContainerComponent implements OnInit {
                   this.snackBar.open('Error Deleting Students ${err}','Bugger',{ duration:2000 })
               }
           );
-    }
+      }
     
     firebaseLearningExperienceBlock(form) {
       this.ls.createNewLearningExperiencePieceUnderBlock(this.blockId, form.value).subscribe(
@@ -226,7 +305,7 @@ export class LearningExperienceContainerComponent implements OnInit {
       		      this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
       		    }
       		);
-    }
+      }
 
     editLearningPiece(key, form) {
       this.ls.editLearningExperiencePiece(key, form.value).subscribe(
@@ -237,11 +316,11 @@ export class LearningExperienceContainerComponent implements OnInit {
                 this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
               }
           );
-    }
+      }
     
-    firebaseHeader(form) {
+    addHeader(form) {
         
-        this.ls.createHeadingUnderBlock(this.blockId, form.value).subscribe(
+      this.ls.createHeadingUnderBlock(this.blockId, form.value).subscribe(
               () => {
                   this.snackBar.open('Header Saved','Awesome',{ duration:2000 })
               },
@@ -249,6 +328,18 @@ export class LearningExperienceContainerComponent implements OnInit {
                   this.snackBar.open('Error Saving Header ${err}','Bugger',{ duration:2000 })
               }
           );
-    }
+      }
+
+    
+    editHeader(axis, key, form) {     
+      this.ls.editHeader(this.blockId, axis, key, form.value).subscribe(
+              () => {
+                  this.snackBar.open('Header Saved','Awesome',{ duration:2000 })
+              },
+              err => { 
+                  this.snackBar.open('Error Saving Header ${err}','Bugger',{ duration:2000 })
+              }
+          );
+      }
 
 }

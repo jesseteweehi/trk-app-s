@@ -14,12 +14,15 @@ import { StudentSharedModule} from '../student-shared/student-shared.module'
 import { AutofocusDirective } from './models/custom-directives';
 
 import { LearningExperienceService } from './models/learning-experience.service';
+
 import { LearningExperienceFormPieceComponent, 
          LearningExperienceCreatePieceComponent, 
          LearningExperienceEditPieceComponent, 
          LearningExperienceFormBlockComponent, 
-         LearningExperienceFormGroupComponent, 
-         LearningExperienceFormHeaderComponent } from './learning-experience-form/learning-experience-form.component';
+         LearningExperienceFormGroupComponent,        
+         HeaderFormPieceComponent,
+         HeaderFormCreateComponent,
+         HeaderFormEditComponent } from './learning-experience-form/learning-experience-form.component';
 
 import { LearningExperienceGroupListComponent, 
          LearningExperienceBlockListComponent } from './learning-experience-lists/learning-experience-lists.component';
@@ -30,10 +33,11 @@ import { LEStudentListPieceAddDialogComponent,
          LEStudentListGroupDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component';
 
 import { LePieceCreateDialogComponent,
-         LePieceEditDialogComponent } from './learning-experience-dialogs/learning-experience-dialogs-forms.component';
+         LePieceEditDialogComponent,
+         HeaderCreateDialogComponent,
+         HeaderEditDialogComponent } from './learning-experience-dialogs/learning-experience-dialogs-forms.component';
          
 import { LearningExperienceContainerComponent } from './learning-experience-container/learning-experience-container.component';
-import { LearningExperiencePieceItemComponent } from './learning-experience-container/learning-experience-piece-item/learning-experience-piece-item.component';
 
 @NgModule({
   imports: [
@@ -57,22 +61,27 @@ import { LearningExperiencePieceItemComponent } from './learning-experience-cont
   // Group
   LearningExperienceFormGroupComponent,
   // Header
-  LearningExperienceFormHeaderComponent,
+  HeaderFormPieceComponent,
+  HeaderFormCreateComponent,
+  HeaderFormEditComponent, 
 
   LearningExperienceGroupListComponent,
   LearningExperienceBlockListComponent,
   // Main Assessment Component
   LearningExperienceContainerComponent,
 
+  
+  // Create and Edit Dialog Components
   LePieceCreateDialogComponent,
   LePieceEditDialogComponent,
+  HeaderCreateDialogComponent,
+  HeaderEditDialogComponent,
 
   LEStudentListPieceAddDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent,
-  AutofocusDirective,
-  LearningExperiencePieceItemComponent,
+  AutofocusDirective
   ],
   
   exports:[],
@@ -82,10 +91,11 @@ import { LearningExperiencePieceItemComponent } from './learning-experience-cont
   entryComponents: [ 
   LearningExperienceFormBlockComponent,
   LearningExperienceFormGroupComponent,
-  LearningExperienceFormHeaderComponent,
   LEStudentListPieceAddDialogComponent,
   LePieceCreateDialogComponent,
   LePieceEditDialogComponent,
+  HeaderCreateDialogComponent,
+  HeaderEditDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent]

@@ -32,7 +32,7 @@ md-card-footer {
 }
 
 md-card-title {
-  width: 300px;
+ /* width: 300px;*/
   overflow: hidden;
   text-overflow: ellipsis
 }

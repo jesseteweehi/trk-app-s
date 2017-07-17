@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-my-student-group-item',
@@ -24,7 +24,9 @@ export class MyStudentGroupItemComponent implements OnInit {
       this.itemData.piece.subscribe(group => {
           this.piece = group
           if (this.last){
-            this.choose()
+              setTimeout(() => {
+              this.choose()
+              }, 1);       
           }
       })
   }

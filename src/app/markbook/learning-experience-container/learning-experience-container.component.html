@@ -1,44 +1,60 @@
 
-
-
-<button md-button (click)="openDialogCreatePiece()">Create Assessment Piece</button>
-<br>
-<button md-button (click)="openDialogHeader()">Create Header Piece</button>
-<br>
-
-
-
-
 <div class="wrapper" [ngStyle]="template()">
 
-      <div class="blank"></div>
+      <div class="blank">
+        <br> 
+          <button md-raised-button color="primary" (click)="openDialogHeader()">Create Header</button>
+          <p></p>   
+          <button  md-raised-button color="primary" (click)="openDialogCreatePiece()">Create Assessment</button>                      
+      </div>
 
-      <md-card class='header' *ngFor="let x of xheaders; let i = index" [ngStyle]="xheader(i+1)">
+      <md-card class='header' *ngFor="let y of yheaders; let i = index" [ngStyle]="xheader(i+1)">
         <md-card-subtitle>
+          <md-icon *ngIf="!y.locked">lock_open</md-icon>
+          <md-icon *ngIf="y.purpose==='descriptor'">description</md-icon>
+          <md-icon *ngIf="y.purpose==='qualifier'">swap_vert</md-icon>
           
+          <!-- <md-icon *ngIf="group.locked">lock</md-icon> -->
+          <button *ngIf="!y.locked" class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
+             <md-icon>more_vert</md-icon>
+          </button>        
         </md-card-subtitle>
 
         <md-card-title>
-          {{x.title}}
+          {{y.title}}
         </md-card-title>
 
-        <md-card-content>{{x.description}}</md-card-content>
+        <md-card-content>{{y.description}}</md-card-content>
 
-      <md-menu #menu="mdMenu">
-        <button md-menu-item> Settings </button>
-        <button md-menu-item> Help </button>
-      </md-menu>
+        <md-menu #appMenu="mdMenu">
+          <button md-menu-item (click)="removeYHeader(y.$key)"><md-icon>delete</md-icon></button>
+          <button md-menu-item (click)="openDialogEditHeader(y.$key, y.header)"><md-icon>edit</md-icon></button>
+          <button md-menu-item (click)="lockHeader(y.$key, y.header)"><md-icon>lock</md-icon></button>
+        </md-menu>
         
       </md-card>
 
       
 
-      <md-card class='header' *ngFor="let y of yheaders; let i = index" [ngStyle]="yheader(i+1)">
+      <md-card class='header' *ngFor="let x of xheaders; let i = index" [ngStyle]="yheader(i+1)">
         <md-card-subtitle>
+          <md-icon *ngIf="!x.locked">lock_open</md-icon>
+          <md-icon *ngIf="x.purpose==='descriptor'">description</md-icon>
+          <md-icon *ngIf="x.purpose==='qualifier'">swap_vert</md-icon>
           
+          <!-- <md-icon *ngIf="group.locked">lock</md-icon> -->
+          <button *ngIf="!x.locked" class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
+             <md-icon>more_vert</md-icon>
+          </button>        
         </md-card-subtitle>
-        <md-card-title>{{y.title}}</md-card-title>
-        <md-card-content>{{y.description}}</md-card-content>
+        <md-card-title>{{x.title}}</md-card-title>
+        <md-card-content>{{x.description}}</md-card-content>
+
+        <md-menu #appMenu="mdMenu">
+          <button md-menu-item (click)="removeXHeader(x.$key)"><md-icon>delete</md-icon></button>
+          <button md-menu-item (click)="openDialogEditHeader(x.$key, x.header)"><md-icon>edit</md-icon></button>
+          <button md-menu-item (click)="lockHeader(x.$key, x.header)"><md-icon>lock</md-icon></button>
+        </md-menu>
       </md-card>
 
 
@@ -58,13 +74,13 @@
              <md-icon>more_vert</md-icon>
           </button>        
         </md-card-subtitle>
-        <md-card-title>{{group.title}}</md-card-title>
+        <md-card-title *ngIf="group.title"> {{group.title}}</md-card-title>
         <md-card-content>{{group.description}}</md-card-content>
 
         <md-menu #appMenu="mdMenu">
-          <button md-menu-item (click)="removePiece(group.$key)"> Remove </button>
-          <button md-menu-item (click)="openDialogEditPiece(group.$key)">Edit</button>
-          <button md-menu-item (click)="lock(group.$key)">Lock</button>
+          <button md-menu-item (click)="removePiece(group.$key)"><md-icon>delete</md-icon></button>
+          <button md-menu-item (click)="openDialogEditPiece(group.$key)"><md-icon>edit</md-icon></button>
+          <button md-menu-item (click)="lockPiece(group.$key)"><md-icon>lock</md-icon></button>
         </md-menu>
 
         <md-card-actions *ngIf="group.locked">
