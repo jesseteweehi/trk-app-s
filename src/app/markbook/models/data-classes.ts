@@ -31,22 +31,20 @@ export class LearningAssessmentBlockModel {
 		public created: string,
 		public title: string,
 		public description: string,
-		public learningArea: string,
-		public learningLevel: string,
+		public parentKey: string,
 		public archived: boolean,
 		public locked: boolean,
 		){}
 	static fromJsonList(array): LearningAssessmentBlockModel[] {
 		return array.map( LearningAssessmentBlockModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, LearningLevel, archived, locked}): LearningAssessmentBlockModel {
+	static fromJson({$key, created, title, description, parentKey, archived, locked}): LearningAssessmentBlockModel {
 		return new LearningAssessmentBlockModel(
 			$key,
 			created,
 			title,
 			description,
-			learningArea,
-			LearningLevel,
+			parentKey,
 			archived,
 			locked
 			)

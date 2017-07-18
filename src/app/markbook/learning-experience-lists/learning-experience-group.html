@@ -1,7 +1,12 @@
-<button md-button (click)="openDialogGroup()">Create Assessment Group</button>
+<md-toolbar>
+<button md-icon-button (click)="openDialogGroup()"><md-icon>add</md-icon></button>
+<button md-icon-button (click)="normal()"><md-icon>folder</md-icon></button>
+<button md-icon-button (click)="showArchived()"><md-icon>archive</md-icon></button>
+</md-toolbar>
 
-<button md-button (click)="normal()">Normal</button>
-<button md-button (click)="showArchived()">Include Archived</button>
+
+
+
 
   <div class="wrapper">
 

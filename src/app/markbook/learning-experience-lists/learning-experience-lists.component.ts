@@ -31,6 +31,14 @@ import { LEStudentListBlockDialogComponent,
       top: 8px;
       right: 16px;
     }
+
+    .md-fab-bottom-right2 {
+        top: auto !important;
+        right: 20px !important;
+        bottom: 10px !important;
+        left: auto !important;
+        position: fixed !important;
+    }
   `]
 })
 
@@ -161,6 +169,14 @@ export class LearningExperienceGroupListComponent implements OnInit {
       position: absolute;
       top: 8px;
       right: 16px;
+    }
+
+    .md-fab-bottom-right2 {
+        top: auto !important;
+        right: 20px !important;
+        bottom: 10px !important;
+        left: auto !important;
+        position: fixed !important;
     }
   `]
 })

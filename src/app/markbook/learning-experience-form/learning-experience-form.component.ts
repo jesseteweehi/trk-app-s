@@ -322,12 +322,12 @@ export class HeaderFormCreateComponent implements OnInit {
     <form novalidate [formGroup]="form">
 
         <md-input-container class="example-full-width">
-           <input placeholder="Subject Code" type="text" mdInput formControlName="title">
+          <input placeholder="Subject Code" type="text" mdInput formControlName="title">
         </md-input-container>
 
-            <md-input-container class="example-full-width">
-               <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
-            </md-input-container>
+        <md-input-container class="example-full-width">
+          <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
+        </md-input-container>
     
     </form>  
   </div>
@@ -339,7 +339,6 @@ export class HeaderFormCreateComponent implements OnInit {
   styles:[]
 })
 export class LearningExperienceFormBlockComponent  {
-
   form: FormGroup;
 
     constructor(public dialogRef: MdDialogRef<LearningExperienceFormBlockComponent>,
@@ -400,7 +399,6 @@ export class LearningExperienceFormGroupComponent  {
           description: [''],
           learningArea: [''],
           learningLevel: ['']
-
         });
     }
 }
