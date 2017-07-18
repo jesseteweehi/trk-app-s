@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
@@ -13,27 +13,7 @@ import { LEStudentListBlockDialogComponent,
 
 @Component({
   selector: 'app-learning-experience-group-list',
-  template: 
-  `
-  <button md-button (click)="openDialogGroup()">Create Assessment Group</button>
-
-  <div class="wrapper">
-
-  <md-card class="grid-item" *ngFor="let group of groups">
-  	<md-card-title>{{group.title}}</md-card-title>
-  	<md-card-subtitle>{{group.learningArea}} | {{group.learningLevel}}</md-card-subtitle>
-  	<md-card-content>{{group.description}}</md-card-content>
-  	<md-card-actions>
-  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment Blocks</a>
-        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
-  	  </md-card-actions>
-  </md-card>
-
-  </div>
-
-  <router-outlet></router-outlet>
-
-  `,
+  templateUrl: './learning-experience-group.html',
   styles: [`
   	.wrapper {
   		display: grid;
@@ -45,12 +25,19 @@ import { LEStudentListBlockDialogComponent,
   	  grid-column: auto;
   	  grid-row: auto;
   	}
+
+    .right  {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+    }
   `]
 })
 
-export class LearningExperienceGroupListComponent implements OnInit {
-
+export class LearningExperienceGroupListComponent implements OnInit {  
+  filtered: LearningAssessmentGroupModel[];
 	groups: LearningAssessmentGroupModel[];
+  normalState: boolean = true;
 
   	constructor(
   		private ls: LearningExperienceService,
@@ -58,7 +45,68 @@ export class LearningExperienceGroupListComponent implements OnInit {
         public snackBar: MdSnackBar ) {}
 
     ngOnInit() {
-    	this.ls.findAllLearningExperienceGroups().subscribe(groups => this.groups = groups)
+    	this.ls.findAllLearningExperienceGroups().subscribe(groups => {
+        this.groups = this.filtered = groups;
+        if (this.normalState){this.normal()}
+      });
+     }
+      
+
+   
+    remove(key) {
+      this.ls.removeGroup(key).subscribe(
+           () => {
+               this.snackBar.open('Lesson Group Deleted','Awesome',{ duration:2000 })
+           },
+           err => { 
+               this.snackBar.open('Error Deleting Lesson Group ${err}','Bugger',{ duration:2000 })
+           });
+           if (!this.normalState) {
+             this.showArchived()
+           }
+    }
+
+    normal() {
+      this.filtered = this.groups.filter(group => !group.archived)
+      this.normalState=true
+    }
+
+    showArchived() {
+      this.filtered = this.groups
+      this.normalState=false
+    }
+
+    lock(key) {
+      this.ls.lockGroup(key).subscribe(
+           () => {
+               this.snackBar.open('Lesson Group Locked','Awesome',{ duration:2000 })
+           },
+           err => { 
+               this.snackBar.open('Error Locking Lesson Group ${err}','Bugger',{ duration:2000 })
+           }
+      );
+    }
+
+    archive(key) {  
+      this.ls.archiveGroup(key).subscribe(
+           () => {
+               this.snackBar.open('Lesson Group Archived','Awesome',{ duration:2000 })
+           },
+           err => { 
+               this.snackBar.open('Error Archiving Lesson Group ${err}','Bugger',{ duration:2000 })
+           }
+      );
+    }
+
+    unarchive(key) {    
+      this.ls.unarchiveGroup(key).subscribe(
+           () => {
+               this.snackBar.open('Lesson group unarchived','Awesome',{ duration:2000 })
+           },
+           err => { 
+               this.snackBar.open('Error unarchiving Lesson Group ${err}','Bugger',{ duration:2000 })
+           }
+      );
     }
 
     openDialogGroup() {
@@ -96,29 +144,7 @@ export class LearningExperienceGroupListComponent implements OnInit {
 
 @Component({
   selector: 'app-learning-experience-block-list',
-  template: 
-  `
- 
-
-  <button md-button (click)="openDialogBlock()">Create Assessment Block</button>
-
-  <div class="wrapper">
-
-  <md-card class="grid-item" *ngFor="let group of groups">
-  	<md-card-title>{{group.title}}</md-card-title>
-  	<md-card-subtitle>{{group.learningArea}} | {{group.learningLevel}}</md-card-subtitle>
-  	<md-card-content>{{group.description}}</md-card-content>
-  	<md-card-actions>
-  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessments</a>
-        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
-  	  </md-card-actions>
-  </md-card>
-
-  </div>
-
-  <router-outlet></router-outlet>
-
-  `,
+  templateUrl: './learning-experience-block.html',
   styles: [`
   	.wrapper {
   		display: grid;
@@ -130,14 +156,19 @@ export class LearningExperienceGroupListComponent implements OnInit {
   	  grid-column: auto;
   	  grid-row: auto;
   	}
+
+    .right  {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+    }
   `]
 })
 
 export class LearningExperienceBlockListComponent implements OnInit {
-
-
 	groups: LearningAssessmentBlockModel[];
 	groupId: string;
+  filter: boolean = false;
 
   	constructor(
   		private route: ActivatedRoute,
@@ -147,7 +178,47 @@ export class LearningExperienceBlockListComponent implements OnInit {
 
     ngOnInit() {
     	this.groupId = this.route.snapshot.params['groupid']
-    	this.ls.findBlocksForGroup(this.groupId).subscribe(groups => this.groups = groups);   	
+    	this.ls.findBlocksForGroup(this.groupId)
+      
+      .subscribe(groups => this.groups = groups);   	
+    }
+
+    normal() {
+      this.filter = false
+    }
+
+    lock(key) {
+      this.ls.lockBlock(key).subscribe(
+           () => {
+               this.snackBar.open('Lesson Block Locked','Awesome',{ duration:2000 })
+           },
+           err => { 
+               this.snackBar.open('Error Locking Lesson Block ${err}','Bugger',{ duration:2000 })
+           }
+      );
+    }
+
+    archive(key) {
+      console.log(key)
+      this.ls.archiveBlock(key).subscribe(
+           () => {
+               this.snackBar.open('Lesson Block Archived','Awesome',{ duration:2000 })
+           },
+           err => { 
+               this.snackBar.open('Error Archiving Lesson Block ${err}','Bugger',{ duration:2000 })
+           }
+      );
+    }
+
+    unarchive(key) {    
+      this.ls.unarchiveGroup(key).subscribe(
+           () => {
+               this.snackBar.open('Lesson Group unarchived','Awesome',{ duration:2000 })
+           },
+           err => { 
+               this.snackBar.open('Error unarchiving Lesson Group ${err}','Bugger',{ duration:2000 })
+           }
+      );
     }
 
     openDialogFindStudent(group) {

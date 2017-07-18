@@ -1,0 +1,30 @@
+<button md-button (click)="openDialogBlock()">Create Assessment Block</button>
+
+  <div class="wrapper">
+
+  <md-card class="grid-item" *ngFor="let group of groups">
+
+    <md-card-subtitle>{{group.learningArea}} | {{group.learningLevel}}
+    <button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
+       <md-icon>more_vert</md-icon>
+    </button>
+    </md-card-subtitle>
+
+  	<md-card-title>{{group.title}}</md-card-title>
+  	<md-card-content>{{group.description}}</md-card-content>
+  	<md-card-actions>
+  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessments</a>
+        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
+  	  </md-card-actions>
+
+  <md-menu #appMenu="mdMenu">
+    <button md-menu-item ><md-icon>edit</md-icon></button>
+    <button md-menu-item ><md-icon>lock</md-icon></button>
+    <button md-menu-item *ngIf="group.archived" (click)="archive(group.$key)"><md-icon>archive</md-icon></button>
+    <button md-menu-item *ngIf="group.archived" (click)="unarchive(group.$key)"><md-icon>unarchive</md-icon></button>
+  </md-menu>
+
+  </md-card>
+  </div>
+
+  <router-outlet></router-outlet>

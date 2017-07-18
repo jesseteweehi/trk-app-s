@@ -41,15 +41,50 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave)
     }
 
+    lockGroup(groupKey:string){
+        let dataToSave = {};
+        dataToSave[`learningExperienceGroup/${groupKey}/locked`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    lockBlock(blockKey:string){
+            let dataToSave = {};
+            dataToSave[`learningExperienceBlock/${blockKey}/lock`] = true
+            return this.firebaseUpdate(dataToSave)
+    }
+
+    removeGroup(groupKey): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceGroup/${groupKey}`] = null
+        return this.firebaseUpdate(dataToSave)
+    }
+    removeBlock(groupBlock): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceBlock/${groupBlock}`] = null
+        return this.firebaseUpdate(dataToSave)
+    }
+
     archiveGroup(groupKey): Observable<any> {
         let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}/archive`] = true
+        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    unarchiveGroup(groupKey): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = false
         return this.firebaseUpdate(dataToSave)
     }
 
     archiveBlock(blockKey): Observable<any> {
         let dataToSave = {};
-        dataToSave[`learningExperienceBlock/${blockKey}/archive`] = true
+        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    unarchiveBlock(blockKey): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = false
         return this.firebaseUpdate(dataToSave)
     }
 
@@ -111,18 +146,14 @@ export class LearningExperienceService {
     }
 
     findAllLearningExperienceGroups():Observable<LearningAssessmentGroupModel[]> {
-
         return this.db.list('learningExperienceGroup')
             .map(LearningAssessmentGroupModel.fromJsonList);
 
     }
 
     findAllLearningExperienceBlocks ():Observable<LearningAssessmentBlockModel[]> {
-
         return this.db.list('learningExperienceBlock')
-            .do(console.log)
-            .map(LearningAssessmentGroupModel.fromJsonList);
-
+            .map(LearningAssessmentBlockModel.fromJsonList);
     }
 
     createHeadingUnderBlock(blockKey: string, header:any): Observable<any> {

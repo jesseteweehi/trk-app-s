@@ -4,7 +4,7 @@ export class LearningAssessmentPieceModel {
 		public created: string,
 		public title: string,
 		public description: string,
-		public locked: Boolean,
+		public locked: boolean,
 		public xheader: string,
 		public yheader: string
 		){}
@@ -33,13 +33,13 @@ export class LearningAssessmentBlockModel {
 		public description: string,
 		public learningArea: string,
 		public learningLevel: string,
-
-
+		public archived: boolean,
+		public locked: boolean,
 		){}
 	static fromJsonList(array): LearningAssessmentBlockModel[] {
 		return array.map( LearningAssessmentBlockModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, LearningLevel}): LearningAssessmentBlockModel {
+	static fromJson({$key, created, title, description, learningArea, LearningLevel, archived, locked}): LearningAssessmentBlockModel {
 		return new LearningAssessmentBlockModel(
 			$key,
 			created,
@@ -47,6 +47,8 @@ export class LearningAssessmentBlockModel {
 			description,
 			learningArea,
 			LearningLevel,
+			archived,
+			locked
 			)
 		}
 	}
@@ -59,12 +61,13 @@ export class LearningAssessmentGroupModel {
 		public description: string,
 		public learningArea: string,
 		public learningLevel: string,
-		public archive: boolean
+		public archived: boolean,
+		public locked: boolean,
 		){}
 	static fromJsonList(array): LearningAssessmentGroupModel[] {
 		return array.map( LearningAssessmentGroupModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, learningLevel, archive}): LearningAssessmentGroupModel {
+	static fromJson({$key, created, title, description, learningArea, learningLevel, archived, locked }): LearningAssessmentGroupModel {
 		return new LearningAssessmentGroupModel(
 			$key,
 			created,
@@ -72,7 +75,8 @@ export class LearningAssessmentGroupModel {
 			description,
 			learningArea,
 			learningLevel,
-			archive
+			archived,
+			locked
 			)
 		}
 	}

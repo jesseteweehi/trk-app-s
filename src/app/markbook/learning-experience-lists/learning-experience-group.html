@@ -1,0 +1,45 @@
+<button md-button (click)="openDialogGroup()">Create Assessment Group</button>
+
+<button md-button (click)="normal()">Normal</button>
+<button md-button (click)="showArchived()">Include Archived</button>
+
+  <div class="wrapper">
+
+
+  <md-card class="grid-item" *ngFor="let group of filtered">
+
+    <md-card-subtitle> <md-icon *ngIf="group.archived">archive</md-icon>
+    <br>
+    {{group.learningArea}} | {{group.learningLevel}}
+    
+    <button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
+       <md-icon>more_vert</md-icon>
+    </button>  
+    </md-card-subtitle>
+
+  	<md-card-title>{{group.title}}</md-card-title>
+
+  	<md-card-content>{{group.description}}</md-card-content>
+
+  	<md-card-actions *ngIf="group.locked">
+  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment Blocks</a>
+        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
+  	  </md-card-actions>
+
+  <md-menu #appMenu="mdMenu">
+    <button md-menu-item *ngIf="!group.locked" (click)="remove(group.$key)"><md-icon>delete</md-icon></button>
+    <button md-menu-item *ngIf="!group.locked" ><md-icon>edit</md-icon></button>
+    <button md-menu-item *ngIf="!group.locked" (click)="lock(group.$key)"><md-icon>lock</md-icon></button>
+    
+    <button md-menu-item *ngIf="!group.archived&&group.locked" (click)="archive(group.$key)"><md-icon>archive</md-icon></button>
+
+    <button md-menu-item *ngIf="group.archived&&group.locked" (click)="unarchive(group.$key)"><md-icon>unarchive</md-icon></button>
+  </md-menu>
+
+  </md-card>
+
+
+
+  </div>
+
+  <router-outlet></router-outlet>

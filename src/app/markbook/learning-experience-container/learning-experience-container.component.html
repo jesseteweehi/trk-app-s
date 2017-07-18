@@ -2,10 +2,9 @@
 <div class="wrapper" [ngStyle]="template()">
 
       <div class="blank">
-        <br> 
-          <button md-raised-button color="primary" (click)="openDialogHeader()">Create Header</button>
-          <p></p>   
-          <button  md-raised-button color="primary" (click)="openDialogCreatePiece()">Create Assessment</button>                      
+            <button md-raised-button color="primary" (click)="openDialogHeader()">Create Header</button>
+            <p></p>   
+            <button  md-raised-button color="primary" (click)="openDialogCreatePiece()">Create Assessment</button>                                               
       </div>
 
       <md-card class='header' *ngFor="let y of yheaders; let i = index" [ngStyle]="xheader(i+1)">
