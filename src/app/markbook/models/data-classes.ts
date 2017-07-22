@@ -1,3 +1,47 @@
+export class LearningLevelModel {
+	constructor(
+		public $key: string,
+		public create: string,
+		public title: string,
+		public description: string,
+		public level: string,
+		public qualifier: string,
+		){}
+	static fromJsonList(array): LearningLevelModel[] {
+		return array.map(LearningLevelModel.fromJson);
+	}
+
+	static fromJson({$key, created, title, description, level, qualifier}): LearningLevelModel{
+		return new LearningLevelModel(
+			$key,
+			created,
+			title,
+			description,
+			level,
+			qualifier
+			);
+	}
+}
+
+export class LearningAreaModel {
+	constructor(
+		public $key: string,
+		public created: string,
+		public title: string,
+		public description: string
+		){}
+	static  fromJsonList(array): LearningAreaModel[] {
+		return array.map(LearningAreaModel.fromJson);
+	}
+	static fromJson({$key, created, title, description }): LearningAreaModel {
+		return new LearningAreaModel(
+			$key,
+			created,
+			title,
+			description)
+	}
+}
+
 export class LearningAssessmentPieceModel {
 	constructor(
 		public $key: string,

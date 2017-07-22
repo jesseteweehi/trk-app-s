@@ -4,7 +4,9 @@ import {
     LearningAssessmentPieceModel,
     LearningAssessmentGroupModel,
     LearningAssessmentBlockModel,
-    LearningAssessmentHeaderModel} from '../models/data-classes'
+    LearningAssessmentHeaderModel,
+    LearningAreaModel,
+    LearningLevelModel} from '../models/data-classes'
 
 import { StudentModel } from '../../students/models/data-classes';
 
@@ -193,6 +195,7 @@ export class LearningExperienceService {
         const formToSave = Object.assign({}, form); 
         let dataToSave = {};
         dataToSave[`header/${blockKey}/${axis}/${headerKey}/`] = formToSave
+
         return this.firebaseUpdate(dataToSave)
     }
 
@@ -247,6 +250,45 @@ export class LearningExperienceService {
             return this.db.object(`learningExperienceGroup/${blockKey}}`)
                 .map(LearningAssessmentBlockModel.fromJson)
         }
+    
+    createLearningArea(form:any): Observable<any> {
+        const areaToSave = Object.assign({}, form);
+        const key = this.sdkDb.child('learningArea').push().key;
+        let dataToSave = {};
+        dataToSave['learningArea' + key] = areaToSave;
+
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    findLearningAreaByKey(key:string): Observable<LearningAreaModel> {
+        return this.db.object(`learningArea/${key}`)
+            .map(LearningAreaModel.fromJson)
+    }
+
+    findAllLearningAreas(): Observable<LearningAreaModel[]> {
+        return this.db.list('learningArea')
+            .map(LearningAreaModel.fromJsonList)
+    }
+
+    createLearningLevel(form:any): Observable<any> {
+        const levelToSave = Object.assign({}, form);
+        const key = this.sdkDb.child('learningLevel').push().key;
+        let dataToSave = {};
+        dataToSave['learningLevel' + key] = levelToSave;
+
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    findLearningLevelByKey(key:string): Observable<LearningLevelModel> {
+        return this.db.object(`learningLevel/${key}`)
+            .map(LearningLevelModel.fromJson)
+    }
+
+    findAllLearningLevels(): Observable<LearningLevelModel[]> {
+        return this.db.list('learningLevel')
+            .map(LearningLevelModel.fromJsonList);
+
+    }
     
 
     //////////////////////////////// JOINS ////////////////////////////
