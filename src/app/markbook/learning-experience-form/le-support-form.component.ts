@@ -70,7 +70,7 @@ export class LearningLevelFormComponent {
   <form novalidate [formGroup]="form">
     <app-learning-level-form
     [formGroup]="form"
-    [heading]="heading"
+    [heading]="heading">
     </app-learning-level-form>
      <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
   </form>
@@ -113,7 +113,7 @@ export class LearningLevelCreateFormComponent implements OnInit {
   <form novalidate [formGroup]="form">
     <app-learning-level-form
     [formGroup]="form"
-    [heading]="heading"
+    [heading]="heading">
     </app-learning-level-form>
      <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
   </form>	
@@ -200,7 +200,7 @@ export class LearningAreaFormComponent {
   `
   <form novalidate [formGroup]="form">
     <app-learning-area-form
-    [formGroup]="form"
+    [formGroup]="form">
     </app-learning-area-form>
      <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
   </form>
@@ -241,7 +241,7 @@ export class LearningAreaCreateFormComponent implements OnInit {
 	`
   <form novalidate [formGroup]="form">
     <app-learning-area-form
-    [formGroup]="form"
+    [formGroup]="form">
     </app-learning-area-form>
      <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
   </form>

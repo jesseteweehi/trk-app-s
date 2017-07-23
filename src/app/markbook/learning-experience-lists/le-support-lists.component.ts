@@ -9,7 +9,7 @@ import { LearningLevelModel,
 	`
 	<md-list>
 	 	<md-list-item *ngFor="let level of levels">
-	 		<h3 md-line>{{level.level | level.qualifier}}</h3>
+	 		<h3 md-line>{{level.level}} | {{level.qualifier}}</h3>
 	 			<p md-line>
 	 				{{level.title}}
 	 			</p>
@@ -52,7 +52,7 @@ export class learningLevelListComponent implements OnInit {
 	`]
 })
 
-export class learningAreaListComponnt implements OnInit {
+export class learningAreaListComponent implements OnInit {
 	areas: LearningAreaModel[]
 	
 	constructor(private ls:LearningExperienceService) {}

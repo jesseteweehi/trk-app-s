@@ -10,6 +10,13 @@ import { LearningAssessmentGroupModel, LearningAssessmentBlockModel } from '../m
 import { LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
 
+import { LearningLevelListDialogComponent,
+        LearningAreaListDialogComponent,
+        LearningLevelCreateDialogComponent,
+        LearningLevelEditDialogComponent,
+        LearningAreaCreateDialogComponent,
+        LearningAreaEditDialogComponent} from '../learning-experience-dialogs/le-support-dialog-forms-lists.component';
+
 
 @Component({
   selector: 'app-learning-experience-group-list',
@@ -117,12 +124,54 @@ export class LearningExperienceGroupListComponent implements OnInit {
       );
     }
 
+    openLearningLevelList() {
+    let dialogRef = this.dialog.open(LearningLevelListDialogComponent);
+    dialogRef.afterClosed().subscribe(result => console.log(result));
+    }
+
+    openLearningAreaList() {
+    let dialogRef = this.dialog.open(LearningAreaListDialogComponent);
+    dialogRef.afterClosed().subscribe(result => console.log(result));
+    }
+
+    createLearningLevel() {
+    let dialogRef = this.dialog.open(LearningLevelCreateDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+        if(result)
+        {this.ls.createLearningLevel(result.value).subscribe(
+                        () => {
+                                this.snackBar.open('Lesson Level Saved','Awesome',{ duration:2000 })
+                            },
+                            err => { 
+                                this.snackBar.open('Error Saving Lesson Level ${err}','Bugger',{ duration:2000 })
+                            }
+                        );
+                }});
+    }
+
+    createLearningArea() {
+    let dialogRef = this.dialog.open(LearningAreaCreateDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+        if(result)
+        {this.ls.createLearningArea(result.value).subscribe(
+                        () => {
+                                this.snackBar.open('Lesson Area Saved','Awesome',{ duration:2000 })
+                            },
+                            err => { 
+                                this.snackBar.open('Error Saving Lesson Area ${err}','Bugger',{ duration:2000 })
+                            }
+                        );
+                }});
+    }
+
     openDialogGroup() {
     let dialogRef = this.dialog.open(LearningExperienceFormGroupComponent);
     dialogRef.afterClosed().subscribe(result => {
     	this.firebaseLearningExperienceGroup(result)
         });
     }
+
+
 
     openDialogFindStudent(group) {
     let dialogRef = this.dialog.open(LEStudentListGroupDialogComponent, {

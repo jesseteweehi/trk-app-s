@@ -15,6 +15,24 @@ import { AutofocusDirective } from './models/custom-directives';
 
 import { LearningExperienceService } from './models/learning-experience.service';
 
+import { LearningLevelListDialogComponent,
+         LearningAreaListDialogComponent,
+         LearningLevelCreateDialogComponent,
+         LearningLevelEditDialogComponent,
+         LearningAreaCreateDialogComponent,
+         LearningAreaEditDialogComponent} from './learning-experience-dialogs/le-support-dialog-forms-lists.component';
+
+import { learningLevelListComponent,
+         learningAreaListComponent} from './learning-experience-lists/le-support-lists.component';
+
+import { LearningLevelFormComponent,
+         LearningLevelCreateFormComponent,
+         LearningLevelEditFormComponent,
+         LearningAreaFormComponent,
+         LearningAreaCreateFormComponent,
+         LearningAreaEditFormComponent
+         } from  './learning-experience-form/le-support-form.component';
+
 import { LearningExperienceFormPieceComponent, 
          LearningExperienceCreatePieceComponent, 
          LearningExperienceEditPieceComponent, 
@@ -81,6 +99,27 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent,
+
+  // Learning Support Lists
+  learningLevelListComponent,
+  learningAreaListComponent,
+
+  // Learning Support Forms
+  LearningLevelFormComponent,
+  LearningLevelCreateFormComponent,
+  LearningLevelEditFormComponent,
+  LearningAreaFormComponent,
+  LearningAreaCreateFormComponent,
+  LearningAreaEditFormComponent,
+
+  // Learning Support Dialogs
+  LearningLevelListDialogComponent,
+  LearningAreaListDialogComponent,
+  LearningLevelCreateDialogComponent,
+  LearningLevelEditDialogComponent,
+  LearningAreaCreateDialogComponent,
+  LearningAreaEditDialogComponent,
+  
   AutofocusDirective
   ],
   
@@ -98,7 +137,16 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   HeaderEditDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
-  LEStudentListGroupDialogComponent]
+  LEStudentListGroupDialogComponent,
+
+  // Learning Support Dialogs
+  LearningLevelListDialogComponent,
+  LearningAreaListDialogComponent,
+  LearningLevelCreateDialogComponent,
+  LearningLevelEditDialogComponent,
+  LearningAreaCreateDialogComponent,
+  LearningAreaEditDialogComponent
+  ]
 
 })
 export class MarkbookModule { }

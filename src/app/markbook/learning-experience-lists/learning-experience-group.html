@@ -1,8 +1,29 @@
 <md-toolbar>
-<button md-icon-button (click)="openDialogGroup()"><md-icon>add</md-icon></button>
+<button md-icon-button [mdMenuTriggerFor]="appMenu"> <md-icon>info</md-icon></button>
+
+<md-menu #appMenu="mdMenu">
+  <button md-menu-item (click)="openLearningLevelList()"><md-icon>info</md-icon>Learning Levels</button>
+  <button md-menu-item (click)="openLearningAreaList()"><md-icon>info</md-icon>Learning Areas</button>
+</md-menu>
+
+<button md-icon-button [mdMenuTriggerFor]="addMenu"> <md-icon>add</md-icon></button>
+
+<md-menu #addMenu="mdMenu">
+  <button md-menu-item (click)="openDialogGroup()"><md-icon>add</md-icon>Group</button>
+  <button md-menu-item (click)="createLearningLevel()"><md-icon>add</md-icon>Learning Level</button>
+  <button md-menu-item (click)="createLearningArea()"><md-icon>add</md-icon>Learning Area</button>
+</md-menu>
+
 <button md-icon-button (click)="normal()"><md-icon>folder</md-icon></button>
 <button md-icon-button (click)="showArchived()"><md-icon>archive</md-icon></button>
+
 </md-toolbar>
+
+
+
+
+
+
 
 
 

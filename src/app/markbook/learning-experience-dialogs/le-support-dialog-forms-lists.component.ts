@@ -64,8 +64,8 @@ export class LearningAreaListDialogComponent implements OnInit {
 	template:
 	`
 	<app-learning-level-create-form
-	(formToSend)="handleForm($event)"
-	></app-learning-level-create-form>
+	(formToSend)="handleForm($event)">
+	</app-learning-level-create-form>
 	`
 })
 
@@ -86,8 +86,8 @@ export class LearningLevelCreateDialogComponent {
 	`
 	<app-learning-level-edit-form
 	(formToSend)="handleForm($event)"
-	[key]="data.key"
-	></app-learning-level-create-form>
+	[key]="data.key">
+	</app-learning-level-edit-form>
 	`
 })
 
@@ -107,8 +107,8 @@ export class LearningLevelEditDialogComponent {
 	template:
 	`
 	<app-learning-area-create-form
-	(formToSend)="handleForm($event)"
-	></app-learning-area-create-form>
+	(formToSend)="handleForm($event)">
+	</app-learning-area-create-form>
 	`
 })
 
@@ -129,8 +129,8 @@ export class LearningAreaCreateDialogComponent {
 	`
 	<app-learning-area-edit-form
 	(formToSend)="handleForm($event)"
-	[key]="data.key"
-	></app-learning-area-create-form>
+	[key]="data.key">
+	></app-learning-area-edit-form>
 	`
 })
 
