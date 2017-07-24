@@ -31,73 +31,7 @@ export class LearningExperienceService {
     	this.sdkDb = this.fb.database().ref();	
     }
 
-    lockLearningPiece(pieceKey:string): Observable<any> {
-        let dataToSave = {};
-        dataToSave["learningExperiencePiece/" + pieceKey +'/' + 'locked'] = true;
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    lockHeader(blockKey:string, axis:string, headerKey:string): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`header/${blockKey}/${axis}/${headerKey}/locked`] = true
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    lockGroup(groupKey:string){
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}/locked`] = true
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    lockBlock(blockKey:string){
-            let dataToSave = {};
-            dataToSave[`learningExperienceBlock/${blockKey}/lock`] = true
-            return this.firebaseUpdate(dataToSave)
-    }
-
-    removeGroup(groupKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}`] = null
-        return this.firebaseUpdate(dataToSave)
-    }
-    removeBlock(groupBlock): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceBlock/${groupBlock}`] = null
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    archiveGroup(groupKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = true
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    unarchiveGroup(groupKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = false
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    archiveBlock(blockKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = true
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    unarchiveBlock(blockKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = false
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    findLearningPiecesForStudent(studentKey:string): Observable<any[]> {
-        return this.db.list(`studentLearning/${studentKey}`)
-    }
-
-    findLearningPieceForKey(lpKey:string): Observable<LearningAssessmentPieceModel> {
-        return this.db.object(`learningExperiencePiece/${lpKey}`)
-            .map(LearningAssessmentPieceModel.fromJson)
-    }
+    /////// Student Placement for Learning Piece /////////
 
     findStudentKeysForLearningPiece(studentsKeys$: Observable<any[]>) : Observable<any> {
         return studentsKeys$
@@ -134,23 +68,22 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave)
     }
 
-    updateTemplateTitle(learningBlock:string, header:string, title:string) {
-        const item$ = this.db.object('blocktemplate/' + learningBlock + '/' + header + '/')
-        item$.update({ title: title})
+    //////////// Learning Piece Container /////////////////////
+
+    //Headers//
+
+    findHeaderUnderBlock(blockKey:string, axis:string, headerKey:string): Observable<any> {
+        return this.db.object(`header/${blockKey}/${axis}/${headerKey}`)
+            .map(LearningAssessmentHeaderModel.fromJson)
     }
 
+  
     findXHeadersForBlocks(blockKey:string): Observable<any> {
         return this.db.list('header/' + blockKey + '/x')
     }
 
     findYHeadersForBlocks(blockKey:string): Observable<any> {
         return this.db.list('header/' + blockKey + '/y')
-    }
-
-    findAllLearningExperienceGroups():Observable<LearningAssessmentGroupModel[]> {
-        return this.db.list('learningExperienceGroup')
-            .map(LearningAssessmentGroupModel.fromJsonList);
-
     }
 
     createHeadingUnderBlock(blockKey: string, header:any): Observable<any> {
@@ -167,9 +100,41 @@ export class LearningExperienceService {
 
     }
 
-    findHeaderUnderBlock(blockKey:string, axis:string, headerKey:string): Observable<any> {
-        return this.db.object(`header/${blockKey}/${axis}/${headerKey}`)
-            .map(LearningAssessmentHeaderModel.fromJson)
+    editHeader(blockKey:string, axis:string, headerKey:string, form:any): Observable<any> {
+        const formToSave = Object.assign({}, form); 
+        let dataToSave = {};
+        dataToSave[`header/${blockKey}/${axis}/${headerKey}/`] = formToSave
+
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    removeXHeaderUnderBlock(blockKey: string, headerKey:any): Observable<any> {      
+        let dataToSave = {};
+        dataToSave["header/" + blockKey + "/x/"  + headerKey] = null
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    removeYHeaderUnderBlock(blockKey: string, headerKey:any): Observable<any> {      
+        let dataToSave = {};
+        dataToSave["header/" + blockKey + "/y/"  + headerKey] = null
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    lockHeader(blockKey:string, axis:string, headerKey:string): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`header/${blockKey}/${axis}/${headerKey}/locked`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    //Learning Piece//
+   
+    findLearningPiecesForStudent(studentKey:string): Observable<any[]> {
+        return this.db.list(`studentLearning/${studentKey}`)
+    }
+
+    findLearningPieceForKey(lpKey:string): Observable<LearningAssessmentPieceModel> {
+        return this.db.object(`learningExperiencePiece/${lpKey}`)
+            .map(LearningAssessmentPieceModel.fromJson)
     }
 
     createNewLearningExperiencePieceUnderBlock(blockKey: string, le:any): Observable<any> {
@@ -191,14 +156,6 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave);
     }
 
-    editHeader(blockKey:string, axis:string, headerKey:string, form:any): Observable<any> {
-        const formToSave = Object.assign({}, form); 
-        let dataToSave = {};
-        dataToSave[`header/${blockKey}/${axis}/${headerKey}/`] = formToSave
-
-        return this.firebaseUpdate(dataToSave)
-    }
-
     removeLearningExperiencePieceUnderBlock(blockKey: string, pieceKey:any): Observable<any> {      
         let dataToSave = {};
         dataToSave["learningExperiencePiece/" + pieceKey] = null;
@@ -207,17 +164,29 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave);
     }
 
-    removeXHeaderUnderBlock(blockKey: string, headerKey:any): Observable<any> {      
+    lockLearningPiece(pieceKey:string): Observable<any> {
         let dataToSave = {};
-        dataToSave["header/" + blockKey + "/x/"  + headerKey] = null
-        return this.firebaseUpdate(dataToSave);
+        dataToSave["learningExperiencePiece/" + pieceKey +'/' + 'locked'] = true;
+        return this.firebaseUpdate(dataToSave)
+    }   
+
+    /////////// Learning Group and Block ///////////////
+
+    findAllLearningExperienceGroups():Observable<LearningAssessmentGroupModel[]> {
+        return this.db.list('learningExperienceGroup')
+            .map(LearningAssessmentGroupModel.fromJsonList);
+
     }
 
-    removeYHeaderUnderBlock(blockKey: string, headerKey:any): Observable<any> {      
-        let dataToSave = {};
-        dataToSave["header/" + blockKey + "/y/"  + headerKey] = null
-        return this.firebaseUpdate(dataToSave);
-    }
+    findGroupForKey(groupKey:string): Observable<LearningAssessmentGroupModel> {
+            return this.db.object(`learningExperienceGroup/${groupKey}}`)
+                .map(LearningAssessmentGroupModel.fromJson)
+        }
+
+    findblockForKey(blockKey:string): Observable<LearningAssessmentBlockModel> {
+            return this.db.object(`learningExperienceGroup/${blockKey}}`)
+                .map(LearningAssessmentBlockModel.fromJson)
+        }
 
     createNewLearningExperienceBlockUnderGroup(groupKey: string, le:any): Observable<any> {
         
@@ -241,23 +210,66 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave);
         }
 
-    findGroupForKey(groupKey:string): Observable<LearningAssessmentGroupModel> {
-            return this.db.object(`learningExperienceGroup/${groupKey}}`)
-                .map(LearningAssessmentGroupModel.fromJson)
-        }
 
-    findblockForKey(blockKey:string): Observable<LearningAssessmentBlockModel> {
-            return this.db.object(`learningExperienceGroup/${blockKey}}`)
-                .map(LearningAssessmentBlockModel.fromJson)
-        }
-    
-    createLearningArea(form:any): Observable<any> {
-        const areaToSave = Object.assign({}, form);
-        const key = this.sdkDb.child('learningArea').push().key;
+    removeGroup(groupKey): Observable<any> {
         let dataToSave = {};
-        dataToSave['learningArea' + key] = areaToSave;
+        dataToSave[`learningExperienceGroup/${groupKey}`] = null
+        return this.firebaseUpdate(dataToSave)
+    }
+    removeBlock(groupBlock): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceBlock/${groupBlock}`] = null
+        return this.firebaseUpdate(dataToSave)
+    }
 
-        return this.firebaseUpdate(dataToSave);
+    lockGroup(groupKey:string){
+        let dataToSave = {};
+        dataToSave[`learningExperienceGroup/${groupKey}/locked`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    lockBlock(blockKey:string){
+            let dataToSave = {};
+            dataToSave[`learningExperienceBlock/${blockKey}/lock`] = true
+            return this.firebaseUpdate(dataToSave)
+    }
+
+    archiveGroup(groupKey): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    unarchiveGroup(groupKey): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = false
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    archiveBlock(blockKey): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    unarchiveBlock(blockKey): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = false
+        return this.firebaseUpdate(dataToSave)
+    }
+
+   
+    //////////////// Learning Support ///////////////////////////
+    
+    findLearningLevelByKey(key:string): Observable<LearningLevelModel> {
+        return this.db.object(`learningLevel/${key}`)
+            .map(LearningLevelModel.fromJson)
+    }
+
+    findAllLearningLevels(): Observable<LearningLevelModel[]> {
+        return this.db.list('learningLevel')
+            .map(LearningLevelModel.fromJsonList);
+
     }
 
     findLearningAreaByKey(key:string): Observable<LearningAreaModel> {
@@ -274,24 +286,74 @@ export class LearningExperienceService {
         const levelToSave = Object.assign({}, form);
         const key = this.sdkDb.child('learningLevel').push().key;
         let dataToSave = {};
-        dataToSave['learningLevel' + key] = levelToSave;
+        dataToSave['learningLevel/' + key] = levelToSave;
 
         return this.firebaseUpdate(dataToSave);
     }
 
-    findLearningLevelByKey(key:string): Observable<LearningLevelModel> {
-        return this.db.object(`learningLevel/${key}`)
-            .map(LearningLevelModel.fromJson)
+    createLearningArea(form:any): Observable<any> {
+        const areaToSave = Object.assign({}, form);
+        const key = this.sdkDb.child('learningArea').push().key;
+        let dataToSave = {};
+        dataToSave['learningArea/' + key] = areaToSave;
+
+        return this.firebaseUpdate(dataToSave);
+    } 
+
+    removeLearningLevelByKey(key:string): Observable<any> {
+        let dataToSave = {};
+        dataToSave['learningLevel/' + key] = null;
+        return this.firebaseUpdate(dataToSave)
     }
 
-    findAllLearningLevels(): Observable<LearningLevelModel[]> {
-        return this.db.list('learningLevel')
-            .map(LearningLevelModel.fromJsonList);
-
+    removeLearningAreaByKey(key:string): Observable<any> {
+        let dataToSave = {};
+        dataToSave['learningArea/' + key] = null;
+        return this.firebaseUpdate(dataToSave)
     }
+
+    archiveLearninglevel(key): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningLevel/${key}/archived`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    archiveLearningArea(key): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningArea/${key}/archived`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    unarchiveLearninglevel(key): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningLevel/${key}/archived`] = false
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    unarchiveLearningArea(key): Observable<any> {
+        let dataToSave = {};
+        dataToSave[`learningArea/${key}/archived`] = false
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    lockLearninglevel(key:string){
+        let dataToSave = {};
+        dataToSave[`learningLevel/${key}/locked`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    lockLearningArea(key:string){
+        let dataToSave = {};
+        dataToSave[`learningArea/${key}/locked`] = true
+        return this.firebaseUpdate(dataToSave)
+    }
+
+   
     
 
     //////////////////////////////// JOINS ////////////////////////////
+
+    // Blocks for Groups //
 
     findBlockKeysForGroups(blockKeys$: Observable<any[]>) : Observable<any> {
         return blockKeys$
@@ -305,6 +367,8 @@ export class LearningExperienceService {
             .map(LearningAssessmentBlockModel.fromJsonList)
     }
 
+    // Pieces for Blocks //
+
     findPieceKeysForBlock(pieceKeys$: Observable<any[]>) : Observable<any> {
         return pieceKeys$
             .map(ppb => ppb.map(pieceKey => this.db.object('learningExperiencePiece/' + pieceKey.$key)))
@@ -317,7 +381,7 @@ export class LearningExperienceService {
             .map(LearningAssessmentPieceModel.fromJsonList)
     }
 
-
+    // Update // 
 
     firebaseUpdate(dataToSave) {
         const subject = new Subject();

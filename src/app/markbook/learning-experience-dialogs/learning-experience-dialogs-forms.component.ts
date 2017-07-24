@@ -98,4 +98,105 @@ export class HeaderEditDialogComponent {
 	}
 }
 
+@Component({
+	selector: 'group-formcreate-dialog',
+	template:
+	`
+	<app-learning-group-create
+	(formToSend)="handleForm($event)"
+	></app-learning-group-create>	
+	`,
+	styles:[`
+
+	`]
+})
+
+export class GroupCreateDialogComponent {
+	
+	constructor(public dialogRef: MdDialogRef<GroupCreateDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
+	selector: 'group-formedit-dialog',
+	template:
+	`
+	<app-learning-group-edit
+	(formToSend)="handleForm($event)"
+	[key]="data.key"
+	></app-learning-group-edit>	
+	`,
+	styles:[`
+
+	`]
+})
+
+export class GroupEditDialogComponent {
+	
+	constructor(public dialogRef: MdDialogRef<GroupCreateDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
+	selector: 'block-formcreate-dialog',
+	template:
+	`
+	<app-learning-block-create
+	(formToSend)="handleForm($event)"
+	></app-learning-block-create>
+	
+	`,
+	styles:[`
+
+	`]
+})
+
+export class BlockCreateDialogComponent {
+	
+	constructor(public dialogRef: MdDialogRef<BlockCreateDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
+	selector: 'block-formedit-dialog',
+	template:
+	`
+	<app-learning-block-edit
+	(formToSend)="handleForm($event)"
+	[key]="data.key"
+	></app-learning-block-edit>
+	
+	`,
+	styles:[`
+
+	`]
+})
+
+export class BlockEditDialogComponent {
+	
+	constructor(public dialogRef: MdDialogRef<BlockEditDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+
 

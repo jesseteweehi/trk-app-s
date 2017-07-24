@@ -4,6 +4,8 @@ import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
 import { 
     LearningAssessmentPieceModel,
+    LearningAreaModel,
+    LearningLevelModel
     } from '../models/data-classes'
 
 // Learning Experience Piece Common Form
@@ -46,8 +48,6 @@ import {
   `]
 })
 
-
-
 export class LearningExperienceFormPieceComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() heading: string;
@@ -71,7 +71,6 @@ export class LearningExperienceFormPieceComponent implements OnInit {
        })
       });
   }
-
 }
 
 //Learning Experience Piece Create Form
@@ -126,7 +125,7 @@ export class LearningExperienceCreatePieceComponent implements OnInit {
   `
 })
 
-  export class LearningExperienceEditPieceComponent implements OnInit {
+export class LearningExperienceEditPieceComponent implements OnInit {
     @Output() formToSend = new EventEmitter();
     @Input() key: string;
     @Input() blockId: string;
@@ -263,7 +262,7 @@ export class HeaderFormCreateComponent implements OnInit {
   `
 })
 
-  export class HeaderFormEditComponent implements OnInit {
+export class HeaderFormEditComponent implements OnInit {
     @Output() formToSend = new EventEmitter();
     @Input() blockId;
     @Input() key: string;
@@ -300,108 +299,280 @@ export class HeaderFormCreateComponent implements OnInit {
     save(form){
       this.formToSend.emit(form)
     }
-
 }
 
-
-
-
-
-
-
-
-
-
+// Block Common Form
 @Component({
-  selector: 'app-learning-experience-block-form',
-  template: 
+  selector: 'app-learning-block-form',
+  template:
   `
-  <h1 md-dialog-title>Create Assessment Block </h1>
-  <div md-dialog-content>
+  <h1>{{heading}}</h1>
 
-    <form novalidate [formGroup]="form">
+    <div [formGroup]="formGroup">
 
-        <md-input-container class="example-full-width">
-          <input placeholder="Subject Code" type="text" mdInput formControlName="title">
-        </md-input-container>
+      <md-input-container class="example-full-width">
+        <input placeholder="Block Title" type="text" mdInput formControlName="title">
+      </md-input-container>
 
-        <md-input-container class="example-full-width">
-          <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
-        </md-input-container>
-    
-    </form>  
-  </div>
-  <div md-dialog-actions>
-       <button md-button (click)="dialogRef.close(form)">Create</button>
-
-  </div>
+      <md-input-container class="example-full-width">
+        <textarea mdInput placeholder="Block Description" formControlName="description"></textarea> 
+      </md-input-container>
+      <br>
+      <br>  
+    </div>
   `,
-  styles:[]
+  styles:[`
+
+  `]
 })
-export class LearningExperienceFormBlockComponent  {
-  form: FormGroup;
-
-    constructor(public dialogRef: MdDialogRef<LearningExperienceFormBlockComponent>,
-          private fb: FormBuilder,
-          ) {
-
-      this.form = this.fb.group({
-          title: [''],
-          description: ['']
-        });
-    }
+export class BlockFormComponent {
+  @Input() formGroup: FormGroup;
+  @Input() heading: string;
+  
 }
-
+// Block Create Form 
 @Component({
-  selector: 'app-learning-experience-group-form',
-  template: 
+  selector: 'app-learning-block-create',
+  template:
   `
-  <h1 md-dialog-title>Create Assessment Group </h1>
-  <div md-dialog-content>
-
-    <form novalidate [formGroup]="form">
-
-        <md-input-container class="example-full-width">
-           <input placeholder="Group Title" type="text" mdInput formControlName="title">
-        </md-input-container>
-
-        <md-input-container class="example-full-width">
-           <textarea mdInput placeholder="Group Description" formControlName="description"></textarea> 
-        </md-input-container>
-
-        <md-input-container class="example-full-width">
-           <input placeholder="Learning Area" type="text" mdInput formControlName="learningArea">
-        </md-input-container>
-
-        <md-input-container class="example-full-width">
-           <input placeholder="Learning level" type="text" mdInput formControlName="learningLevel">
-        </md-input-container>
-    
-    </form>  
-  </div>
-  <div md-dialog-actions>
-       <button md-raised-button color="primary" (click)="dialogRef.close(form)">Create</button>
-
-  </div>
+  <form novalidate [formGroup]="form">
+    <app-learning-block-form
+    [formGroup]="form"
+    [heading]="heading">
+    </app-learning-block-form>
+     <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
+  </form>
   `,
-  styles:[]
+  styles:[`
+
+  `]
 })
-export class LearningExperienceFormGroupComponent  {
 
+export class BlockFormCreateComponent implements OnInit {
+  @Output() formToSend = new EventEmitter();
   form: FormGroup;
+  constructor(private fb:FormBuilder) {}
 
-    constructor(public dialogRef: MdDialogRef<LearningExperienceFormGroupComponent>,
-          private fb: FormBuilder,
-          ) {
-
-      this.form = this.fb.group({
-          title: [''],
-          description: [''],
-          learningArea: [''],
-          learningLevel: ['']
-        });
+  heading: string = 'Create Learning Block'
+  
+  ngOnInit(){
+    this.form = this.fb.group({
+        title: [''],
+        description: ['']
+      });
     }
+  
+  save(form){
+    this.formToSend.emit(form)
+  }
 }
+// Block Edit Form
+@Component({
+  selector: 'app-learning-block-edit',
+  template:
+  `
+  <form novalidate [formGroup]="form">
+    <app-learning-block-form
+    [formGroup]="form">
+    </app-learning-block-form>
+     <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
+  </form>
+
+  `,
+  styles:[`
+
+  `]
+})
+
+export class BlockFormEditComponent implements OnInit {
+  @Output() formToSend = new EventEmitter();
+  form: FormGroup;
+  @Input() key: string;
+
+  currentFormValues: any;
+
+  constructor(private fb:FormBuilder,
+              private ls: LearningExperienceService) {}
+  
+  ngOnInit(){
+    this.ls.findblockForKey(this.key).subscribe(result => this.currentFormValues = result)
+
+    this.form = this.fb.group({
+        title: [''],
+        description: ['']
+      });
+
+    this.form.setValue({
+        title: this.currentFormValues.title,
+        description: this.currentFormValues.description
+      });
+
+    }
+  
+  save(form){
+    this.formToSend.emit(form)
+  }
+}
+// Group Common Form
+@Component({
+  selector: 'app-learning-group-form',
+  template:
+  `
+  <h1>{{heading}}</h1>
+
+    <div [formGroup]="formGroup">
+
+      <md-input-container>
+         <input placeholder="Group Title" type="text" mdInput formControlName="title">
+      </md-input-container>
+
+      <br>
+
+      <md-input-container>
+         <textarea mdInput placeholder="Group Description" formControlName="description"></textarea> 
+      </md-input-container>
+
+      <br>
+
+      <md-select class="full-width" placeholder="Learning Level" formControlName="learningLevel">
+          <md-option *ngFor="let choice of learningLevels" [value]="choice.value">
+            {{choice.viewValue}}
+          </md-option>
+      </md-select>
+
+      <br>
+      <br>
+
+      <md-select class="full-width" placeholder="Learning Area" formControlName="learningArea">
+          <md-option *ngFor="let choice of learningAreas" [value]="choice.value">
+            {{choice.viewValue}}
+          </md-option>
+      </md-select> 
+
+      <br>
+      <br> 
+    </div>
+  `,
+  styles:[`
+    .full-width {
+      width: 100%;
+    }
+  `]
+})
+export class GroupFormComponent implements OnInit{
+  @Input() formGroup: FormGroup;
+  @Input() heading: string;
+
+  learningAreas: Array<object> = [];
+  learningLevels: Array<object> = [];
+
+  constructor(private ls: LearningExperienceService){}
+
+  ngOnInit() {
+    this.ls.findAllLearningAreas().subscribe(results => {
+      results.forEach(each => {
+        this.learningAreas.push({value: each.$key, viewValue: each.title})
+      })
+    });
+    this.ls.findAllLearningLevels().subscribe(results => {
+      results.forEach(each => {
+        this.learningLevels.push({value: each.$key, viewValue: each.title})
+      })
+    });
+  }  
+}
+// Group Create Form 
+@Component({
+  selector: 'app-learning-group-create',
+  template:
+  `
+  <form novalidate [formGroup]="form">
+    <app-learning-group-form
+    [formGroup]="form"
+    [heading]="heading">
+    </app-learning-group-form>
+     <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
+  </form>
+  `,
+  styles:[`
+
+  `]
+})
+
+export class GroupFormCreateComponent implements OnInit {
+  @Output() formToSend = new EventEmitter();
+  form: FormGroup;
+  constructor(private fb:FormBuilder) {}
+
+  heading: string = 'Create Learning Group'
+  
+  ngOnInit(){
+    this.form = this.fb.group({
+        title: [''],
+        description: [''],
+        learningArea: [''],
+        learningLevel: ['']
+      });
+    }
+  
+  save(form){
+    this.formToSend.emit(form)
+  }
+}
+// Group Edit Form
+@Component({
+  selector: 'app-learning-group-edit',
+  template:
+  `
+  <form novalidate [formGroup]="form">
+    <app-learning-group-form
+    [formGroup]="form">
+    </app-learning-group-form>
+     <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
+  </form>
+
+  `,
+  styles:[`
+
+  `]
+})
+
+export class GroupFormEditComponent implements OnInit {
+  @Output() formToSend = new EventEmitter();
+  form: FormGroup;
+  @Input() key: string;
+
+  currentFormValues: any;
+
+  constructor(private fb:FormBuilder,
+              private ls: LearningExperienceService) {}
+  
+  ngOnInit(){
+    this.ls.findblockForKey(this.key).subscribe(result => this.currentFormValues = result)
+
+    this.form = this.fb.group({
+        title: [''],
+        description: [''],
+        learningArea: [''],
+        learningLevel: ['']
+      });
+
+    this.form.setValue({
+        title: this.currentFormValues.title,
+        description: this.currentFormValues.description,
+        learningArea: this.currentFormValues.learningArea,
+        learningLevel: this.currentFormValues.learningLevel
+      });
+
+    }
+  
+  save(form){
+    this.formToSend.emit(form)
+  }
+}
+
+
+
 
 
 

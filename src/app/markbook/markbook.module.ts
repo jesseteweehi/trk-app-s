@@ -35,12 +35,17 @@ import { LearningLevelFormComponent,
 
 import { LearningExperienceFormPieceComponent, 
          LearningExperienceCreatePieceComponent, 
-         LearningExperienceEditPieceComponent, 
-         LearningExperienceFormBlockComponent, 
-         LearningExperienceFormGroupComponent,        
+         LearningExperienceEditPieceComponent,         
          HeaderFormPieceComponent,
          HeaderFormCreateComponent,
-         HeaderFormEditComponent } from './learning-experience-form/learning-experience-form.component';
+         HeaderFormEditComponent,
+         BlockFormComponent,
+         BlockFormCreateComponent,
+         BlockFormEditComponent,
+         GroupFormComponent,
+         GroupFormCreateComponent,
+         GroupFormEditComponent
+          } from './learning-experience-form/learning-experience-form.component';
 
 import { LearningExperienceGroupListComponent, 
          LearningExperienceBlockListComponent } from './learning-experience-lists/learning-experience-lists.component';
@@ -53,7 +58,11 @@ import { LEStudentListPieceAddDialogComponent,
 import { LePieceCreateDialogComponent,
          LePieceEditDialogComponent,
          HeaderCreateDialogComponent,
-         HeaderEditDialogComponent } from './learning-experience-dialogs/learning-experience-dialogs-forms.component';
+         HeaderEditDialogComponent,
+         GroupCreateDialogComponent,
+         GroupEditDialogComponent,
+         BlockCreateDialogComponent,
+         BlockEditDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs-forms.component';
          
 import { LearningExperienceContainerComponent } from './learning-experience-container/learning-experience-container.component';
 
@@ -74,21 +83,25 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LearningExperienceFormPieceComponent,
   LearningExperienceCreatePieceComponent, 
   LearningExperienceEditPieceComponent,
-  // Block
-  LearningExperienceFormBlockComponent,
-  // Group
-  LearningExperienceFormGroupComponent,
+  // Block  // Group
+  LearningExperienceGroupListComponent,
+  LearningExperienceBlockListComponent,
+  BlockFormComponent,
+  BlockFormCreateComponent,
+  BlockFormEditComponent,
+  GroupFormComponent,
+  GroupFormCreateComponent,
+  GroupFormEditComponent,
+  GroupCreateDialogComponent,
+  GroupEditDialogComponent,
+  BlockCreateDialogComponent,
+  BlockEditDialogComponent,
   // Header
   HeaderFormPieceComponent,
   HeaderFormCreateComponent,
   HeaderFormEditComponent, 
-
-  LearningExperienceGroupListComponent,
-  LearningExperienceBlockListComponent,
   // Main Assessment Component
-  LearningExperienceContainerComponent,
-
-  
+  LearningExperienceContainerComponent, 
   // Create and Edit Dialog Components
   LePieceCreateDialogComponent,
   LePieceEditDialogComponent,
@@ -128,8 +141,6 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   providers: [LearningExperienceService],
   
   entryComponents: [ 
-  LearningExperienceFormBlockComponent,
-  LearningExperienceFormGroupComponent,
   LEStudentListPieceAddDialogComponent,
   LePieceCreateDialogComponent,
   LePieceEditDialogComponent,
@@ -138,6 +149,12 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent,
+
+  // Groups and Blocks Dialogs
+  GroupCreateDialogComponent,
+  GroupEditDialogComponent,
+  BlockCreateDialogComponent,
+  BlockEditDialogComponent,
 
   // Learning Support Dialogs
   LearningLevelListDialogComponent,

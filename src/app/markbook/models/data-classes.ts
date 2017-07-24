@@ -6,19 +6,23 @@ export class LearningLevelModel {
 		public description: string,
 		public level: string,
 		public qualifier: string,
+		public archived: boolean,
+		public locked: boolean
 		){}
 	static fromJsonList(array): LearningLevelModel[] {
 		return array.map(LearningLevelModel.fromJson);
 	}
 
-	static fromJson({$key, created, title, description, level, qualifier}): LearningLevelModel{
+	static fromJson({$key, created, title, description, level, qualifier, archived, locked}): LearningLevelModel{
 		return new LearningLevelModel(
 			$key,
 			created,
 			title,
 			description,
 			level,
-			qualifier
+			qualifier,
+			archived,
+			locked
 			);
 	}
 }
@@ -28,17 +32,21 @@ export class LearningAreaModel {
 		public $key: string,
 		public created: string,
 		public title: string,
-		public description: string
+		public description: string,
+		public archived: string,
+		public locked: string
 		){}
 	static  fromJsonList(array): LearningAreaModel[] {
 		return array.map(LearningAreaModel.fromJson);
 	}
-	static fromJson({$key, created, title, description }): LearningAreaModel {
+	static fromJson({$key, created, title, description, archived, locked }): LearningAreaModel {
 		return new LearningAreaModel(
 			$key,
 			created,
 			title,
-			description)
+			description,
+			archived,
+			locked)
 	}
 }
 

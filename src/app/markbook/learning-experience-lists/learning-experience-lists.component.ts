@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
-import { LearningExperienceFormGroupComponent, LearningExperienceFormBlockComponent, LearningExperienceFormPieceComponent } from '../learning-experience-form/learning-experience-form.component';
 
 import { LearningAssessmentGroupModel, LearningAssessmentBlockModel } from '../models/data-classes';
 
@@ -15,7 +14,12 @@ import { LearningLevelListDialogComponent,
         LearningLevelCreateDialogComponent,
         LearningLevelEditDialogComponent,
         LearningAreaCreateDialogComponent,
-        LearningAreaEditDialogComponent} from '../learning-experience-dialogs/le-support-dialog-forms-lists.component';
+        LearningAreaEditDialogComponent } from '../learning-experience-dialogs/le-support-dialog-forms-lists.component';
+
+import { GroupCreateDialogComponent,
+         GroupEditDialogComponent,
+         BlockCreateDialogComponent,
+         BlockEditDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs-forms.component'
 
 
 @Component({
@@ -125,12 +129,18 @@ export class LearningExperienceGroupListComponent implements OnInit {
     }
 
     openLearningLevelList() {
-    let dialogRef = this.dialog.open(LearningLevelListDialogComponent);
+    let dialogRef = this.dialog.open(LearningLevelListDialogComponent,{
+      height: '90%',
+      width: '500px'
+    });
     dialogRef.afterClosed().subscribe(result => console.log(result));
     }
 
     openLearningAreaList() {
-    let dialogRef = this.dialog.open(LearningAreaListDialogComponent);
+    let dialogRef = this.dialog.open(LearningAreaListDialogComponent,{
+      height: '90%',
+      width: '500px'
+    });
     dialogRef.afterClosed().subscribe(result => console.log(result));
     }
 
@@ -165,7 +175,7 @@ export class LearningExperienceGroupListComponent implements OnInit {
     }
 
     openDialogGroup() {
-    let dialogRef = this.dialog.open(LearningExperienceFormGroupComponent);
+    let dialogRef = this.dialog.open(GroupCreateDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
     	this.firebaseLearningExperienceGroup(result)
         });
@@ -302,7 +312,7 @@ export class LearningExperienceBlockListComponent implements OnInit {
 
     openDialogBlock() {
     /// could create area change back to group or define type
-    let dialogRef = this.dialog.open(LearningExperienceFormBlockComponent);
+    let dialogRef = this.dialog.open(BlockCreateDialogComponent);
     dialogRef.afterClosed().subscribe(result => {
     	this.firebaseLearningExperienceBlock(result)
         });
