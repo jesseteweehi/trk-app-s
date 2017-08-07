@@ -15,6 +15,8 @@ import { AutofocusDirective } from './models/custom-directives';
 
 import { LearningExperienceService } from './models/learning-experience.service';
 
+import { LevelItemComponent, AreaItemComponent } from './learning-experience-items/learning-experience-items.component';
+
 import { LearningLevelListDialogComponent,
          LearningAreaListDialogComponent,
          LearningLevelCreateDialogComponent,
@@ -116,6 +118,8 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   // Learning Support Lists
   learningLevelListComponent,
   learningAreaListComponent,
+  LevelItemComponent, 
+  AreaItemComponent,
 
   // Learning Support Forms
   LearningLevelFormComponent,
@@ -136,7 +140,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   AutofocusDirective
   ],
   
-  exports:[],
+  exports:[LevelItemComponent, AreaItemComponent],
 
   providers: [LearningExperienceService],
   

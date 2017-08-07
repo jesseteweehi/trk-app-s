@@ -1,10 +1,15 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl } from '@angular/forms'
+import {Observable, Subject} from "rxjs/Rx";
 
 import {MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
 
-import { LearningAssessmentGroupModel, LearningAssessmentBlockModel } from '../models/data-classes';
+import { LearningAssessmentGroupModel, 
+         LearningAssessmentBlockModel,
+         LearningAreaModel,
+         LearningLevelModel } from '../models/data-classes';
 
 import { LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
@@ -42,36 +47,53 @@ import { GroupCreateDialogComponent,
       top: 8px;
       right: 16px;
     }
-
-    .md-fab-bottom-right2 {
-        top: auto !important;
-        right: 20px !important;
-        bottom: 10px !important;
-        left: auto !important;
-        position: fixed !important;
-    }
   `]
 })
 
-export class LearningExperienceGroupListComponent implements OnInit {  
+export class LearningExperienceGroupListComponent implements OnInit {
   filtered: LearningAssessmentGroupModel[];
 	groups: LearningAssessmentGroupModel[];
+  
+  areas: object = {};
   normalState: boolean = true;
 
-  	constructor(
+  constructor(
   		private ls: LearningExperienceService,
   		public dialog: MdDialog,
-        public snackBar: MdSnackBar ) {}
+      public snackBar: MdSnackBar ) {}
 
     ngOnInit() {
-    	this.ls.findAllLearningExperienceGroups().subscribe(groups => {
+    	this.ls.findAllLearningExperienceGroups().subscribe(groups => {     
         this.groups = this.filtered = groups;
         if (this.normalState){this.normal()}
       });
-     }
+      // reWrite this so it creates the object from the list below: Then doesn't call same data twice.
+      this.ls.findAllLearningAreaObject().subscribe(areas => {
+        this.areas = areas;
+        });
+    }
+    
+    edit(key) {
+       let dialogRef = this.dialog.open(GroupEditDialogComponent, {
+         data: {
+           'key': key
+         },
+         width: '500px'
+       });
+       dialogRef.afterClosed().subscribe(result => {
+           if(result)
+           { console.log(result);
+             this.ls.editGroup(key, result.value).subscribe(
+                           () => {
+                                   this.snackBar.open('Group Saved','Awesome',{ duration:2000 })
+                               },
+                               err => { 
+                                   this.snackBar.open('Error Saving Group ${err}','Bugger',{ duration:2000 })
+                               }
+                           );
+                   }});
+    }
       
-
-   
     remove(key) {
       this.ls.removeGroup(key).subscribe(
            () => {
@@ -128,73 +150,48 @@ export class LearningExperienceGroupListComponent implements OnInit {
       );
     }
 
-    openLearningLevelList() {
-    let dialogRef = this.dialog.open(LearningLevelListDialogComponent,{
-      height: '90%',
-      width: '500px'
-    });
-    dialogRef.afterClosed().subscribe(result => console.log(result));
-    }
-
     openLearningAreaList() {
-    let dialogRef = this.dialog.open(LearningAreaListDialogComponent,{
-      height: '90%',
-      width: '500px'
-    });
-    dialogRef.afterClosed().subscribe(result => console.log(result));
-    }
-
-    createLearningLevel() {
-    let dialogRef = this.dialog.open(LearningLevelCreateDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
-        if(result)
-        {this.ls.createLearningLevel(result.value).subscribe(
-                        () => {
-                                this.snackBar.open('Lesson Level Saved','Awesome',{ duration:2000 })
-                            },
-                            err => { 
-                                this.snackBar.open('Error Saving Lesson Level ${err}','Bugger',{ duration:2000 })
-                            }
-                        );
-                }});
-    }
-
-    createLearningArea() {
-    let dialogRef = this.dialog.open(LearningAreaCreateDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
-        if(result)
-        {this.ls.createLearningArea(result.value).subscribe(
-                        () => {
-                                this.snackBar.open('Lesson Area Saved','Awesome',{ duration:2000 })
-                            },
-                            err => { 
-                                this.snackBar.open('Error Saving Lesson Area ${err}','Bugger',{ duration:2000 })
-                            }
-                        );
-                }});
-    }
-
-    openDialogGroup() {
-    let dialogRef = this.dialog.open(GroupCreateDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
-    	this.firebaseLearningExperienceGroup(result)
-        });
-    }
-
-
-
-    openDialogFindStudent(group) {
-    let dialogRef = this.dialog.open(LEStudentListGroupDialogComponent, {
-        data: {
-                'lePiece' : group 
-              },
+      let dialogRef = this.dialog.open(LearningAreaListDialogComponent,{
         height: '90%',
         width: '500px'
       });
-    
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      })
+      dialogRef.afterClosed().subscribe(result => console.log(result));
+    }
+
+    createLearningArea() {
+      let dialogRef = this.dialog.open(LearningAreaCreateDialogComponent);
+      dialogRef.afterClosed().subscribe(result => {
+          if(result)
+          {this.ls.createLearningArea(result.value).subscribe(
+                          () => {
+                                  this.snackBar.open('Lesson Area Saved','Awesome',{ duration:2000 })
+                              },
+                              err => { 
+                                  this.snackBar.open('Error Saving Lesson Area ${err}','Bugger',{ duration:2000 })
+                              }
+                          );
+                  }});
+    }
+
+    openDialogGroup() {
+      let dialogRef = this.dialog.open(GroupCreateDialogComponent);
+      dialogRef.afterClosed().subscribe(result => {
+      	this.firebaseLearningExperienceGroup(result)
+          });
+    }
+
+    openDialogFindStudent(group) {
+      let dialogRef = this.dialog.open(LEStudentListGroupDialogComponent, {
+          data: {
+                  'lePiece' : group 
+                },
+          height: '90%',
+          width: '500px'
+        });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(result)
+        })
     }
 
     firebaseLearningExperienceGroup(form) {
@@ -229,21 +226,20 @@ export class LearningExperienceGroupListComponent implements OnInit {
       top: 8px;
       right: 16px;
     }
-
-    .md-fab-bottom-right2 {
-        top: auto !important;
-        right: 20px !important;
-        bottom: 10px !important;
-        left: auto !important;
-        position: fixed !important;
-    }
   `]
 })
 
 export class LearningExperienceBlockListComponent implements OnInit {
+  learningGroup: LearningAssessmentGroupModel
+
 	groups: LearningAssessmentBlockModel[];
+  filtered: LearningAssessmentBlockModel[];
 	groupId: string;
-  filter: boolean = false;
+ 
+  areas: object = {};
+  levels: object = {};
+
+  normalState: boolean = true;
 
   	constructor(
   		private route: ActivatedRoute,
@@ -252,14 +248,79 @@ export class LearningExperienceBlockListComponent implements OnInit {
         public snackBar: MdSnackBar ) {}
 
     ngOnInit() {
-    	this.groupId = this.route.snapshot.params['groupid']
-    	this.ls.findBlocksForGroup(this.groupId)
-      
-      .subscribe(groups => this.groups = groups);   	
+    	this.groupId = this.route.snapshot.params['groupid'];
+      this.ls.findGroupForKey(this.groupId).subscribe(group => this.learningGroup = group);
+    	this.ls.findBlocksForGroup(this.groupId).subscribe(groups => {
+          this.groups = this.filtered = groups;
+          if (this.normalState){
+              this.normal()}
+              });
+      this.ls.findAllLearningAreaObject().subscribe(areas => {
+        this.areas = areas;
+        });
+      this.ls.findAllLearningLevelsObject().subscribe(levels => {
+        this.levels = levels;
+        });    	
+    }
+
+    // Working
+    edit(key) {
+      let dialogRef = this.dialog.open(BlockEditDialogComponent, {
+        data: {
+          'key': key
+        },
+        width: '500px'
+      });
+      dialogRef.afterClosed().subscribe(result => {
+          if(result)
+          {this.ls.editBlock(key, result.value).subscribe(
+                          () => {
+                                  this.snackBar.open('Block Saved','Awesome',{ duration:2000 })
+                              },
+                              err => { 
+                                  this.snackBar.open('Error Saving Block ${err}','Bugger',{ duration:2000 })
+                              }
+                          );
+                  }});
+    }
+
+    // Working
+    remove(key) {
+      if (this.groups.length === 1){
+        this.ls.removeBlock(this.groupId, key).subscribe(
+                     () => {
+                         this.snackBar.open('Lesson Block Deleted','Awesome',{ duration:2000 })
+                     },
+                     err => { 
+                         this.snackBar.open('Error Deleting Lesson Block ${err}','Bugger',{ duration:2000 })
+                     });
+                     if (!this.normalState) {
+                       this.showArchived();
+                     }
+        this.groups = [];
+      }
+      else {
+        this.ls.removeBlock(this.groupId, key).subscribe(
+                     () => {
+                         this.snackBar.open('Lesson Block Deleted','Awesome',{ duration:2000 })
+                     },
+                     err => { 
+                         this.snackBar.open('Error Deleting Lesson Block ${err}','Bugger',{ duration:2000 })
+                     });
+                     if (!this.normalState) {
+                       this.showArchived()
+                     }
+      }
     }
 
     normal() {
-      this.filter = false
+      this.filtered = this.groups.filter(group => !group.archived)
+      this.normalState=true
+    }
+
+    showArchived() {
+      this.filtered = this.groups
+      this.normalState=false
     }
 
     lock(key) {
@@ -274,7 +335,6 @@ export class LearningExperienceBlockListComponent implements OnInit {
     }
 
     archive(key) {
-      console.log(key)
       this.ls.archiveBlock(key).subscribe(
            () => {
                this.snackBar.open('Lesson Block Archived','Awesome',{ duration:2000 })
@@ -286,40 +346,61 @@ export class LearningExperienceBlockListComponent implements OnInit {
     }
 
     unarchive(key) {    
-      this.ls.unarchiveGroup(key).subscribe(
+      this.ls.unarchiveBlock(key).subscribe(
            () => {
-               this.snackBar.open('Lesson Group unarchived','Awesome',{ duration:2000 })
+               this.snackBar.open('Lesson Block unarchived','Awesome',{ duration:2000 })
            },
            err => { 
-               this.snackBar.open('Error unarchiving Lesson Group ${err}','Bugger',{ duration:2000 })
+               this.snackBar.open('Error unarchiving Lesson Block ${err}','Bugger',{ duration:2000 })
            }
       );
     }
 
-    openDialogFindStudent(group) {
-    let dialogRef = this.dialog.open(LEStudentListBlockDialogComponent, {
-        data: {
-                'lePiece' : group 
-              },
+    openLearningLevelList() {
+      let dialogRef = this.dialog.open(LearningLevelListDialogComponent,{
         height: '90%',
         width: '500px'
       });
-    
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      })
+      dialogRef.afterClosed().subscribe(result => console.log(result));
+    }
+
+    createLearningLevel() {
+      let dialogRef = this.dialog.open(LearningLevelCreateDialogComponent);
+      dialogRef.afterClosed().subscribe(result => {
+          if(result)
+          {this.ls.createLearningLevel(result.value).subscribe(
+                          () => {
+                                  this.snackBar.open('Lesson Level Saved','Awesome',{ duration:2000 })
+                              },
+                              err => { 
+                                  this.snackBar.open('Error Saving Lesson Level ${err}','Bugger',{ duration:2000 })
+                              }
+                          );
+                  }});
     }
 
     openDialogBlock() {
-    /// could create area change back to group or define type
-    let dialogRef = this.dialog.open(BlockCreateDialogComponent);
-    dialogRef.afterClosed().subscribe(result => {
-    	this.firebaseLearningExperienceBlock(result)
-        });
+      /// could create area change back to group or define type
+      let dialogRef = this.dialog.open(BlockCreateDialogComponent);
+      dialogRef.afterClosed().subscribe(result => {
+        this.firebaseLearningExperienceBlock(result)
+          });
     }
 
-
-
+    openDialogFindStudent(group) {
+      let dialogRef = this.dialog.open(LEStudentListBlockDialogComponent, {
+            data: {
+                    'lePiece' : group 
+                  },
+            height: '90%',
+            width: '500px'
+          });
+        
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(result)
+          })
+    }
+    
     firebaseLearningExperienceBlock(form) {
     	this.ls.createNewLearningExperienceBlockUnderGroup(this.groupId, form.value).subscribe(
     		    () => {
@@ -331,6 +412,6 @@ export class LearningExperienceBlockListComponent implements OnInit {
     		);
     }
 
-}
+  }
 
 

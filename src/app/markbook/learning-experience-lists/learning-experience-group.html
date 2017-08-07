@@ -1,42 +1,30 @@
 <md-toolbar>
-<button md-icon-button [mdMenuTriggerFor]="appMenu"> <md-icon>info</md-icon></button>
 
-<md-menu #appMenu="mdMenu">
-  <button md-menu-item (click)="openLearningLevelList()"><md-icon>info</md-icon>Learning Levels</button>
-  <button md-menu-item (click)="openLearningAreaList()"><md-icon>info</md-icon>Learning Areas</button>
-</md-menu>
+<button md-button (click)="openLearningAreaList()">Learning Area</button>
 
 <button md-icon-button [mdMenuTriggerFor]="addMenu"> <md-icon>add</md-icon></button>
 
 <md-menu #addMenu="mdMenu">
   <button md-menu-item (click)="openDialogGroup()"><md-icon>add</md-icon>Group</button>
-  <button md-menu-item (click)="createLearningLevel()"><md-icon>add</md-icon>Learning Level</button>
   <button md-menu-item (click)="createLearningArea()"><md-icon>add</md-icon>Learning Area</button>
 </md-menu>
 
 <button md-icon-button (click)="normal()"><md-icon>folder</md-icon></button>
 <button md-icon-button (click)="showArchived()"><md-icon>archive</md-icon></button>
 
+
 </md-toolbar>
-
-
-
-
-
-
-
-
 
 
 
   <div class="wrapper">
 
-
   <md-card class="grid-item" *ngFor="let group of filtered">
 
-    <md-card-subtitle> <md-icon *ngIf="group.archived">archive</md-icon>
-    <br>
-    {{group.learningArea}} | {{group.learningLevel}}
+    <md-card-subtitle> 
+    <md-icon *ngIf="group.archived">archive</md-icon>
+
+    <group-area-item [area]="areas[group?.learningArea]"></group-area-item>
     
     <button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
        <md-icon>more_vert</md-icon>
@@ -45,16 +33,22 @@
 
   	<md-card-title>{{group.title}}</md-card-title>
 
-  	<md-card-content>{{group.description}}</md-card-content>
+  	<md-card-content>{{group.description}}
+
+    
+
+    </md-card-content>
 
   	<md-card-actions *ngIf="group.locked">
   	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment Blocks</a>
         <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
-  	  </md-card-actions>
+  	</md-card-actions>
+    <md-card-footer>
+    </md-card-footer>
 
   <md-menu #appMenu="mdMenu">
     <button md-menu-item *ngIf="!group.locked" (click)="remove(group.$key)"><md-icon>delete</md-icon></button>
-    <button md-menu-item *ngIf="!group.locked" ><md-icon>edit</md-icon></button>
+    <button md-menu-item *ngIf="!group.locked" (click)="edit(group.$key)"><md-icon>edit</md-icon></button>
     <button md-menu-item *ngIf="!group.locked" (click)="lock(group.$key)"><md-icon>lock</md-icon></button>
     
     <button md-menu-item *ngIf="!group.archived&&group.locked" (click)="archive(group.$key)"><md-icon>archive</md-icon></button>
@@ -63,9 +57,6 @@
   </md-menu>
 
   </md-card>
-
-
-
   </div>
 
   <router-outlet></router-outlet>

@@ -1,28 +1,18 @@
 <div class="wrapper" *ngIf="block.title">
 <md-card>
   	<md-card-title>{{group?.title}}</md-card-title>
-  	<md-card-subtitle>{{group?.learningArea}} | {{group?.learningLevel}}</md-card-subtitle>
+  	<md-card-subtitle>
+    <group-area-item [areaKey]="group.learningArea"></group-area-item>
+    <group-level-item [levelKey]="group.learningLevel"></group-level-item>
+    </md-card-subtitle>
   	<md-card-content>{{group?.description}}</md-card-content>
- <!--  	<md-card-actions>
-  	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment Blocks</a>
-        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
-  	</md-card-actions>
- -->
  </md-card>
 
  <md-card>
   	<md-card-title>{{block?.title}}</md-card-title>
-  	<md-card-subtitle>{{block?.learningArea}} | {{block?.learningLevel}}</md-card-subtitle>
   	<md-card-content>{{block?.description}}</md-card-content>
- <!--  	<md-card-actions>
-  	    <a md-button color="primary" routerLink="{{block.$key}}">Assessment Blocks</a>
-        <button md-button color="primary" (click)="openDialogFindStudent(block)">Students</button>
-  	</md-card-actions>
- -->
  </md-card>
  </div>
-<!--  <div *ngIf="!block.title">Student has no Attainments Yet</div> -->
-
  <app-my-student-learning-piece
  [learningBlock]="block"
  [learningPieceKeys]="learningPieceKeys">

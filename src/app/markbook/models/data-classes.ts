@@ -84,19 +84,21 @@ export class LearningAssessmentBlockModel {
 		public title: string,
 		public description: string,
 		public parentKey: string,
+		public learningLevel: string,
 		public archived: boolean,
 		public locked: boolean,
 		){}
 	static fromJsonList(array): LearningAssessmentBlockModel[] {
 		return array.map( LearningAssessmentBlockModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, parentKey, archived, locked}): LearningAssessmentBlockModel {
+	static fromJson({$key, created, title, description, parentKey, learningLevel, archived, locked}): LearningAssessmentBlockModel {
 		return new LearningAssessmentBlockModel(
 			$key,
 			created,
 			title,
 			description,
 			parentKey,
+			learningLevel,
 			archived,
 			locked
 			)
@@ -110,21 +112,19 @@ export class LearningAssessmentGroupModel {
 		public title: string,
 		public description: string,
 		public learningArea: string,
-		public learningLevel: string,
 		public archived: boolean,
 		public locked: boolean,
 		){}
 	static fromJsonList(array): LearningAssessmentGroupModel[] {
 		return array.map( LearningAssessmentGroupModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, learningLevel, archived, locked }): LearningAssessmentGroupModel {
+	static fromJson({$key, created, title, description, learningArea, archived, locked }): LearningAssessmentGroupModel {
 		return new LearningAssessmentGroupModel(
 			$key,
 			created,
 			title,
 			description,
 			learningArea,
-			learningLevel,
 			archived,
 			locked
 			)

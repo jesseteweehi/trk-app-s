@@ -170,96 +170,14 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave)
     }   
 
-    /////////// Learning Group and Block ///////////////
 
-    findAllLearningExperienceGroups():Observable<LearningAssessmentGroupModel[]> {
-        return this.db.list('learningExperienceGroup')
-            .map(LearningAssessmentGroupModel.fromJsonList);
-
-    }
-
-    findGroupForKey(groupKey:string): Observable<LearningAssessmentGroupModel> {
-            return this.db.object(`learningExperienceGroup/${groupKey}}`)
-                .map(LearningAssessmentGroupModel.fromJson)
-        }
-
-    findblockForKey(blockKey:string): Observable<LearningAssessmentBlockModel> {
-            return this.db.object(`learningExperienceGroup/${blockKey}}`)
-                .map(LearningAssessmentBlockModel.fromJson)
-        }
-
-    createNewLearningExperienceBlockUnderGroup(groupKey: string, le:any): Observable<any> {
-        
-        const learningExperienceBlockToSave = Object.assign({'parent':groupKey}, le);
-        const learningExperienceBlockToSaveKey = this.sdkDb.child('learningExperienceBlock').push().key;       
-        let dataToSave = {};
-        dataToSave["learningExperienceBlock/" + learningExperienceBlockToSaveKey] = learningExperienceBlockToSave;
-        dataToSave["learningExperienceBlockForGroup/" + groupKey + "/" + learningExperienceBlockToSaveKey] = true
-
-        return this.firebaseUpdate(dataToSave);
-
-    }
-
-    createNewLearningExperienceGroup(le:any): Observable<any> {
-
-        const learningExperienceGroupToSave = Object.assign({}, le);
-        const learningExperienceGroupToSaveKey = this.sdkDb.child('learningExperienceGroup').push().key;
-        let dataToSave = {};
-        dataToSave['learningExperienceGroup/' + learningExperienceGroupToSaveKey] = learningExperienceGroupToSave;
-
-        return this.firebaseUpdate(dataToSave);
-        }
-
-
-    removeGroup(groupKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}`] = null
-        return this.firebaseUpdate(dataToSave)
-    }
-    removeBlock(groupBlock): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceBlock/${groupBlock}`] = null
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    lockGroup(groupKey:string){
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}/locked`] = true
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    lockBlock(blockKey:string){
-            let dataToSave = {};
-            dataToSave[`learningExperienceBlock/${blockKey}/lock`] = true
-            return this.firebaseUpdate(dataToSave)
-    }
-
-    archiveGroup(groupKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = true
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    unarchiveGroup(groupKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceGroup/${groupKey}/archived`] = false
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    archiveBlock(blockKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = true
-        return this.firebaseUpdate(dataToSave)
-    }
-
-    unarchiveBlock(blockKey): Observable<any> {
-        let dataToSave = {};
-        dataToSave[`learningExperienceBlock/${blockKey}/archived`] = false
-        return this.firebaseUpdate(dataToSave)
-    }
 
    
     //////////////// Learning Support ///////////////////////////
+
+    findAllLearningLevelsObject(): Observable<any> {
+        return this.db.object('learningLevel')
+    }
     
     findLearningLevelByKey(key:string): Observable<LearningLevelModel> {
         return this.db.object(`learningLevel/${key}`)
@@ -272,7 +190,11 @@ export class LearningExperienceService {
 
     }
 
-    findLearningAreaByKey(key:string): Observable<LearningAreaModel> {
+    findAllLearningAreaObject(): Observable<any> {
+        return this.db.object('learningArea')
+    }
+    
+    findLearningAreaByKey(key): Observable<LearningAreaModel> {
         return this.db.object(`learningArea/${key}`)
             .map(LearningAreaModel.fromJson)
     }
@@ -297,6 +219,20 @@ export class LearningExperienceService {
         let dataToSave = {};
         dataToSave['learningArea/' + key] = areaToSave;
 
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    editLearningLevel(key: string, le:any): Observable<any> {
+        const form = Object.assign({}, le);      
+        let dataToSave = {};
+        dataToSave["learningLevel/" + key] = form;
+        return this.firebaseUpdate(dataToSave);
+    }
+
+    editLearningArea(key: string, le:any): Observable<any> {
+        const form = Object.assign({}, le);      
+        let dataToSave = {};
+        dataToSave["learningArea/" + key] = form;
         return this.firebaseUpdate(dataToSave);
     } 
 
@@ -349,6 +285,106 @@ export class LearningExperienceService {
     }
 
    
+   /////////// Learning Group and Block ///////////////
+
+    findAllLearningExperienceGroups(): Observable<LearningAssessmentGroupModel[]> {
+        return this.db.list('learningExperienceGroup')
+            .map(LearningAssessmentGroupModel.fromJsonList)
+    } 
+
+    findGroupForKey(groupKey:string): Observable<LearningAssessmentGroupModel> {
+           return this.db.object(`learningExperienceGroup/${groupKey}`)
+               .map(LearningAssessmentGroupModel.fromJson)
+       }
+
+    findBlockForKey(blockKey:string): Observable<LearningAssessmentBlockModel> {
+           return this.db.object(`learningExperienceBlock/${blockKey}`)
+               .map(LearningAssessmentBlockModel.fromJson)
+       }
+
+   createNewLearningExperienceBlockUnderGroup(groupKey: string, le:any): Observable<any> {
+       
+       const learningExperienceBlockToSave = Object.assign({'parent':groupKey}, le);
+       const learningExperienceBlockToSaveKey = this.sdkDb.child('learningExperienceBlock').push().key;       
+       let dataToSave = {};
+       dataToSave["learningExperienceBlock/" + learningExperienceBlockToSaveKey] = learningExperienceBlockToSave;
+       dataToSave["learningExperienceBlockForGroup/" + groupKey + "/" + learningExperienceBlockToSaveKey] = true
+
+       return this.firebaseUpdate(dataToSave);
+
+   }
+
+   createNewLearningExperienceGroup(le:any): Observable<any> {
+
+       const learningExperienceGroupToSave = Object.assign({}, le);
+       const learningExperienceGroupToSaveKey = this.sdkDb.child('learningExperienceGroup').push().key;
+       let dataToSave = {};
+       dataToSave['learningExperienceGroup/' + learningExperienceGroupToSaveKey] = learningExperienceGroupToSave;
+
+       return this.firebaseUpdate(dataToSave);
+   }
+
+   editGroup(groupKey: string, le:any): Observable<any> {
+       const form = Object.assign({}, le);      
+       let dataToSave = {};
+       dataToSave["learningExperienceGroup/" + groupKey] = form;
+       return this.firebaseUpdate(dataToSave);
+   }
+
+   editBlock(blockKey: string, le:any): Observable<any> {
+       const form = Object.assign({}, le);      
+       let dataToSave = {};
+       dataToSave["learningExperienceBlock/" + blockKey] = form;
+       return this.firebaseUpdate(dataToSave);
+   }
+
+   removeGroup(groupKey): Observable<any> {
+       let dataToSave = {};
+       dataToSave[`learningExperienceGroup/${groupKey}`] = null
+       return this.firebaseUpdate(dataToSave)
+   }
+   removeBlock(groupKey, key): Observable<any> {
+       let dataToSave = {};
+       dataToSave[`learningExperienceBlock/${key}`] = null
+       dataToSave[`learningExperienceBlockForGroup/${groupKey}/${key}`] = null
+       return this.firebaseUpdate(dataToSave)
+   }
+
+   lockGroup(key:string){
+       let dataToSave = {};
+       dataToSave[`learningExperienceGroup/${key}/locked`] = true
+       return this.firebaseUpdate(dataToSave)
+   }
+
+   lockBlock(blockKey:string){
+           let dataToSave = {};
+           dataToSave[`learningExperienceBlock/${blockKey}/locked`] = true
+           return this.firebaseUpdate(dataToSave)
+   }
+
+   archiveGroup(groupKey): Observable<any> {
+       let dataToSave = {};
+       dataToSave[`learningExperienceGroup/${groupKey}/archived`] = true
+       return this.firebaseUpdate(dataToSave)
+   }
+
+   unarchiveGroup(groupKey): Observable<any> {
+       let dataToSave = {};
+       dataToSave[`learningExperienceGroup/${groupKey}/archived`] = false
+       return this.firebaseUpdate(dataToSave)
+   }
+
+   archiveBlock(blockKey): Observable<any> {
+       let dataToSave = {};
+       dataToSave[`learningExperienceBlock/${blockKey}/archived`] = true
+       return this.firebaseUpdate(dataToSave)
+   }
+
+   unarchiveBlock(blockKey): Observable<any> {
+       let dataToSave = {};
+       dataToSave[`learningExperienceBlock/${blockKey}/archived`] = false
+       return this.firebaseUpdate(dataToSave)
+   }
     
 
     //////////////////////////////// JOINS ////////////////////////////

@@ -30,10 +30,12 @@ import {
           {{choice.viewValue}}
         </md-option>
     </md-select>
-
-    <md-input-container class="full-width">
-      <input placeholder="Qualifier" type="text" mdInput formControlName="qualifier">
-    </md-input-container>
+    <br>
+    <md-select class="full-width" placeholder="Qualifier" formControlName="qualifier">
+        <md-option *ngFor="let choice of qualifiers" [value]="choice.value">
+          {{choice.viewValue}}
+        </md-option>
+    </md-select>
 
   </div>
   `,
@@ -57,6 +59,14 @@ export class LearningLevelFormComponent {
     {value: '6', viewValue: 'Level 6'},
     {value: '7', viewValue: 'Level 7'},
     {value: '8', viewValue: 'Level 8'},
+  ];
+
+  qualifiers = [
+    {value: 'Needs Support', viewValue: 'Needs Support'},
+    {value: 'Emerging', viewValue: 'Emerging'},
+    {value: 'Developing', viewValue: 'Developing'},
+    {value: 'Proficient', viewValue: 'Proficient'},
+    {value: 'Exemplary', viewValue: 'Exemplary'},
   ];
 }
 

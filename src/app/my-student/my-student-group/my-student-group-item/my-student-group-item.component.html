@@ -1,15 +1,25 @@
 <div class="wrapper" [class.highlight]="highlightKey===piece?.$key">
-	<div class="items heading mat-body-2">{{group?.title}}</div>
-	<!-- <div class="items description mat-body-1">{{group?.description}}</div> -->
-
-	<div class="items heading mat-body-2">{{block?.title}}</div>
-	<!-- <div class="items description mat-body-1">{{block?.description}}</div> -->
-
-	<div class="items heading mat-body-2">{{piece?.title}}</div>
-	<!-- <div class="items description mat-body-1">{{piece?.description}}</div> -->
-	<div class="items heading mat-body-2">
-	<button md-icon-button color="primary" (click)="choose()"><md-icon>info</md-icon></button>
+	<div class="items heading mat-body-2">	<group-area-item *ngIf="group.learningArea" [areaKey]="group?.learningArea"></group-area-item>
 	</div>
+
+	<div class="items heading mat-body-2">
+	<group-level-item *ngIf="group.learningLevel" [levelKey]="group?.learningLevel"></group-level-item>
+	</div>
+
+	<div class="items heading mat-body-2">{{ group?.title}}</div>
+
+	<div class="items heading mat-body-2">{{ block?.title}}</div>
+
+	<div class="items heading mat-body-2">{{piece?.xheader}}</div>
+
+
+	<div class="items heading mat-body-2">{{piece?.yheader}}</div>
+	
+	<div class="items heading mat-body-2">
+	<button md-icon-button color="primary" (click)="choose()">
+	<md-icon>info</md-icon></button>
+	</div>
+
 </div>
 
 

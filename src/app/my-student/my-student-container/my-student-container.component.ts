@@ -22,8 +22,8 @@ export class MyStudentContainerComponent implements OnInit {
   				private ms: MyStudentsService) { }
 
   	ngOnInit() {
-  		this.studentId = this.route.snapshot.params['studentid']
-  		this.ms.findStudentForKey(this.studentId).subscribe(student => this.studentInfo = student)
+      this.route.params.subscribe(p => {this.studentId = p['studentid']})
+  		this.ms.findStudentForKey(this.studentId).subscribe(student => this.studentInfo = student);
   		this.ms.findStudentPiecesForKey(this.studentId).subscribe(studentLearning => {
           this.studentLearning = studentLearning;
           studentLearning.forEach(element => {

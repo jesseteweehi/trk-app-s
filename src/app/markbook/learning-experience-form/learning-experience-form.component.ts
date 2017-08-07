@@ -5,7 +5,8 @@ import { LearningExperienceService } from '../models/learning-experience.service
 import { 
     LearningAssessmentPieceModel,
     LearningAreaModel,
-    LearningLevelModel
+    LearningLevelModel,
+    LearningAssessmentGroupModel
     } from '../models/data-classes'
 
 // Learning Experience Piece Common Form
@@ -318,16 +319,37 @@ export class HeaderFormEditComponent implements OnInit {
         <textarea mdInput placeholder="Block Description" formControlName="description"></textarea> 
       </md-input-container>
       <br>
+
+      <md-select class="full-width" placeholder="Learning Level" formControlName="learningLevel">
+          <md-option *ngFor="let choice of learningLevels" [value]="choice.value">
+            {{choice.viewValue}}
+          </md-option>
+      </md-select>
+
       <br>  
     </div>
   `,
   styles:[`
-
+  .full-width {
+    width: 100%;
+  }
   `]
 })
-export class BlockFormComponent {
+export class BlockFormComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() heading: string;
+
+  learningLevels: Array<object> = [];
+
+  constructor(private ls: LearningExperienceService){}
+
+  ngOnInit() {
+    this.ls.findAllLearningLevels().subscribe(results => {
+      results.forEach(each => {
+        this.learningLevels.push({value: each.$key, viewValue: each.title})
+      })
+    });
+  } 
   
 }
 // Block Create Form 
@@ -358,7 +380,8 @@ export class BlockFormCreateComponent implements OnInit {
   ngOnInit(){
     this.form = this.fb.group({
         title: [''],
-        description: ['']
+        description: [''],
+        learningLevel: ['']
       });
     }
   
@@ -395,16 +418,18 @@ export class BlockFormEditComponent implements OnInit {
               private ls: LearningExperienceService) {}
   
   ngOnInit(){
-    this.ls.findblockForKey(this.key).subscribe(result => this.currentFormValues = result)
+    this.ls.findBlockForKey(this.key).subscribe(result => this.currentFormValues = result)
 
     this.form = this.fb.group({
         title: [''],
-        description: ['']
+        description: [''],
+        learningLevel: ['']
       });
 
     this.form.setValue({
         title: this.currentFormValues.title,
-        description: this.currentFormValues.description
+        description: this.currentFormValues.description,
+        learningLevel: this.currentFormValues.learningLevel
       });
 
     }
@@ -434,15 +459,6 @@ export class BlockFormEditComponent implements OnInit {
 
       <br>
 
-      <md-select class="full-width" placeholder="Learning Level" formControlName="learningLevel">
-          <md-option *ngFor="let choice of learningLevels" [value]="choice.value">
-            {{choice.viewValue}}
-          </md-option>
-      </md-select>
-
-      <br>
-      <br>
-
       <md-select class="full-width" placeholder="Learning Area" formControlName="learningArea">
           <md-option *ngFor="let choice of learningAreas" [value]="choice.value">
             {{choice.viewValue}}
@@ -464,7 +480,7 @@ export class GroupFormComponent implements OnInit{
   @Input() heading: string;
 
   learningAreas: Array<object> = [];
-  learningLevels: Array<object> = [];
+
 
   constructor(private ls: LearningExperienceService){}
 
@@ -472,11 +488,6 @@ export class GroupFormComponent implements OnInit{
     this.ls.findAllLearningAreas().subscribe(results => {
       results.forEach(each => {
         this.learningAreas.push({value: each.$key, viewValue: each.title})
-      })
-    });
-    this.ls.findAllLearningLevels().subscribe(results => {
-      results.forEach(each => {
-        this.learningLevels.push({value: each.$key, viewValue: each.title})
       })
     });
   }  
@@ -510,8 +521,7 @@ export class GroupFormCreateComponent implements OnInit {
     this.form = this.fb.group({
         title: [''],
         description: [''],
-        learningArea: [''],
-        learningLevel: ['']
+        learningArea: ['']
       });
     }
   
@@ -542,26 +552,26 @@ export class GroupFormEditComponent implements OnInit {
   form: FormGroup;
   @Input() key: string;
 
-  currentFormValues: any;
+  currentFormValues: LearningAssessmentGroupModel;
 
   constructor(private fb:FormBuilder,
               private ls: LearningExperienceService) {}
   
   ngOnInit(){
-    this.ls.findblockForKey(this.key).subscribe(result => this.currentFormValues = result)
+    this.ls.findGroupForKey(this.key).subscribe(result => {
+      this.currentFormValues = result;
+    })
+    
 
     this.form = this.fb.group({
         title: [''],
         description: [''],
-        learningArea: [''],
-        learningLevel: ['']
+        learningArea: ['']
       });
 
     this.form.setValue({
         title: this.currentFormValues.title,
-        description: this.currentFormValues.description,
-        learningArea: this.currentFormValues.learningArea,
-        learningLevel: this.currentFormValues.learningLevel
+        description: this.currentFormValues.description
       });
 
     }

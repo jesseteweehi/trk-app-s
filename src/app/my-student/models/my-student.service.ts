@@ -53,6 +53,15 @@ export class MyStudentsService {
 			
 	// }
 
+	findStudentPiecesForKeyNew(studentKey:string): Observable<any> {
+		return this.db.list(`studentLearning/${studentKey}`)
+			.map(results => results.combineLatest(results => {
+				this.findGroupForKey(results.group);
+				this.findBlockForKey(results.group);
+				this.findPieceForKey(results.piece)
+			}))	
+	}
+
 	findStudentPiecesForKey(studentKey:string): Observable<any> {
 		return this.db.list(`studentLearning/${studentKey}`)
 			.map(results => results.map(result => {
