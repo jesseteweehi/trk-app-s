@@ -1,12 +1,18 @@
+<md-toolbar>
+  <button md-icon-button [mdMenuTriggerFor]="appMenu"> <md-icon>add</md-icon></button>
 
+  <md-menu #appMenu="mdMenu">
+    <button md-menu-item (click)="openDialogHeader()"><md-icon>add</md-icon>Header</button>   
+    <button md-menu-item (click)="openDialogCreatePiece()"><md-icon>add</md-icon>Assessment</button>
+  </md-menu>
+
+</md-toolbar>
 <div class="wrapper" [ngStyle]="template()">
 
 
 
       <div class="blank">
-            <button md-raised-button color="primary" (click)="openDialogHeader()">Create Header</button>
-            <p></p>   
-            <button  *ngIf="xheaders.length >= 1 && yheaders.length >= 1 "md-raised-button color="primary" (click)="openDialogCreatePiece()">Create Assessment</button>                                               
+                                              
       </div>
 
       <md-card class='header' *ngFor="let y of yheaders; let i = index" [ngStyle]="xheader(i+1)">
