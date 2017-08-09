@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit, Input } from '@angular/core';
-import { LearningExperienceService } from '../models/learning-experience.service';
 import { 
     LearningAreaModel,
     LearningLevelModel} from '../models/data-classes'

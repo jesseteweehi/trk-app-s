@@ -53,24 +53,58 @@ export class MyStudentsService {
 			
 	// }
 
-	findStudentPiecesForKeyNew(studentKey:string): Observable<any> {
-		return this.db.list(`studentLearning/${studentKey}`)
-			.map(results => results.combineLatest(results => {
-				this.findGroupForKey(results.group);
-				this.findBlockForKey(results.group);
-				this.findPieceForKey(results.piece)
-			}))	
+	findPieceKeysForStudent(keys$: Observable<any[]>): Observable<any> {
+		return keys$
+			.map(keys => keys.map(key => this.db.object('learningExperiencePiece/' + key.$key)))
+			.flatMap(fbojs => Observable.combineLatest(fbojs))
 	}
 
-	findStudentPiecesForKey(studentKey:string): Observable<any> {
-		return this.db.list(`studentLearning/${studentKey}`)
-			.map(results => results.map(result => {
-				let data = {}
-				data['group'] = this.findGroupForKey(result.group);
-				data['block'] = this.findBlockForKey(result.block);
-				data['piece'] = this.findPieceForKey(result.piece);
-				data['pieceKey'] = result.piece
-				return data}))
+	findPiecesForStudent(studentKey:string): Observable<any> {
+		return this.findPieceKeysForStudent(this.db.list(`studentLearning/${studentKey}/pieces/`))
+			.map((LearningAssessmentPieceModel.fromJsonList))
+	}
+
+	// findStudentPiecesForKeyNew(studentKey:string): Observable<any> {
+	// 	return this.db.list(`studentLearning/${studentKey}`)
+	// 		.map(results => results.combineLatest(results => {
+	// 			this.findGroupForKey(results.group);
+	// 			this.findBlockForKey(results.group);
+	// 			this.findPieceForKey(results.piece)
+	// 		}))	
+	// }
+
+	// findStudentPiecesForKey(studentKey:string): Observable<any> {
+	// 	return this.db.list(`studentLearning/${studentKey}`)
+	// 		.map(results => results.map(result => {
+	// 			let data = {}
+	// 			data['group'] = this.findGroupForKey(result.group);
+	// 			data['block'] = this.findBlockForKey(result.block);
+	// 			data['piece'] = this.findPieceForKey(result.piece);
+	// 			data['pieceKey'] = result.piece
+	// 			return data}))
+	// }
+
+	findBlockKeysForStudent(keys$: Observable<any[]>): Observable<any> {
+		return keys$
+			.map(keys => keys.map(key => this.db.object('learningExperienceBlock/' + key.$key)))
+			.flatMap(fbojs => Observable.combineLatest(fbojs))
+	}
+
+	findBlocksForStudent(studentKey:string): Observable<any> {
+		return this.findBlockKeysForStudent(this.db.list(`studentLearning/${studentKey}/blocks/`))
+			.map((LearningAssessmentBlockModel.fromJsonToObject))
+	}
+
+
+	findGroupKeysForStudent(groupKeys$: Observable<any[]>): Observable<any> {
+		return groupKeys$
+			.map(keys => keys.map(key => this.db.object('learningExperienceGroup/' + key.$key)))
+			.flatMap(fbojs => Observable.combineLatest(fbojs))
+	}
+
+	findGroupsForStudent(studentKey:string): Observable<any> {
+		return this.findGroupKeysForStudent(this.db.list(`studentLearning/${studentKey}/groups/`))
+			.map((LearningAssessmentGroupModel.fromJsonToObject))
 	}
 
 	findGroupForKey(key:string): Observable<any> {

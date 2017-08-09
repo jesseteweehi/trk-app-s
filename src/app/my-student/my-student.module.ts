@@ -11,6 +11,8 @@ import { MarkbookModule } from '../markbook/markbook.module';
 
 import { MyStudentsService } from './models/my-student.service';
 
+import { MyStudentLearningGroupItemComponent,
+		 MyStudentLearningBlockItemComponent, } from './my-student-items/my-students-items.component'
 
 
 import { MyStudentContainerComponent } from './my-student-container/my-student-container.component';
@@ -40,8 +42,10 @@ import { MyStudentLearningPieceComponent } from './my-student-focus/my-student-l
 	MyStudentGroupItemComponent,
 	FindStudentComponent,
 	MyStudentFocusComponent,
-	MyStudentLearningPieceComponent]
-
+	MyStudentLearningPieceComponent,
+	MyStudentLearningGroupItemComponent,
+	MyStudentLearningBlockItemComponent,]
+,
 })
 
 export class MyStudentModule {}

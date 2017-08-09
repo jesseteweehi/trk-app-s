@@ -9,8 +9,6 @@
 </md-toolbar>
 <div class="wrapper" [ngStyle]="template()">
 
-
-
       <div class="blank">
                                               
       </div>
@@ -63,15 +61,6 @@
           <button md-menu-item (click)="lockHeader(x.$key, x.header)"><md-icon>lock</md-icon></button>
         </md-menu>
       </md-card>
-
-
-
-   <!--    <app-learning-experience-piece-item
-        *ngFor="let group of groups"
-        [group]="group"
-        [groupId]="groupId"
-        [blockId]="blockId">
-      </app-learning-experience-piece-item> -->
 
       <md-card *ngFor="let group of groups">
         <md-card-subtitle>

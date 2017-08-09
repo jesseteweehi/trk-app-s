@@ -1,4 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { 
+    LearningAssessmentPieceModel,
+    LearningAssessmentGroupModel,
+    LearningAssessmentBlockModel,
+    LearningAssessmentHeaderModel} from '../../markbook/models/data-classes'
 
 
 @Component({
@@ -7,19 +12,21 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./my-student-group.component.css']
 })
 export class MyStudentGroupComponent {
-	@Input() studentFirebase: any;
+	@Input() studentFirebase: LearningAssessmentPieceModel[];
+	@Input() groups: object;
+	@Input() blocks: object;
+	@Input() areas: object;
+	@Input() levels: object;	
 	@Output() sendData = new EventEmitter();
+	highlightKey: string;
 
 
-	// creates error as its changed on check due to being first a string then loading
-	// child component which then changes the key. And the orders its checked thows up an error.
-	key: string;
-	
-	handleData($event){
-		this.sendData.emit($event);
-	}
-
-	handleKey($event){
-		this.key = $event;
+	choose(key, block, group) {
+	  const dataToSend = {
+	    'group': group,
+	    'block': block,
+	  };
+	  this.sendData.emit(dataToSend);
+	  this.highlightKey = key
 	}
 }

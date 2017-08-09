@@ -6,7 +6,8 @@ import {
     LearningAssessmentPieceModel,
     LearningAreaModel,
     LearningLevelModel,
-    LearningAssessmentGroupModel
+    LearningAssessmentGroupModel,
+    LearningAssessmentHeaderModel
     } from '../models/data-classes'
 
 // Learning Experience Piece Common Form
@@ -26,7 +27,7 @@ import {
       <textarea mdInput placeholder="Subject Description" formControlName="description"></textarea> 
     </md-input-container>
 
-    <md-select class="full-width" placeholder="Headers X Axis" formControlName="xheader">
+    <md-select class="full-width" placeholder="Headers Y Axis" formControlName="xheader">
         <md-option *ngFor="let choice of xheaders" [value]="choice.value">
           {{choice.viewValue}}
         </md-option>
@@ -34,12 +35,20 @@ import {
 
     <br>
     <br>
-
-    <md-select class="full-width" placeholder="Headers Y Axis" formControlName="yheader">
+    
+    <md-select class="full-width" placeholder="Headers X Axis" formControlName="yheader">
         <md-option *ngFor="let choice of yheaders" [value]="choice.value">
           {{choice.viewValue}}
         </md-option>
-    </md-select>   
+    </md-select>
+    <br>
+    <br> 
+    <md-radio-group formControlName="qualifier">
+      <md-radio-button value="x">Qualifier X Axis</md-radio-button>
+      <md-radio-button value="y">Qualifier Y Axis</md-radio-button>
+    </md-radio-group>
+    <br> 
+     
   </div>
   `,
   styles:[`
@@ -103,7 +112,9 @@ export class LearningExperienceCreatePieceComponent implements OnInit {
       title: '',
       description: '',
       xheader:'',
-      yheader:''
+      yheader:'',
+      qualifier:''
+
     });
   }
 
@@ -146,14 +157,16 @@ export class LearningExperienceEditPieceComponent implements OnInit {
       title: '',
       description: '',
       xheader:'',
-      yheader:''
+      yheader:'',
+      qualifier:'',
       });
 
     this.form.setValue({
         title: this.currentFormValues.title,
         description: this.currentFormValues.description,
         xheader: this.currentFormValues.xheader,
-        yheader: this.currentFormValues.yheader
+        yheader: this.currentFormValues.yheader,
+        qualifier: this.currentFormValues.qualifier
       });
     }
 
@@ -269,7 +282,7 @@ export class HeaderFormEditComponent implements OnInit {
     @Input() key: string;
     @Input() axis: string;
 
-    currentFormValues: any;
+    currentFormValues: LearningAssessmentHeaderModel;
 
     form: FormGroup;
     constructor(private fb:FormBuilder,
@@ -285,7 +298,7 @@ export class HeaderFormEditComponent implements OnInit {
       this.form = this.fb.group({
           title: [''],
           description: [''],
-          header: [''],
+          header: [{value: '', disabled: true}],
           purpose: ['']   
         });
 

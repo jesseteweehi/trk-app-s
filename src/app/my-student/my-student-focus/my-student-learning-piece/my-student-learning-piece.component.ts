@@ -35,9 +35,6 @@ export class MyStudentLearningPieceComponent {
       }
     }
 
-
-
-
   	xheader(i) {
     // grid Area : row-start,row-end, column-start, column-end
       let styles = {

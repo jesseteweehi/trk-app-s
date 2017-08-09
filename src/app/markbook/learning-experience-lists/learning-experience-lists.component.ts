@@ -383,8 +383,9 @@ export class LearningExperienceBlockListComponent implements OnInit {
       /// could create area change back to group or define type
       let dialogRef = this.dialog.open(BlockCreateDialogComponent);
       dialogRef.afterClosed().subscribe(result => {
+        if(result){
         this.firebaseLearningExperienceBlock(result)
-          });
+          }});
     }
 
     openDialogFindStudent(group) {

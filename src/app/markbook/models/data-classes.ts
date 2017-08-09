@@ -56,22 +56,26 @@ export class LearningAssessmentPieceModel {
 		public created: string,
 		public title: string,
 		public description: string,
+		public parent: string,
 		public locked: boolean,
 		public xheader: string,
-		public yheader: string
+		public yheader: string,
+		public qualifier: string,
 		){}
 	static fromJsonList(array): LearningAssessmentPieceModel[] {
-		return array.map( LearningAssessmentPieceModel.fromJson);
+		return array.map(LearningAssessmentPieceModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, locked, xheader, yheader}): LearningAssessmentPieceModel {
+	static fromJson({$key, created, title, description, parent, locked, xheader, yheader, qualifier}): LearningAssessmentPieceModel {
 		return new LearningAssessmentPieceModel(
 			$key,
 			created,
 			title,
 			description,
+			parent,
 			locked,
 			xheader,
-			yheader
+			yheader,
+			qualifier
 			)
 		}
 	}
@@ -83,7 +87,7 @@ export class LearningAssessmentBlockModel {
 		public created: string,
 		public title: string,
 		public description: string,
-		public parentKey: string,
+		public parent: string,
 		public learningLevel: string,
 		public archived: boolean,
 		public locked: boolean,
@@ -91,17 +95,34 @@ export class LearningAssessmentBlockModel {
 	static fromJsonList(array): LearningAssessmentBlockModel[] {
 		return array.map( LearningAssessmentBlockModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, parentKey, learningLevel, archived, locked}): LearningAssessmentBlockModel {
+	static fromJson({$key, created, title, description, parent, learningLevel, archived, locked}): LearningAssessmentBlockModel {
 		return new LearningAssessmentBlockModel(
 			$key,
 			created,
 			title,
 			description,
-			parentKey,
+			parent,
 			learningLevel,
 			archived,
 			locked
 			)
+		}
+	static fromJsonToObject(array) : object {
+		let final = {};
+		array.map(each => {
+			const key = each.$key;
+			const value = new LearningAssessmentBlockModel(
+				each.$key,
+				each.created,
+				each.title,
+				each.description,
+				each.parent,
+				each.learningLevel,
+				each.archived,
+				each.locked);
+			final[key]=value
+			});
+		return final	
 		}
 	}
 
@@ -129,7 +150,24 @@ export class LearningAssessmentGroupModel {
 			locked
 			)
 		}
-	}
+	static fromJsonToObject(array) : object {
+		let final = {};
+		array.map(each => {
+			const key = each.$key;
+			const value = new LearningAssessmentGroupModel(
+				each.$key,
+				each.created,
+				each.title,
+				each.description,
+				each.learningArea,
+				each.archived,
+				each.locked);
+			final[key]=value
+			});
+		return final	
+		}
+}
+	
 
 export class LearningAssessmentHeaderModel {
 	constructor(
@@ -137,7 +175,6 @@ export class LearningAssessmentHeaderModel {
 		public created: string,
 		public title: string,
 		public description: string,
-		//Axis
 		public header: string,
 		public purpose: string,
 		){}

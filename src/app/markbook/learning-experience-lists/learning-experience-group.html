@@ -15,8 +15,6 @@
 
 </md-toolbar>
 
-
-
   <div class="wrapper">
 
   <md-card class="grid-item" *ngFor="let group of filtered">
@@ -34,9 +32,6 @@
   	<md-card-title>{{group.title}}</md-card-title>
 
   	<md-card-content>{{group.description}}
-
-    
-
     </md-card-content>
 
   	<md-card-actions *ngIf="group.locked">

@@ -1,13 +1,22 @@
 .container {
   display: grid;
   grid-template-columns: 3fr 3fr 3fr 3fr 3fr 3fr 1fr;
-  background-color: #673AB7
+  border-bottom: 2px solid grey;
+  
+}
+
+.heading {
+	background-color: #673AB7;
+	color: white;
+	padding: 5px;
 }
 
 .items {
-	color: #FFFFFF;
-	padding-left: 5px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+	background-color: #FFFFFF;
+	padding: 5px;
+}
+
+.highlight {
+	background-color: #FFEB3B;
 }
 

@@ -299,16 +299,16 @@ export class LearningExperienceContainerComponent implements OnInit {
     firebaseLearningExperienceBlock(form) {
       this.ls.createNewLearningExperiencePieceUnderBlock(this.blockId, form.value).subscribe(
       	      () => {
-      		      this.snackBar.open('Lesson Group Saved','Awesome',{ duration:2000 })
+      		      this.snackBar.open('Lesson Piece Saved','Awesome',{ duration:2000 })
       		    },
       		    err => { 
-      		      this.snackBar.open('Error Saving Lesson Group ${err}','Bugger',{ duration:2000 })
+      		      this.snackBar.open('Error Saving Lesson Piece ${err}','Bugger',{ duration:2000 })
       		    }
       		);
       }
 
     editLearningPiece(key, form) {
-      this.ls.editLearningExperiencePiece(key, form.value).subscribe(
+      this.ls.editLearningExperiencePiece(this.blockId, key, form.value).subscribe(
               () => {
                 this.snackBar.open('Lesson Group Saved','Awesome',{ duration:2000 })
               },

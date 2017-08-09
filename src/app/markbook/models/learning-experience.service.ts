@@ -45,14 +45,16 @@ export class LearningExperienceService {
     }
 
     putStudentsInLearningPiece(groupKey: string, blockKey:string, pieceKey: string, students: StudentModel[]): Observable<any> {
-        const infoToSave = Object.assign({}, 
-            { 'group': groupKey,
-              'block': blockKey,
-              'piece': pieceKey, });
+        // const infoToSave = Object.assign({}, 
+        //     { 'group': groupKey,
+        //       'block': blockKey,
+        //       'piece': pieceKey, });
         let dataToSave = {}
         students.forEach(student => {
             dataToSave["studentsForLearningPiece/" + pieceKey + "/" + student.$key] = true;
-            dataToSave[`studentLearning/${student.$key}/${pieceKey}`] = infoToSave
+            dataToSave[`studentLearning/${student.$key}/groups/${groupKey}`] = true;
+            dataToSave[`studentLearning/${student.$key}/blocks/${blockKey}`] = true;
+            dataToSave[`studentLearning/${student.$key}/pieces/${pieceKey}`] = true;
         })
 
         return this.firebaseUpdate(dataToSave)
@@ -62,7 +64,7 @@ export class LearningExperienceService {
         let dataToSave = {}
         students.forEach(student => {
             dataToSave["studentsForLearningPiece/" + pieceKey + "/" + student.$key] = null;
-            dataToSave[`studentLearning/${student.$key}/${pieceKey}`] = null
+            dataToSave[`studentLearning/${student.$key}/pieces/${pieceKey}`] = null;
         })
 
         return this.firebaseUpdate(dataToSave)
@@ -137,20 +139,20 @@ export class LearningExperienceService {
             .map(LearningAssessmentPieceModel.fromJson)
     }
 
-    createNewLearningExperiencePieceUnderBlock(blockKey: string, le:any): Observable<any> {
-        
+    createNewLearningExperiencePieceUnderBlock(blockKey: string, le:any): Observable<any> {        
         const learningExperiencePieceToSave = Object.assign({'parent':blockKey}, le);
         const learningExperiencePieceToSaveKey = this.sdkDb.child('learningExperiencePiece').push().key;       
         let dataToSave = {};
         dataToSave["learningExperiencePiece/" + learningExperiencePieceToSaveKey] = learningExperiencePieceToSave;
         dataToSave["learningExperiencePieceForBlock/" + blockKey + "/" + learningExperiencePieceToSaveKey] = true
 
+
         return this.firebaseUpdate(dataToSave);
 
     }
 
-    editLearningExperiencePiece(pieceKey: string, le:any): Observable<any> {
-        const learningExperiencePieceToSave = Object.assign({}, le);      
+    editLearningExperiencePiece(blockKey:string, pieceKey: string, le:any): Observable<any> {
+        const learningExperiencePieceToSave = Object.assign({'parent': blockKey}, le);      
         let dataToSave = {};
         dataToSave["learningExperiencePiece/" + pieceKey] = learningExperiencePieceToSave;
         return this.firebaseUpdate(dataToSave);
@@ -415,6 +417,7 @@ export class LearningExperienceService {
     findPiecesForBlocks(blockKey:string): Observable<any> {
         return this.findPieceKeysForBlock(this.db.list(`learningExperiencePieceForBlock/${blockKey}`))
             .map(LearningAssessmentPieceModel.fromJsonList)
+
     }
 
     // Update // 

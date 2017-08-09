@@ -1,32 +1,64 @@
 <div class="container">
-<div class="items heading mat-body-2">Learning Area</div>
-<!-- <div class="items description mat-body-1"></div> -->
+	<div class="heading mat-body-2">Learning Area</div>
+	<!-- <div class="description mat-body-1"></div> -->
 
-<div class="items heading mat-body-2">Learning Level</div>
-<!-- <div class="items description mat-body-1"></div> -->
+	<div class="heading mat-body-2">Learning Level</div>
+	<!-- <div class="description mat-body-1"></div> -->
 
-<div class="items heading mat-body-2">Learning Group</div>
-<!-- <div class="items description mat-body-1"></div> -->
+	<div class="heading mat-body-2">Learning Group</div>
+	<!-- <div class="description mat-body-1"></div> -->
 
-<div class="items heading mat-body-2">Learning Block</div>
+	<div class="heading mat-body-2">Learning Block</div>
 
-<div class="items heading mat-body-2">Descriptor</div>
+	<div class="heading mat-body-2">Descriptor</div>
 
-<div class="items heading mat-body-2">Qualifier</div>
+	<div class="heading mat-body-2">Qualifier</div>
 
-<div class="items heading mat-body-2"></div>
-<!-- <div class="items description mat-body-1"></div> -->
+	<div class="heading mat-body-2"></div>
+</div>
+
+<div class="container" *ngFor="let piece of studentFirebase?.slice().reverse()" 
+>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<group-area-item *ngIf="groups&&blocks&&areas"[area]="areas[groups[blocks[piece?.parent]?.parent]?.learningArea]"></group-area-item>
+	</div>
+	
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<group-level-item *ngIf="groups&&blocks&&levels" [level]="levels[blocks[piece?.parent]?.learningLevel]"></group-level-item>
+	</div>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<my-student-block *ngIf="groups&&blocks" [block]="groups[blocks[piece?.parent]?.parent]"></my-student-block>
+	</div>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<my-student-group *ngIf="blocks" [group]="blocks[piece?.parent]"></my-student-group>
+	</div>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.xheader}}</div>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.yheader}}</div>
+
+<!-- 	<div class="items mat-body-2">{{piece.qualifier}}</div> -->
+
+<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2"><button md-icon-button color="primary" (click)="choose(piece.$key, blocks[piece.parent], groups[blocks[piece.parent].parent])">
+	<md-icon>info</md-icon></button>
 </div>
 
 
 
-<app-my-student-group-item *ngFor="let item of studentFirebase?.slice().reverse(); let last = first"
+
+
+
+<!-- <app-my-student-group-item *ngFor="let item of studentFirebase?.slice().reverse(); let last = first"
 [last]="last"
 [highlightKey]="key"
 [itemData]="item"
 (sendData)="handleData($event)"
 (sendKey)="handleKey($event)">		
-</app-my-student-group-item>
+</app-my-student-group-item> -->
 
 
 
@@ -36,55 +68,3 @@
 
 	 
 
-<!-- 
-<div class="header">
-Header
-</div>
-
-<div class="container">
-	<div class="heading">Header</div>
-	<div class="description">Current Desciprtion</div>
-	<div class="date">Date</div>
-	<div class="description">Goal Description</div>
-	<div class="date">Date</div>
-</div>
-<div class="container">
-	<div class="heading">Header</div>
-	<div class="description">Current Desciprtion</div>
-	<div class="date">Date</div>
-	<div class="description">Goal Description</div>
-	<div class="date">Date</div>
-</div>
-<div class="container">
-	<div class="heading">Header</div>
-	<div class="description">Current Desciprtion</div>
-	<div class="date">Date</div>
-	<div class="description">Goal Description</div>
-	<div class="date">Date</div>
-</div>
-
-<div class="header">
-Header
-</div>
-
-<div class="container">
-	<div class="heading">Header</div>
-	<div class="description">Current Desciprtion</div>
-	<div class="date">Date</div>
-	<div class="description">Goal Description</div>
-	<div class="date">Date</div>
-</div>
-<div class="container">
-	<div class="heading">Header</div>
-	<div class="description">Current Desciprtion</div>
-	<div class="date">Date</div>
-	<div class="description">Goal Description</div>
-	<div class="date">Date</div>
-</div>
-<div class="container">
-	<div class="heading">Header</div>
-	<div class="description">Current Desciprtion</div>
-	<div class="date">Date</div>
-	<div class="description">Goal Description</div>
-	<div class="date">Date</div>
-</div>  -->
