@@ -4,10 +4,14 @@ import {Observable, Subject} from "rxjs/Rx";
 
 import { MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
-
+import { StudentsSharedService } from '../../student-shared/student-shared.service';
 import { LearningAssessmentPieceModel } from '../models/data-classes';
+import { CohortModel } from '../../cohorts/models/data-classes'
 
-import { LEStudentListPieceRemoveDialogComponent,
+import { CohortListDialogComponent } from '../../cohorts/cohorts-dialogs/cohorts-dialogs.component'
+
+import { CohortCompareDialogComponent,
+         LEStudentListPieceRemoveDialogComponent,
          LEStudentListPieceAddDialogComponent,
          LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
@@ -33,20 +37,76 @@ export class LearningExperienceContainerComponent implements OnInit {
     xheaders: any[];
     yheaders: any[];
 
+    cohortData: object = {};
+    students: any[];
+
+    cohort: CohortModel;
+
+
     constructor(
     		private route: ActivatedRoute,
     		private ls: LearningExperienceService,
+        private ss: StudentsSharedService,
     		public dialog: MdDialog,
         public snackBar: MdSnackBar) {
     	  }
 
     ngOnInit() {
-    	this.blockId = this.route.snapshot.params['blockid'];
+      this.blockId = this.route.snapshot.params['blockid'];
       this.groupId = this.route.snapshot.params['groupid']
-    	this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups);
+      this.ls.findPiecesForBlocks(this.blockId).subscribe(groups => this.groups = groups)
+      this.ls.findStudentsForPiecesForBlock(this.blockId).subscribe(students => this.students = students)
       this.ls.findXHeadersForBlocks(this.blockId).subscribe(xheaders => this.xheaders = xheaders);
       this.ls.findYHeadersForBlocks(this.blockId).subscribe(yheaders => this.yheaders = yheaders);
       }
+
+ 
+
+    openCohorts() {
+      let dialogRef = this.dialog.open(CohortListDialogComponent, {
+        position: {
+            top: '0',
+          },
+          height: '90%',
+          width: '500px'
+      });
+      dialogRef.afterClosed().subscribe(result => {
+           if (result)
+              this.cohort = result;
+              this.cohortData = {}                     
+                });
+    }
+
+    compare(cohortK, pieceK, pieceA){
+      this.ls.findStudentKeysForCohort(cohortK).subscribe(cohort => {
+
+        let output: object = {}
+
+         output = {}
+
+         let tablepiece: Object = {};
+         pieceA.map(object => {
+           tablepiece[object.$key] = object})
+         
+         let inside = cohort.filter(obj => {
+           return (obj.$key in tablepiece)
+         })
+
+         let difference: Object= {};
+         inside.map(object => {
+           difference[object.$key] = object})
+         
+         let outside = cohort.filter(obj => {
+            return !(obj.$key in difference) 
+         })
+
+         output['cohortinpiece'] = inside
+         output['cohortoutpiece'] = outside
+         output['all'] = cohort
+         this.cohortData[pieceK] = output
+      })      
+    }
+   
 
     yheader(i) {
       // grid Area : row-start,row-end, column-start, column-end
@@ -269,7 +329,7 @@ export class LearningExperienceContainerComponent implements OnInit {
       
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.removeStudent2LearningBlock(this.groupId, this.blockId, group.$key, result)
+          this.removeStudent2LearningBlock(group.$key, result)
         }    
       })
       }
@@ -285,8 +345,8 @@ export class LearningExperienceContainerComponent implements OnInit {
           );
       }
 
-    removeStudent2LearningBlock(groupKey:string, blockKey:string, pieceKey:string, students: StudentModel[]){
-      this.ls.removeStudentsFromLearningPiece(groupKey, blockKey, pieceKey, students).subscribe(
+    removeStudent2LearningBlock(pieceKey:string, students: StudentModel[]){
+      this.ls.removeStudentsFromLearningPiece(pieceKey, students).subscribe(
               () => {
                   this.snackBar.open('Students Deleted','Awesome',{ duration:2000 })
               },

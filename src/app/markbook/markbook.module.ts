@@ -10,12 +10,13 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { MyMaterialModule } from '../my-material/my-material.module';
 import { StudentsModule } from '../students/students.module'
 import { StudentSharedModule} from '../student-shared/student-shared.module'
+import { CohortsModule} from '../cohorts/cohorts.module'
 
 import { AutofocusDirective } from './models/custom-directives';
 
 import { LearningExperienceService } from './models/learning-experience.service';
 
-import { LevelItemComponent, AreaItemComponent } from './learning-experience-items/learning-experience-items.component';
+import { LevelItemComponent, AreaItemComponent, CohortItemComponent } from './learning-experience-items/learning-experience-items.component';
 
 import { LearningLevelListDialogComponent,
          LearningAreaListDialogComponent,
@@ -52,7 +53,8 @@ import { LearningExperienceFormPieceComponent,
 import { LearningExperienceGroupListComponent, 
          LearningExperienceBlockListComponent } from './learning-experience-lists/learning-experience-lists.component';
 
-import { LEStudentListPieceAddDialogComponent,
+import { CohortCompareDialogComponent,
+         LEStudentListPieceAddDialogComponent,
          LEStudentListPieceRemoveDialogComponent,
          LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component';
@@ -77,7 +79,8 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
     MarkbookRoutingModule,
     AngularFireDatabaseModule,
     StudentsModule,
-    StudentSharedModule
+    StudentSharedModule,
+    CohortsModule
   ],
   declarations: [
   // ------Forms-------
@@ -110,6 +113,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   HeaderCreateDialogComponent,
   HeaderEditDialogComponent,
 
+  CohortCompareDialogComponent,
   LEStudentListPieceAddDialogComponent,
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
@@ -120,6 +124,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   learningAreaListComponent,
   LevelItemComponent, 
   AreaItemComponent,
+  CohortItemComponent,
 
   // Learning Support Forms
   LearningLevelFormComponent,
@@ -161,6 +166,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   BlockEditDialogComponent,
 
   // Learning Support Dialogs
+  CohortCompareDialogComponent,
   LearningLevelListDialogComponent,
   LearningAreaListDialogComponent,
   LearningLevelCreateDialogComponent,

@@ -60,23 +60,49 @@ export class LearningAssessmentPieceModel {
 		public locked: boolean,
 		public xheader: string,
 		public yheader: string,
-		public qualifier: string,
+		public qualifier: string
 		){}
 	static fromJsonList(array): LearningAssessmentPieceModel[] {
 		return array.map(LearningAssessmentPieceModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, parent, locked, xheader, yheader, qualifier}): LearningAssessmentPieceModel {
+	static fromJson({$key, 
+				     created, 
+				     title, 
+				     description,
+				     parent,
+				     locked,
+				     xheader, 
+				     yheader, 
+				     qualifier}): LearningAssessmentPieceModel {
 		return new LearningAssessmentPieceModel(
-			$key,
-			created,
-			title,
-			description,
-			parent,
-			locked,
-			xheader,
-			yheader,
-			qualifier
-			)
+			$key, 
+		    created, 
+		    title, 
+		    description,
+		    parent,
+		    locked,  
+		    xheader,
+		    yheader,
+		    qualifier)
+		}
+
+	static fromJsonToObject(array) : object {
+		let final = {};
+		array.map(each => {
+			const key = each.$key;
+			const value = new LearningAssessmentPieceModel(
+				each.$key,
+				each.created,
+				each.title,
+				each.description,
+				each.parent,
+				each.locked,
+				each.xheader,
+				each.yheader,
+				each.qualifier);
+			final[key]=value
+			});
+		return final	
 		}
 	}
 

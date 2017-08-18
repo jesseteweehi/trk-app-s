@@ -18,12 +18,16 @@ const appRoutes: Routes = [
     loadChildren: 'app/markbook/markbook.module#MarkbookModule'
   },
   {
-    path: 'students',
-    loadChildren: 'app/students/students.module#StudentsModule'
+    path: 'cohorts',
+    loadChildren: 'app/cohorts/cohorts.module#CohortsModule'
   },
   {
     path: 'individual',
     loadChildren: 'app/my-student/my-student.module#MyStudentModule'
+  },
+  {
+    path: 'overview',
+    loadChildren: 'app/overview/overview.module#OverviewModule'
   }
 ];
 

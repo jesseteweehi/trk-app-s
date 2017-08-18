@@ -32,7 +32,16 @@ export class AppComponent {
   {
     link: 'individual',
     label: 'Students'
+  },
+  {
+    link: 'cohorts',
+    label: 'Cohorts'
+  },
+  {
+    link: 'overview',
+    label: 'Overview'
   }
+
   ]
 
     students(){

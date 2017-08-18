@@ -4,6 +4,10 @@ html, body, md-sidenav-container {
   height: 100%;
 }
 
+.cohort {
+  border-top: 1px solid grey;
+}
+
 .box {
   background-color: #444;
   color: #fff;
@@ -27,9 +31,18 @@ html, body, md-sidenav-container {
   background-color: #f5f5f5;
 }
 
+md-card {
+/*  padding: 10px;*/
+}
+
 md-card-footer {
   padding: 5px;
   color: grey;
+}
+
+md-card-actions {
+  padding: 5px;
+  margin: 0px;
 }
 
 md-card-title {

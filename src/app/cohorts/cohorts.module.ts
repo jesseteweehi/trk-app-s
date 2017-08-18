@@ -10,13 +10,53 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { MyMaterialModule } from '../my-material/my-material.module';
 import { StudentSharedModule} from '../student-shared/student-shared.module'
 
-import { CohortsService } from './models/cohorts.service'
+import { CohortsService } from './models/cohorts.service';
+import { CohortsContainerComponent } from './cohorts-container/cohorts-container.component';
+
+
+import { 
+         CohortsCreateDialogComponent,
+		     CohortsEditDialogComponent } from './cohorts-dialogs/cohorts-dialogs-forms.component';
+
+import { CohortsFormComponent,
+		     CohortsCreateComponent,
+		     CohortsEditComponent } from './cohorts-forms/cohorts-forms.component'
+
+import { CohortListDialogComponent,
+         CohortStudentListPieceAddDialogComponent,
+         CohortStudentListPieceRemoveDialogComponent } from './cohorts-dialogs/cohorts-dialogs.component' 
+
+import { CohortsList } from './cohorts-lists/cohorts-lists.component'
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    MyMaterialModule,
+    StudentSharedModule,
+    AngularFireDatabaseModule,
+    CohortsRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [CohortsService],
-  declarations: []
+  
+  declarations: [
+  	CohortsContainerComponent,
+  	CohortsCreateDialogComponent,
+    CohortsEditDialogComponent, 
+    CohortsFormComponent,
+	  CohortsCreateComponent,
+	  CohortsEditComponent,
+    CohortStudentListPieceAddDialogComponent,
+    CohortStudentListPieceRemoveDialogComponent,
+    CohortsList,
+    CohortListDialogComponent],
+
+  entryComponents: [
+  	CohortsCreateDialogComponent,
+  	CohortsEditDialogComponent,
+    CohortStudentListPieceAddDialogComponent,
+    CohortStudentListPieceRemoveDialogComponent,
+    CohortListDialogComponent
+  ]
 })
 export class CohortsModule { }

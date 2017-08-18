@@ -90,8 +90,6 @@ export class StudentListComponent {
 
   filtered: StudentModel[];
 
-  constructor() {}
-
   ngOnChanges() {
     this.filtered = this.allStudents
   }

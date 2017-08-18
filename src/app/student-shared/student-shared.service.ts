@@ -32,7 +32,6 @@ export class StudentsSharedService {
         return studentkeys$
             .map(splp => splp.map(students => this.db.object('students/' + students.$key)))
             .flatMap(fbojs => Observable.combineLatest(fbojs))
-  
     }
 
     findStudentsForLP(lpKey:string): Observable<any> {
@@ -40,10 +39,24 @@ export class StudentsSharedService {
             .map(StudentModel.fromJsonList)
     }
 
+
+    findStudentsForCohort(lpKey:string): Observable<any> {
+        return this.findStudentKeysForObservable(this.db.list(`studentsForCohort/${lpKey}`))
+            .map(StudentModel.fromJsonList)
+    }
+
     findStudentsFromStudentKeys(studentKeys$: Observable<any[]> ) : Observable<any> {
         return studentKeys$
             .map(studentkeys => studentkeys.map(key => this.db.object('students/' + key)) )
             .flatMap(fbojs => Observable.combineLatest(fbojs))
+    }
+
+    findCohortStudentsFromStudentKeys(studentKeys: Array<any> ): Observable<StudentModel[]> {
+        let studentKeys$: Observable<any> = Observable.of(studentKeys)
+          return studentKeys$
+                    .map(keys => keys.map(key => (this.db.object('students/' + key.$key))))
+                    .flatMap(fbojs => Observable.combineLatest(fbojs))
+                    .map(StudentModel.fromJsonList)
     }
 
     findLPForLB(lpKey$: Observable<any[]> ): Observable<any> {

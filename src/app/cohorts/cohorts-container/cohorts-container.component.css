@@ -1,0 +1,16 @@
+.wrapper {
+  		display: grid;
+  	  	height: auto;
+  	  	grid-template-columns : repeat( 5, 1fr)
+  	}
+
+  	.grid-item {
+  	  grid-column: auto;
+  	  grid-row: auto;
+  	}
+
+    .right  {
+      position: absolute;
+      top: 8px;
+      right: 16px;
+    }

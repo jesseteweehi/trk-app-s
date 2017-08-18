@@ -12,6 +12,51 @@ import { StudentModel } from '../../student-shared/data-classes'
 // Actual changing of data is handled on handed back to original component 
 // Likely to use the methods here from the Students Service to be moved to Shared Student Service.
 
+@Component({
+  selector: 'cohort-compare-list',
+  template: 
+  `
+  <md-tab-group>
+    <md-tab label="Yet to Attain">
+      <app-student-list 
+      [allStudents]="outStudents">
+      </app-student-list>
+    </md-tab>
+
+    <md-tab label="Attained">
+      <app-student-list 
+      [allStudents]="inStudents">
+      </app-student-list>
+    </md-tab>
+
+    <md-tab label="Cohort">
+      <app-student-list 
+      [allStudents]="allStudents">
+      </app-student-list>
+    </md-tab>
+
+  </md-tab-group>
+  `,
+  styles:[]
+})
+export class CohortCompareDialogComponent implements OnInit {
+  allStudents: StudentModel[];
+  inStudents: StudentModel[];
+  outStudents: StudentModel[];
+
+
+    constructor(public dialogRef: MdDialogRef<CohortCompareDialogComponent>,
+          @Inject(MD_DIALOG_DATA) public data: any,
+          private ss: StudentsSharedService
+          ) {}
+
+    ngOnInit() {
+    this.ss.findCohortStudentsFromStudentKeys(this.data.all).subscribe(result => this.allStudents = result)
+    this.ss.findCohortStudentsFromStudentKeys(this.data.in).subscribe(result => this.inStudents = result)
+    this.ss.findCohortStudentsFromStudentKeys(this.data.out).subscribe(result => this.outStudents = result)
+  }   
+}
+
 
 @Component({
   selector: 'learning-piece-removestudent-list',
