@@ -18,7 +18,7 @@ html, body, md-sidenav-container {
 
 .wrapper {
   display: grid;
-  grid-line: 5px;
+ /* grid-line: 5px;*/
 }
 
 .blank {

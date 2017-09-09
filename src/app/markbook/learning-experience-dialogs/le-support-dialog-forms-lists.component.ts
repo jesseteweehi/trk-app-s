@@ -11,6 +11,32 @@ import { LearningLevelModel,
 // LearningLevel and Learning Area Lists may go here also.
 
 @Component({
+	selector: 'learning-year-list-dialog',
+	template:
+	`
+	<app-learning-year-list>
+	</app-learning-year-list>
+
+	`,
+	styles:[`
+
+	`]
+})
+
+export class LearningYearListDialogComponent implements OnInit {
+	
+	constructor(public dialogRef: MdDialogRef<LearningYearListDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	ngOnInit(){
+
+	}
+}
+
+
+
+@Component({
 	selector: 'learning-level-list-dialog',
 	template:
 	`
@@ -60,6 +86,49 @@ export class LearningAreaListDialogComponent implements OnInit {
 
 
 @Component({
+	selector: 'learning-year-formcreate-dialog',
+	template:
+	`
+	<app-learning-year-create-form
+	(formToSend)="handleForm($event)">
+	</app-learning-year-create-form>
+	`
+})
+
+export class LearningYearCreateDialogComponent {
+
+	constructor(public dialogRef: MdDialogRef<LearningYearCreateDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
+	selector: 'learning-year-formedit-dialog',
+	template:
+	`
+	<app-learning-year-edit-form
+	(formToSend)="handleForm($event)"
+	[key]="data.key">
+	</app-learning-year-edit-form>
+	`
+})
+
+export class LearningYearEditDialogComponent {
+
+	constructor(public dialogRef: MdDialogRef<LearningYearEditDialogComponent>,
+		@Inject(MD_DIALOG_DATA) public data: any,
+		) {}
+
+	handleForm($event){
+		this.dialogRef.close($event)
+	}
+}
+
+@Component({
 	selector: 'learning-level-formcreate-dialog',
 	template:
 	`
@@ -68,6 +137,8 @@ export class LearningAreaListDialogComponent implements OnInit {
 	</app-learning-level-create-form>
 	`
 })
+
+
 
 export class LearningLevelCreateDialogComponent {
 

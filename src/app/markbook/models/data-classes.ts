@@ -1,3 +1,65 @@
+export class MyStudentLearningPieceModel {
+	constructor(
+		public $key: string,
+		public year: string,
+		public area: string,
+		public level: string,
+		public group: string,
+		public block: string,
+		public xheader: string,
+		public yheader: string,
+		public qualifier: string
+		){}
+
+	static fromJson({
+		$key,
+		year,
+		area,
+		level,
+		group,
+		block,
+		xheader,
+		yheader,
+		qualifier,
+	}) : MyStudentLearningPieceModel {
+		return new MyStudentLearningPieceModel(
+		$key,
+		year,
+		area,
+		level,
+		group,
+		block,
+		xheader,
+		yheader,
+		qualifier,
+			)
+	}
+}
+
+export class LearningYearModel {
+	constructor(
+		public $key: string,
+		public created: string,
+		public year: string,
+		public semester: string
+		){}
+	static fromJsonList(array): LearningYearModel[] {
+		return array.map(LearningYearModel.fromJson)
+	}
+	static fromJson({
+		 $key,
+		 created,
+		 year,
+		 semester}): LearningYearModel {
+		return new LearningYearModel(
+			$key,
+			created,
+			year,
+			semester
+			);
+	}
+}
+
 export class LearningLevelModel {
 	constructor(
 		public $key: string,
@@ -150,7 +212,26 @@ export class LearningAssessmentBlockModel {
 			});
 		return final	
 		}
+	static ObjectwithChildren(array) : object {
+		let final = {};
+		array.map(each => {
+			const key = each.$key;
+			const value = new LearningAssessmentBlockModel(
+				each.$key,
+				each.created,
+				each.title,
+				each.description,
+				each.parent,
+				each.learningLevel,
+				each.archived,
+				each.locked);
+			final[key] = {}
+			final[key]['info']=value
+			final[key]['children'] = []
+			});
+		return final
 	}
+}
 
 export class LearningAssessmentGroupModel {
 	constructor(
@@ -159,19 +240,23 @@ export class LearningAssessmentGroupModel {
 		public title: string,
 		public description: string,
 		public learningArea: string,
+		public learningYear:string,
+		public learningLevel:string,
 		public archived: boolean,
 		public locked: boolean,
 		){}
 	static fromJsonList(array): LearningAssessmentGroupModel[] {
 		return array.map( LearningAssessmentGroupModel.fromJson);
 		}
-	static fromJson({$key, created, title, description, learningArea, archived, locked }): LearningAssessmentGroupModel {
+	static fromJson({$key, created, title, description, learningArea, learningYear, learningLevel, archived, locked }): LearningAssessmentGroupModel {
 		return new LearningAssessmentGroupModel(
 			$key,
 			created,
 			title,
 			description,
 			learningArea,
+			learningYear,
+			learningLevel,
 			archived,
 			locked
 			)
@@ -186,6 +271,8 @@ export class LearningAssessmentGroupModel {
 				each.title,
 				each.description,
 				each.learningArea,
+				each.learningYear,
+				each.learningLevel,
 				each.archived,
 				each.locked);
 			final[key]=value

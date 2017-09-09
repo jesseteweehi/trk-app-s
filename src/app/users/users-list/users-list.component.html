@@ -1,0 +1,68 @@
+<md-toolbar>
+  <a routerLink="groups">Groups</a>
+</md-toolbar>
+
+
+<md-list>
+	<md-list-item *ngFor="let user of users">
+		<img mdListAvatar src="{{user.photoUrl}}" alt="...">
+	 	<p mdLine><span> {{user.email}}</span></p>
+	<!--  	<button class="right" md-icon-button (click)="remove(user.$key)">
+	 		<md-icon>delete</md-icon>
+	 	</button> -->
+	</md-list-item>
+</md-list>
+
+
+
+<!-- <div class="wrapper">
+
+<div>
+
+  <md-input-container>
+    <textarea #emailAdmin mdInput placeholder="Email" (keyup.enter)="create('admin', emailAdmin.value)"></textarea>
+  </md-input-container>
+
+	<md-list>
+	 <md-list-item *ngFor="let email of adminEmails">
+	 	{{email.$key}}
+	 	<button class="right" md-icon-button (click)="remove">
+	 		<md-icon>delete</md-icon>
+	 	</button>
+	 </md-list-item>
+	</md-list>
+</div>
+
+
+<div>
+
+	<md-input-container>
+	  <textarea #emailTeacher mdInput placeholder="Email" (keyup.enter)="create('teacher', emailTeacher.value)"></textarea>
+	</md-input-container>
+
+	<md-list>
+	 <md-list-item *ngFor="let email of teacherEmails">
+	 	{{email}}
+	 	<button class="right" md-icon-button (click)="remove">
+	 		<md-icon>delete</md-icon>
+	 	</button>
+	 </md-list-item>
+	</md-list>
+</div>
+
+
+<div>
+	<md-input-container>
+	  <textarea #emailStudent mdInput placeholder="Email" (keyup.enter)="create('student', emailStudent.value)"></textarea>
+	</md-input-container>
+
+	<md-list>
+	 <md-list-item *ngFor="let email of studentEmails">
+	 	{{email}}
+	 	<button class="right" md-icon-button (click)="remove">
+	 		<md-icon>delete</md-icon>
+	 	</button>
+	 </md-list-item>
+	</md-list>
+</div>
+</div> -->

@@ -17,10 +17,11 @@
 		[learningPieceKeys]="learningPieceKeys">
 		</app-my-student-focus>
 
-		<app-my-student-group 
+		<app-my-student-group *ngIf="studentLearning&&levels&&areas&&years&&blocks&&groups"
 			[studentFirebase]="studentLearning"
 			[levels]="levels"
-			[areas]="areas"		
+			[areas]="areas"
+			[years]="years"			
 			[blocks]="blocks"
 			[groups]="groups"
 			(sendData)="handleData($event)">

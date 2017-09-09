@@ -6,6 +6,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 //Routes
 import { AppRoutingModule }   from './app-routing.module';
@@ -19,14 +21,12 @@ import { MyMaterialModule } from './my-material/my-material.module'
 
 //components
 import { StudentSearchComponent } from './student-search/student-search.component';
-import { HeaderComponent } from './header/header.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     StudentSearchComponent
   ],
   imports: [
@@ -36,7 +36,10 @@ import { HeaderComponent } from './header/header.component';
     ReactiveFormsModule,
     MyMaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AppRoutingModule
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AppRoutingModule,
+
   ],
   exports: [],
   providers: [],

@@ -14,7 +14,10 @@ import { LearningAssessmentGroupModel,
 import { LEStudentListBlockDialogComponent,
          LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
 
-import { LearningLevelListDialogComponent,
+import {LearningYearListDialogComponent,
+        LearningYearCreateDialogComponent,
+        LearningYearEditDialogComponent, 
+        LearningLevelListDialogComponent,
         LearningAreaListDialogComponent,
         LearningLevelCreateDialogComponent,
         LearningLevelEditDialogComponent,
@@ -54,7 +57,9 @@ export class LearningExperienceGroupListComponent implements OnInit {
   filtered: LearningAssessmentGroupModel[];
 	groups: LearningAssessmentGroupModel[];
   
+  years: object = {};
   areas: object = {};
+  levels: object = {};
   normalState: boolean = true;
 
   constructor(
@@ -70,6 +75,12 @@ export class LearningExperienceGroupListComponent implements OnInit {
       // reWrite this so it creates the object from the list below: Then doesn't call same data twice.
       this.ls.findAllLearningAreaObject().subscribe(areas => {
         this.areas = areas;
+        });
+      this.ls.findAllLearningYearObject().subscribe(years => {
+        this.years = years;
+        });
+      this.ls.findAllLearningLevelObject().subscribe(levels => {
+        this.levels = levels;
         });
     }
     
@@ -150,33 +161,34 @@ export class LearningExperienceGroupListComponent implements OnInit {
       );
     }
 
+    openLearningYearList() {
+      let dialogRef = this.dialog.open(LearningYearListDialogComponent,{
+        height: '90%',
+        width: '500px'
+      });
+      dialogRef.afterClosed()
+    }
+
     openLearningAreaList() {
       let dialogRef = this.dialog.open(LearningAreaListDialogComponent,{
         height: '90%',
         width: '500px'
       });
-      dialogRef.afterClosed().subscribe(result => console.log(result));
+      dialogRef.afterClosed()
     }
 
-    createLearningArea() {
-      let dialogRef = this.dialog.open(LearningAreaCreateDialogComponent);
-      dialogRef.afterClosed().subscribe(result => {
-          if(result)
-          {this.ls.createLearningArea(result.value).subscribe(
-                          () => {
-                                  this.snackBar.open('Lesson Area Saved','Awesome',{ duration:2000 })
-                              },
-                              err => { 
-                                  this.snackBar.open('Error Saving Lesson Area ${err}','Bugger',{ duration:2000 })
-                              }
-                          );
-                  }});
+    openLearningLevelList() {
+      let dialogRef = this.dialog.open(LearningLevelListDialogComponent,{
+        height: '90%',
+        width: '500px'
+      });
+      dialogRef.afterClosed()
     }
 
     openDialogGroup() {
       let dialogRef = this.dialog.open(GroupCreateDialogComponent);
-      dialogRef.afterClosed().subscribe(result => {
-      	this.firebaseLearningExperienceGroup(result)
+      dialogRef.afterClosed().subscribe(result => {if(result)
+      	{this.firebaseLearningExperienceGroup(result)}
           });
     }
 
@@ -189,9 +201,7 @@ export class LearningExperienceGroupListComponent implements OnInit {
           width: '500px'
         });
       
-      dialogRef.afterClosed().subscribe(result => {
-        console.log(result)
-        })
+      dialogRef.afterClosed()
     }
 
     firebaseLearningExperienceGroup(form) {
@@ -238,6 +248,7 @@ export class LearningExperienceBlockListComponent implements OnInit {
  
   areas: object = {};
   levels: object = {};
+  years: object = {};
 
   normalState: boolean = true;
 
@@ -260,7 +271,10 @@ export class LearningExperienceBlockListComponent implements OnInit {
         });
       this.ls.findAllLearningLevelsObject().subscribe(levels => {
         this.levels = levels;
-        });    	
+        }); 
+      this.ls.findAllLearningYearObject().subscribe(years => {
+        this.years = years;
+        });   	
     }
 
     // Working
@@ -356,28 +370,6 @@ export class LearningExperienceBlockListComponent implements OnInit {
       );
     }
 
-    openLearningLevelList() {
-      let dialogRef = this.dialog.open(LearningLevelListDialogComponent,{
-        height: '90%',
-        width: '500px'
-      });
-      dialogRef.afterClosed().subscribe(result => console.log(result));
-    }
-
-    createLearningLevel() {
-      let dialogRef = this.dialog.open(LearningLevelCreateDialogComponent);
-      dialogRef.afterClosed().subscribe(result => {
-          if(result)
-          {this.ls.createLearningLevel(result.value).subscribe(
-                          () => {
-                                  this.snackBar.open('Lesson Level Saved','Awesome',{ duration:2000 })
-                              },
-                              err => { 
-                                  this.snackBar.open('Error Saving Lesson Level ${err}','Bugger',{ duration:2000 })
-                              }
-                          );
-                  }});
-    }
 
     openDialogBlock() {
       /// could create area change back to group or define type

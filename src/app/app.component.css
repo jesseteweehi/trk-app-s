@@ -1,3 +1,7 @@
 nav .md-tab-nav-bar{
 	margin: auto;
 }
+
+.right {
+    margin-left: auto;
+}

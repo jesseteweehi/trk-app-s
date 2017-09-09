@@ -1,22 +1,26 @@
 <md-toolbar>
-  <button md-button (click)="openLearningLevelList()">Learning Levels</button>
-
-  <button md-icon-button [mdMenuTriggerFor]="addMenu"> <md-icon>add</md-icon></button>
-
-  <md-menu #addMenu="mdMenu">
-    <button md-menu-item (click)="openDialogBlock()"><md-icon>add</md-icon>Block</button>
-    <button md-menu-item (click)="createLearningLevel()"><md-icon>add</md-icon>Learning Level</button>
-  </md-menu>
+  <button md-icon-button (click)="openDialogBlock()"> <md-icon>add</md-icon></button>
 
   <button md-icon-button (click)="normal()"><md-icon>folder</md-icon></button>
   <button md-icon-button (click)="showArchived()"><md-icon>archive</md-icon></button>
 </md-toolbar>
 
 
+<!--   <group-item
+    [group]="learningGroup"
+    [area]="areas[learningGroup?.learningArea]"
+    [year]="years[learningGroup?.learningYear]"
+    [level]="levels[learningGroup?.learningLevel]">
+  </group-item> -->
+
   <md-card>
     <md-card-subtitle> 
     <md-icon *ngIf="learningGroup?.archived">archive</md-icon>
-     <group-area-item [area]="areas[learningGroup?.learningArea]"></group-area-item>    
+     <group-support-item [area]="areas[learningGroup?.learningArea]"
+                         [year]="years[learningGroup?.learningYear]"
+                         [level]="levels[learningGroup?.learningLevel]"
+
+     ></group-support-item>    
     </md-card-subtitle>
     <md-card-title>{{learningGroup?.title}}</md-card-title>
     <md-card-content>{{learningGroup?.description}}

@@ -6,7 +6,8 @@ import {
     LearningAssessmentBlockModel,
     LearningAssessmentHeaderModel,
     LearningAreaModel,
-    LearningLevelModel} from '../models/data-classes'
+    LearningLevelModel,
+    LearningYearModel} from '../models/data-classes'
 
 import { StudentModel } from '../../students/models/data-classes';
 
@@ -173,6 +174,7 @@ export class LearningExperienceService {
    
     //////////////// Learning Support ///////////////////////////
 
+
     findStudentKeysForCohort(key:string): Observable<any> {
       return this.db.list(`studentsForCohort/${key}`)
     }
@@ -192,8 +194,26 @@ export class LearningExperienceService {
 
     }
 
+    findLearningYearByKey(key:string): Observable<LearningYearModel> {
+        return this.db.object(`learningYear/${key}`)
+            .map(LearningYearModel.fromJson)
+    }
+
+    findAllLearningYears(): Observable<LearningYearModel[]> {
+      return this.db.list('learningYear')
+        .map(LearningYearModel.fromJsonList)
+    }
+
     findAllLearningAreaObject(): Observable<any> {
         return this.db.object('learningArea')
+    }
+
+    findAllLearningLevelObject(): Observable<any> {
+        return this.db.object('learningLevel')
+    }
+
+    findAllLearningYearObject(): Observable<any> {
+        return this.db.object('learningYear')
     }
     
     findLearningAreaByKey(key): Observable<LearningAreaModel> {
@@ -204,6 +224,15 @@ export class LearningExperienceService {
     findAllLearningAreas(): Observable<LearningAreaModel[]> {
         return this.db.list('learningArea')
             .map(LearningAreaModel.fromJsonList)
+    }
+
+    createLearningYear(form:any): Observable<any> {
+      const yearToSave = Object.assign({},form );
+      const key = this.sdkDb.child('learningyear').push().key;
+      let dataToSave = {};
+      dataToSave['learningYear/' + key] = yearToSave;
+
+      return this.firebaseUpdate(dataToSave)
     }
 
     createLearningLevel(form:any): Observable<any> {
@@ -224,6 +253,13 @@ export class LearningExperienceService {
         return this.firebaseUpdate(dataToSave);
     }
 
+    editLearningYear(key:string, ly:any): Observable<any> {
+        const form = Object.assign({}, ly);      
+        let dataToSave = {};
+        dataToSave["learningYear/" + key] = form;
+        return this.firebaseUpdate(dataToSave);
+    }
+
     editLearningLevel(key: string, le:any): Observable<any> {
         const form = Object.assign({}, le);      
         let dataToSave = {};
@@ -236,6 +272,12 @@ export class LearningExperienceService {
         let dataToSave = {};
         dataToSave["learningArea/" + key] = form;
         return this.firebaseUpdate(dataToSave);
+    }
+
+    removeLearningYearByKey(key:string):Observable<any> {
+        let dataToSave = {};
+        dataToSave['learningYear/' + key] = null;
+        return this.firebaseUpdate(dataToSave)
     } 
 
     removeLearningLevelByKey(key:string): Observable<any> {
@@ -405,6 +447,11 @@ export class LearningExperienceService {
             .map(LearningAssessmentBlockModel.fromJsonList)
     }
 
+    findBlockObjectForGroup(groupKey:string): Observable<any> {
+        return this.findBlockKeysForGroups(this.db.list(`learningExperienceBlockForGroup/${groupKey}`))
+            .map(LearningAssessmentBlockModel.ObjectwithChildren)
+    }
+
     // Pieces for Blocks //
 
     findPieceKeysForBlock(pieceKeys$: Observable<any[]>) : Observable<any> {
@@ -413,6 +460,7 @@ export class LearningExperienceService {
             .flatMap(fbojs => Observable.combineLatest(fbojs))
 
     }
+
 
     findPiecesForBlocks(blockKey:string): Observable<any> {
         return this.findPieceKeysForBlock(this.db.list(`learningExperiencePieceForBlock/${blockKey}`))
@@ -433,8 +481,8 @@ export class LearningExperienceService {
 
     findPiecesForPieceKeys(pieceKeys$: Observable<any[]>): Observable<any> {
         return pieceKeys$
-          .map(ppb => ppb.map(pieceKey => this.db.object('learningExperiencePiece/' + pieceKey.$key)))
-          .flatMap(next => Observable.forkJoin(next))
+          .map(ppb => ppb.map(pieceKey => this.db.object('learningExperiencePiece/' + pieceKey)))
+          .flatMap(next => Observable.combineLatest(next))
     }
 
     findStudentsForPieceKeys(pieceKeys$: Observable<any[]>): Observable<any> {
@@ -445,6 +493,34 @@ export class LearningExperienceService {
 
     findStudentsForPiecesForBlock(blockKey: string): Observable<any> {
         return this.findStudentsForPieceKeys(this.db.list(`learningExperiencePieceForBlock/${blockKey}`))
+    }
+
+ 
+
+
+    ///////////// Long Joins ////////////
+
+    findLPForLBKeys(lpKey$: Observable<any[]> ): Observable<any> {
+        return lpKey$.map(x=> x.map(next => this.db.list(`learningExperiencePieceForBlock/${next.$key}`)))
+                           .flatMap(next => Observable.combineLatest(next))
+                           .map(arrayofobjects => {
+                               let result = []
+                               let a = [].concat.apply([], arrayofobjects)
+                               a.forEach(value => {
+                                   if (!result.includes(value.$key)) {
+                                           result.push(value.$key)
+                                        }
+                                   
+                               })
+                               return result
+                               })
+    }
+
+    findLPiecesForLG(groupKey: string) : Observable<any> {
+       return this.findPiecesForPieceKeys(
+              this.findLPForLBKeys(
+              this.db.list(`learningExperienceBlockForGroup/${groupKey}`)))
+         .map(LearningAssessmentPieceModel.fromJsonList)
     }
 
     // Update // 

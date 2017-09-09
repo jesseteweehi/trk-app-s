@@ -1,6 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { students }  from './mock-data/students';
+import { Observable } from 'rxjs/Observable';
 import { FirebaseApp } from 'angularfire2';
+
+import { AngularFireDatabase } from "angularfire2/database";
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase'
 
@@ -11,27 +14,44 @@ import * as firebase from 'firebase'
 })
 export class AppComponent {
 
+  user: Observable<firebase.User>;
+
   sdkDb:any;
 
-  constructor(
-      @Inject(FirebaseApp) private fb : firebase.app.App)
-  {  
-    this.sdkDb = this.fb.database().ref();  
+   constructor(
+     private db: AngularFireDatabase,
+     public afAuth: AngularFireAuth,
+               ) {
+    this.user = afAuth.authState;
+  }
+
+  login() {
+    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    this.newUser()
+  }
+
+
+  logout() {
+    this.afAuth.auth.signOut();
+  }
+
+  newUser() {
+    this.afAuth.authState.subscribe(result => {
+      const data = this.db.object(`users/${result.uid}`);
+      data.set(result)
+      console.log(result)
+    })       
   }
 
 
   navLinks = [
   {
-  	link: 'assessment',
-  	label: 'Assessment'
-  },
-  // {
-  // 	link: 'students',
-  // 	label: 'Students'
-  // },
-  {
     link: 'individual',
     label: 'Students'
+  },
+  {
+  	link: 'assessment',
+  	label: 'Assessment'
   },
   {
     link: 'cohorts',
@@ -40,24 +60,14 @@ export class AppComponent {
   {
     link: 'overview',
     label: 'Overview'
+  },
+  {
+    link: 'users',
+    label: 'Users'
   }
 
   ]
 
-    students(){
-    students.forEach( student => {
-      console.log('adding student')
-
-      this.sdkDb.child('students').push({
-        id:student.id,
-        firstName:student.firstName,
-        lastName:student.lastName,
-        gender:student.gender,
-        yrlvl:student.yrlvl,
-        ethnicMain:student.ethnicMain
-      })
-    })
-  }
 
 }
 

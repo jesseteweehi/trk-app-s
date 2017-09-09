@@ -332,13 +332,6 @@ export class HeaderFormEditComponent implements OnInit {
         <textarea mdInput placeholder="Block Description" formControlName="description"></textarea> 
       </md-input-container>
       <br>
-
-      <md-select class="full-width" placeholder="Learning Level" formControlName="learningLevel">
-          <md-option *ngFor="let choice of learningLevels" [value]="choice.value">
-            {{choice.viewValue}}
-          </md-option>
-      </md-select>
-
       <br>  
     </div>
   `,
@@ -348,22 +341,10 @@ export class HeaderFormEditComponent implements OnInit {
   }
   `]
 })
-export class BlockFormComponent implements OnInit {
+export class BlockFormComponent {
   @Input() formGroup: FormGroup;
   @Input() heading: string;
 
-  learningLevels: Array<object> = [];
-
-  constructor(private ls: LearningExperienceService){}
-
-  ngOnInit() {
-    this.ls.findAllLearningLevels().subscribe(results => {
-      results.forEach(each => {
-        this.learningLevels.push({value: each.$key, viewValue: each.title})
-      })
-    });
-  } 
-  
 }
 // Block Create Form 
 @Component({
@@ -393,8 +374,7 @@ export class BlockFormCreateComponent implements OnInit {
   ngOnInit(){
     this.form = this.fb.group({
         title: [''],
-        description: [''],
-        learningLevel: ['']
+        description: ['']
       });
     }
   
@@ -436,13 +416,11 @@ export class BlockFormEditComponent implements OnInit {
     this.form = this.fb.group({
         title: [''],
         description: [''],
-        learningLevel: ['']
       });
 
     this.form.setValue({
         title: this.currentFormValues.title,
         description: this.currentFormValues.description,
-        learningLevel: this.currentFormValues.learningLevel
       });
 
     }
@@ -479,7 +457,26 @@ export class BlockFormEditComponent implements OnInit {
       </md-select> 
 
       <br>
-      <br> 
+      <br>
+
+      <md-select class="full-width" placeholder="Learning Level" formControlName="learningLevel">
+          <md-option *ngFor="let choice of learningLevels" [value]="choice.value">
+            {{choice.viewValue}}
+          </md-option>
+      </md-select> 
+
+      <br>
+      <br>
+
+      <md-select class="full-width" placeholder="Learning Year" formControlName="learningYear">
+          <md-option *ngFor="let choice of learningYears" [value]="choice.value">
+            {{choice.viewValue}}
+          </md-option>
+      </md-select>
+
+       <br>
+       <br>
+
     </div>
   `,
   styles:[`
@@ -492,7 +489,9 @@ export class GroupFormComponent implements OnInit{
   @Input() formGroup: FormGroup;
   @Input() heading: string;
 
+  learningLevels: Array<object> = [];
   learningAreas: Array<object> = [];
+  learningYears: Array<object> = [];
 
 
   constructor(private ls: LearningExperienceService){}
@@ -501,8 +500,19 @@ export class GroupFormComponent implements OnInit{
     this.ls.findAllLearningAreas().subscribe(results => {
       results.forEach(each => {
         this.learningAreas.push({value: each.$key, viewValue: each.title})
-      })
-    });
+      });
+     });
+     this.ls.findAllLearningYears().subscribe(results => {
+       results.forEach(each => {
+         this.learningYears.push({value: each.$key, viewValue: each.year})
+       })
+     });
+     this.ls.findAllLearningLevels().subscribe(results => {
+       results.forEach(each => {
+         this.learningLevels.push({value: each.$key, viewValue: each.title})
+       })
+     });
+   
   }  
 }
 // Group Create Form 
@@ -534,7 +544,10 @@ export class GroupFormCreateComponent implements OnInit {
     this.form = this.fb.group({
         title: [''],
         description: [''],
-        learningArea: ['']
+        learningArea: [''],
+        learningLevel: [''],
+        learningYear: [''],
+
       });
     }
   
@@ -553,7 +566,6 @@ export class GroupFormCreateComponent implements OnInit {
     </app-learning-group-form>
      <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
   </form>
-
   `,
   styles:[`
 
@@ -579,12 +591,17 @@ export class GroupFormEditComponent implements OnInit {
     this.form = this.fb.group({
         title: [''],
         description: [''],
-        learningArea: ['']
+        learningArea: [''],
+        learningLevel: [''],
+        learningYear: [''],
       });
 
     this.form.setValue({
         title: this.currentFormValues.title,
-        description: this.currentFormValues.description
+        description: this.currentFormValues.description,
+        learningArea: this.currentFormValues.learningArea,
+        learningLevel: this.currentFormValues.learningLevel,
+        learningYear: this.currentFormValues.learningYear
       });
 
     }

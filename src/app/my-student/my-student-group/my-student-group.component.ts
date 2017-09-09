@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { 
     LearningAssessmentPieceModel,
     LearningAssessmentGroupModel,
     LearningAssessmentBlockModel,
-    LearningAssessmentHeaderModel} from '../../markbook/models/data-classes'
+    LearningAssessmentHeaderModel,
+	MyStudentLearningPieceModel} from '../../markbook/models/data-classes'
 
 
 @Component({
@@ -11,14 +12,37 @@ import {
   templateUrl: './my-student-group.component.html',
   styleUrls: ['./my-student-group.component.css']
 })
-export class MyStudentGroupComponent {
+export class MyStudentGroupComponent implements OnInit {
 	@Input() studentFirebase: LearningAssessmentPieceModel[];
 	@Input() groups: object;
 	@Input() blocks: object;
 	@Input() areas: object;
-	@Input() levels: object;	
+	@Input() levels: object;
+	@Input() years: object;	
 	@Output() sendData = new EventEmitter();
 	highlightKey: string;
+
+	filtered : MyStudentLearningPieceModel[]; 
+
+	studentLearningPieces: MyStudentLearningPieceModel[] = []; 
+
+
+	ngOnInit() {
+		{this.studentFirebase.map(piece => {
+				this.studentLearningPieces.push(
+						new MyStudentLearningPieceModel (
+						piece.$key,
+						this.groups[this.blocks[piece.parent].parent].learningYear,
+						this.groups[this.blocks[piece.parent].parent].learningArea,
+						this.groups[this.blocks[piece.parent].parent].learningLevel,
+						this.blocks[piece.parent].parent,
+						piece.parent,
+						piece.xheader,
+						piece.yheader,
+						piece.qualifier))
+					
+				})}
+	}
 
 
 	choose(key, block, group) {
@@ -29,4 +53,18 @@ export class MyStudentGroupComponent {
 	  this.sendData.emit(dataToSend);
 	  this.highlightKey = key
 	}
+
+	ngOnChanges() {
+		this.filtered = this.studentLearningPieces
+	}
+
+	recievedForm($event) {
+		console.log($event)
+		this.filtered = this.studentLearningPieces.filter(lp => 
+			{
+				return lp.year === $event.learningYear&&lp.area === $event.learningArea&&lp.level == $event.learningLevel
+			}
+	)}
+
+
 }

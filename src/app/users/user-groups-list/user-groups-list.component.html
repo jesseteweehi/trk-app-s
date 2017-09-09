@@ -1,0 +1,21 @@
+<md-toolbar>
+  <button md-icon-button (click)="createUserGroup()"> <md-icon>add</md-icon></button>
+</md-toolbar>
+
+<md-card *ngFor="let group of groups">
+	<md-card-subtitle>
+		<button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
+		   <md-icon>more_vert</md-icon>
+		</button> 
+	</md-card-subtitle>
+	<md-card-title>{{group.title}}</md-card-title>
+	<md-card-content>{{group.description}}</md-card-content>
+	<md-card-actions>
+      <button md-button color="primary">Add Users</button>
+	</md-card-actions>
+
+	<md-menu #appMenu="mdMenu">
+	  <button md-menu-item (click)="edit(group.$key)"><md-icon>edit</md-icon></button>
+	</md-menu>
+
+</md-card>

@@ -1,9 +1,11 @@
-<div class="wrapper" *ngIf="block.title">
+<!-- <div class="wrapper" *ngIf="block.title">
 <md-card>
   	<md-card-title>{{group?.title}}</md-card-title>
   	<md-card-subtitle>
-    <group-area-item [area]="group.learningArea"></group-area-item>
-    <group-level-item [level]="group.learningLevel"></group-level-item>
+    <group-support-item [area]="group.learningArea"
+     					[level]="group.learningLevel"
+     					[year]="group.learningYear">
+    </group-support-item>
     </md-card-subtitle>
   	<md-card-content>{{group?.description}}</md-card-content>
  </md-card>
@@ -12,7 +14,7 @@
   	<md-card-title>{{block?.title}}</md-card-title>
   	<md-card-content>{{block?.description}}</md-card-content>
  </md-card>
- </div>
+ </div> -->
  <app-my-student-learning-piece
  [learningBlock]="block"
  [learningPieceKeys]="learningPieceKeys">

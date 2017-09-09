@@ -28,6 +28,10 @@ const appRoutes: Routes = [
   {
     path: 'overview',
     loadChildren: 'app/overview/overview.module#OverviewModule'
+  },
+   {
+    path: 'users',
+    loadChildren: 'app/users/users.module#UsersModule'
   }
 ];
 

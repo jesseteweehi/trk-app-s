@@ -12,13 +12,23 @@ import { StudentsModule } from '../students/students.module'
 import { StudentSharedModule} from '../student-shared/student-shared.module'
 import { CohortsModule} from '../cohorts/cohorts.module'
 
+
+// Autofocus directive not used. Needs Clean up
 import { AutofocusDirective } from './models/custom-directives';
 
 import { LearningExperienceService } from './models/learning-experience.service';
 
-import { LevelItemComponent, AreaItemComponent, CohortItemComponent } from './learning-experience-items/learning-experience-items.component';
+import { YearItemComponent,
+         AreaItemComponent,
+         LevelItemComponent, 
+         SupportItemComponent, 
+         CohortItemComponent,
+         GroupItemComponent } from './learning-experience-items/learning-experience-items.component';
 
-import { LearningLevelListDialogComponent,
+import { LearningYearListDialogComponent,
+         LearningYearCreateDialogComponent,
+         LearningYearEditDialogComponent,
+         LearningLevelListDialogComponent,
          LearningAreaListDialogComponent,
          LearningLevelCreateDialogComponent,
          LearningLevelEditDialogComponent,
@@ -26,9 +36,13 @@ import { LearningLevelListDialogComponent,
          LearningAreaEditDialogComponent} from './learning-experience-dialogs/le-support-dialog-forms-lists.component';
 
 import { learningLevelListComponent,
-         learningAreaListComponent} from './learning-experience-lists/le-support-lists.component';
+         learningAreaListComponent,
+         learningYearListComponent} from './learning-experience-lists/le-support-lists.component';
 
-import { LearningLevelFormComponent,
+import { LearningYearFormComponent,
+         LearningYearCreateFormComponent,
+         LearningYearEditFormComponent,
+         LearningLevelFormComponent,
          LearningLevelCreateFormComponent,
          LearningLevelEditFormComponent,
          LearningAreaFormComponent,
@@ -101,6 +115,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   GroupEditDialogComponent,
   BlockCreateDialogComponent,
   BlockEditDialogComponent,
+  GroupItemComponent, 
   // Header
   HeaderFormPieceComponent,
   HeaderFormCreateComponent,
@@ -120,13 +135,19 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LEStudentListGroupDialogComponent,
 
   // Learning Support Lists
+  learningYearListComponent,
   learningLevelListComponent,
   learningAreaListComponent,
-  LevelItemComponent, 
+  YearItemComponent,
   AreaItemComponent,
+  LevelItemComponent, 
+  SupportItemComponent,
   CohortItemComponent,
 
   // Learning Support Forms
+  LearningYearFormComponent,
+  LearningYearCreateFormComponent,
+  LearningYearEditFormComponent,
   LearningLevelFormComponent,
   LearningLevelCreateFormComponent,
   LearningLevelEditFormComponent,
@@ -135,6 +156,9 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LearningAreaEditFormComponent,
 
   // Learning Support Dialogs
+  LearningYearListDialogComponent,
+  LearningYearCreateDialogComponent,
+  LearningYearEditDialogComponent,
   LearningLevelListDialogComponent,
   LearningAreaListDialogComponent,
   LearningLevelCreateDialogComponent,
@@ -145,7 +169,11 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   AutofocusDirective
   ],
   
-  exports:[LevelItemComponent, AreaItemComponent],
+  exports:[
+  YearItemComponent,
+  AreaItemComponent,
+  LevelItemComponent, 
+  SupportItemComponent],
 
   providers: [LearningExperienceService],
   
@@ -166,6 +194,9 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   BlockEditDialogComponent,
 
   // Learning Support Dialogs
+  LearningYearListDialogComponent,
+  LearningYearCreateDialogComponent,
+  LearningYearEditDialogComponent,
   CohortCompareDialogComponent,
   LearningLevelListDialogComponent,
   LearningAreaListDialogComponent,

@@ -4,10 +4,156 @@ import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
 import { 
     LearningLevelModel,
-	  LearningAreaModel
+	  LearningAreaModel,
+    LearningYearModel
     } from '../models/data-classes';
 
-// Overall Learning Level Model
+// Overall Year
+
+@Component({
+  selector: 'app-learning-year-form',
+  template: 
+  `
+  <h1>{{heading}}</h1>
+
+  <div [formGroup]="formGroup">
+
+    <md-select class="full-width" placeholder="Year" formControlName="year">
+        <md-option *ngFor="let choice of years" [value]="choice.value">
+          {{choice.viewValue}}
+        </md-option>
+    </md-select>
+
+    <br>
+    <br>
+
+    <md-select class="full-width" placeholder="Semester" formControlName="semester">
+        <md-option *ngFor="let choice of semesters" [value]="choice.value">
+          {{choice.viewValue}}
+        </md-option>
+    </md-select>
+  </div>
+  <br>
+  <br>
+  `,
+  styles:[`
+  .full-width {
+    width: 100%;
+  }
+  `]
+})
+
+export class LearningYearFormComponent {
+  @Input() formGroup: FormGroup;
+  @Input() heading: string;
+   
+  years = [
+    {value: '2017', viewValue: '2017'},
+    {value: '2018', viewValue: '2018'},
+    {value: '2019', viewValue: '2019'},
+    {value: '2020', viewValue: '2020'}
+  ];
+
+  semesters = [
+    {value: '0', viewValue: 'Not Applicab'},
+    {value: '1', viewValue: 'Term 1'},
+    {value: '2', viewValue: 'Term 2'},
+    {value: '3', viewValue: 'Term 3'},
+    {value: '4', viewValue: 'Term 4'}
+  ];
+}
+
+
+// Create Year
+
+@Component({
+  selector: 'app-learning-year-create-form',
+  template: 
+  `
+  <form novalidate [formGroup]="form">
+    <app-learning-year-form
+    [formGroup]="form"
+    [heading]="heading">
+    </app-learning-year-form>
+     <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
+  </form>
+  `,
+  styles:[`
+  .full-width {
+    width: 100%;
+  }
+  `]
+})
+
+export class LearningYearCreateFormComponent implements OnInit {
+  @Output() formToSend = new EventEmitter();
+
+  form: FormGroup;
+  heading: string = "Create Year"
+
+  constructor(private fb:FormBuilder){}
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      year: '',
+      semester: '',
+    });
+  }
+
+  save(form){
+    this.formToSend.emit(form)
+  }
+}
+
+// Edit Year
+
+@Component({
+  selector: 'app-learning-year-edit-form',
+  template:
+  `
+  <form novalidate [formGroup]="form">
+    <app-learning-year-form
+    [formGroup]="form"
+    [heading]="heading">
+    </app-learning-year-form>
+     <button md-dialog-close md-button color="primary" (click)="save(form)">Save</button>
+  </form>  
+  `,
+  styles:[`
+
+  `]
+})
+
+export class LearningYearEditFormComponent implements OnInit {
+  @Output() formToSend = new EventEmitter();
+  @Input() key: string;
+
+  currentFormValues: LearningYearModel;
+
+  form: FormGroup;
+  
+  constructor(private ls:LearningExperienceService,
+        private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.ls.findLearningYearByKey(this.key).subscribe(years => this.currentFormValues = years);
+
+    this.form = this.fb.group({
+          year: '',
+          semester: '',
+        });
+
+    this.form.setValue({
+      year: this.currentFormValues.year,
+      semester: this.currentFormValues.semester,
+    });    
+  }
+
+  save(form){
+    this.formToSend.emit(form)
+  }
+}
+
 
 @Component({
   selector: 'app-learning-level-form',
@@ -62,6 +208,7 @@ export class LearningLevelFormComponent {
   ];
 
   qualifiers = [
+    {value: 'Not Applicable', viewValue: 'Not Applicable'},
     {value: 'Needs Support', viewValue: 'Needs Support'},
     {value: 'Emerging', viewValue: 'Emerging'},
     {value: 'Developing', viewValue: 'Developing'},

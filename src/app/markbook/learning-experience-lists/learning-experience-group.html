@@ -1,13 +1,15 @@
 <md-toolbar>
 
-<button md-button (click)="openLearningAreaList()">Learning Area</button>
+<button md-icon-button [mdMenuTriggerFor]="infoMenu"> <md-icon>info</md-icon></button>
 
-<button md-icon-button [mdMenuTriggerFor]="addMenu"> <md-icon>add</md-icon></button>
-
-<md-menu #addMenu="mdMenu">
-  <button md-menu-item (click)="openDialogGroup()"><md-icon>add</md-icon>Group</button>
-  <button md-menu-item (click)="createLearningArea()"><md-icon>add</md-icon>Learning Area</button>
+<md-menu #infoMenu="mdMenu">
+  <button md-menu-item (click)="openLearningAreaList()"><md-icon>info</md-icon>Area</button>
+  <button md-menu-item (click)="openLearningLevelList()"><md-icon>info</md-icon>Level</button>
+  <button md-menu-item (click)="openLearningYearList()"><md-icon>info</md-icon>Year</button>
 </md-menu>
+
+
+<button md-icon-button (click)="openDialogGroup()"> <md-icon>add</md-icon></button>
 
 <button md-icon-button (click)="normal()"><md-icon>folder</md-icon></button>
 <button md-icon-button (click)="showArchived()"><md-icon>archive</md-icon></button>
@@ -22,7 +24,11 @@
     <md-card-subtitle> 
     <md-icon *ngIf="group.archived">archive</md-icon>
 
-    <group-area-item [area]="areas[group?.learningArea]"></group-area-item>
+    <group-support-item [area]="areas[group?.learningArea]"
+                     [year]="years[group?.learningYear]"
+                     [level]="levels[group?.learningLevel]"
+                     
+    ></group-support-item>
     
     <button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
        <md-icon>more_vert</md-icon>
@@ -37,9 +43,12 @@
   	<md-card-actions *ngIf="group.locked">
   	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment Blocks</a>
         <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
+        <a md-button color="primary" [routerLink]="['/overview', group.$key ]">Overview</a>
   	</md-card-actions>
     <md-card-footer>
     </md-card-footer>
+
+  <!--   <a [routerLink]="['EnvioID',{id:text'}]">Go</a> -->
 
   <md-menu #appMenu="mdMenu">
     <button md-menu-item *ngIf="!group.locked" (click)="remove(group.$key)"><md-icon>delete</md-icon></button>

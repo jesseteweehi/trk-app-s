@@ -1,13 +1,45 @@
 import { Component, Inject, OnInit, Input } from '@angular/core';
-import { 
+import {
+	LearningAssessmentGroupModel, 
     LearningAreaModel,
-    LearningLevelModel} from '../models/data-classes';
+    LearningLevelModel,
+	LearningYearModel} from '../models/data-classes';
 
 import { CohortModel } from '../../cohorts/models/data-classes';
 
 import { MdDialog } from '@angular/material';
 
 import { CohortCompareDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
+
+@Component({
+	selector: 'group-item',
+	template:
+	`
+	<div class="mat-subheading-2">
+	<span><group-support-item [area]="area"
+	                    [year]="year"
+	                    [level]="level"
+
+	></group-support-item></span>	
+    <span ><h4 class="grey">{{group?.title}} | {{group?.description}}</h4></span>
+    <div>
+	`,
+	styles:[`
+		h4 {
+			color: grey;
+		}
+	`]
+})
+
+export class GroupItemComponent {
+	@Input() group: LearningAssessmentGroupModel;
+	@Input() year: object = {};
+  	@Input() area: object = {};
+  	@Input() level: object = {};
+
+}
+
+
 
 
 @Component({
@@ -70,11 +102,10 @@ export class CohortItemComponent {
 }
 
 @Component({
-	selector: 'group-level-item',
+	selector: 'group-area-item',
 	template:
 	`
-	<p><span mdTooltipPosition="right" mdTooltip="{{level?.description}}">{{level?.title}}</span></p>
-	<p class="title">{{level?.level}} <span *ngIf="level?.qualifier">{{level?.qualifier}}</span></p>	
+	<span mdTooltipPosition="right" mdTooltip="{{area?.description}}">{{area?.title}}</span>	
 	`,
 	styles:[`
 	:host {
@@ -94,25 +125,62 @@ export class CohortItemComponent {
 	}
 	`]
 })
-
-// transfer loading to parent container
-export class LevelItemComponent {
-	@Input() level: LearningLevelModel
-
+export class AreaItemComponent {
+	@Input() area: LearningAreaModel
 }
 
 @Component({
-	selector: 'group-area-item',
+	selector: 'group-level-item',
 	template:
 	`
-	<h3><span mdTooltipPosition="right" mdTooltip="{{area?.description}}">{{area?.title}}</span></h3>
+	{{level?.level}}	
 	`,
 	styles:[`
+	:host {
+		display: block;
+		min-width: 50px;
+		text-overflow: ellipsis;
+	}
+	`]
+})
+export class LevelItemComponent {
+	@Input() level: LearningLevelModel
+}
+
+@Component({
+	selector: 'group-year-item',
+	template:
+	`
+	{{year?.year}}
+	`,
+	styles:[`
+	:host {
+		display: block;
+		min-width: 50px;
+		text-overflow: ellipsis;
+	}
+	`]
+})
+export class YearItemComponent {
+	@Input() year: LearningYearModel
+}
+
+
+
+@Component({
+	selector: 'group-support-item',
+	template:
+	`
+	<h3>{{year?.year}} | {{area?.title}} | {{level?.level}}</h3>
+	`,
+	styles:[` 
 
 	`]
 })
 
-export class AreaItemComponent {
+export class SupportItemComponent {
 	@Input() area: LearningAreaModel;
+	@Input() year: LearningYearModel;
+	@Input() level: LearningLevelModel;
 
 }

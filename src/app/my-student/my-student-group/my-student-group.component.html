@@ -1,14 +1,19 @@
+<learning-area
+(formToSend)="recievedForm($event)"
+></learning-area>
+
+
 <div class="container">
-	<div class="heading mat-body-2">Learning Area</div>
-	<!-- <div class="description mat-body-1"></div> -->
+	
+	<div class="heading mat-body-2">Year</div>
 
-	<div class="heading mat-body-2">Learning Level</div>
-	<!-- <div class="description mat-body-1"></div> -->
+	<div class="heading mat-body-2">Area</div>
 
-	<div class="heading mat-body-2">Learning Group</div>
-	<!-- <div class="description mat-body-1"></div> -->
+	<div class="heading mat-body-2">Level</div>
 
-	<div class="heading mat-body-2">Learning Block</div>
+	<div class="heading mat-body-2">Group</div>
+	
+	<div class="heading mat-body-2">Block</div>
 
 	<div class="heading mat-body-2">Descriptor</div>
 
@@ -17,33 +22,39 @@
 	<div class="heading mat-body-2"></div>
 </div>
 
-<div class="container" *ngFor="let piece of studentFirebase?.slice().reverse()" 
+<div class="container" *ngFor="let piece of filtered?.slice().reverse()" 
 >
 
 	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
-	<group-area-item *ngIf="groups&&blocks&&areas"[area]="areas[groups[blocks[piece?.parent]?.parent]?.learningArea]"></group-area-item>
+	<group-year-item *ngIf="groups&&blocks&&years"[year]="years[piece.year]"></group-year-item>
 	</div>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<group-area-item *ngIf="groups&&blocks&&areas"[area]="areas[piece.area]"></group-area-item>
+	</div>
+
+	
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<group-level-item *ngIf="groups&&blocks&&levels" [level]="levels[piece.level]"></group-level-item>
+	</div>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<my-student-block *ngIf="groups&&blocks" [block]="groups[piece.group]"></my-student-block>
+	</div>
+
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
+	<my-student-group *ngIf="blocks" [group]="blocks[piece.block]"></my-student-group>
+	</div>
+
+	<div *ngIf="piece.qualifier==='x'" [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.xheader}}</div>
+	<div *ngIf="piece.qualifier==='y'" [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.yheader}}</div>
+
+	<div *ngIf="piece.qualifier==='x'" [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.yheader}}</div>
+	<div *ngIf="piece.qualifier==='y'" [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.xheader}}</div>
+
 	
 
-	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
-	<group-level-item *ngIf="groups&&blocks&&levels" [level]="levels[blocks[piece?.parent]?.learningLevel]"></group-level-item>
-	</div>
-
-	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
-	<my-student-block *ngIf="groups&&blocks" [block]="groups[blocks[piece?.parent]?.parent]"></my-student-block>
-	</div>
-
-	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
-	<my-student-group *ngIf="blocks" [group]="blocks[piece?.parent]"></my-student-group>
-	</div>
-
-	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.xheader}}</div>
-
-	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.yheader}}</div>
-
-<!-- 	<div class="items mat-body-2">{{piece.qualifier}}</div> -->
-
-<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2"><button md-icon-button color="primary" (click)="choose(piece.$key, blocks[piece.parent], groups[blocks[piece.parent].parent])">
+<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2"><button md-icon-button color="primary" (click)="choose(piece.$key, blocks[piece.block], groups[piece.group])">
 	<md-icon>info</md-icon></button>
 </div>
 
@@ -51,14 +62,6 @@
 
 
 
-
-<!-- <app-my-student-group-item *ngFor="let item of studentFirebase?.slice().reverse(); let last = first"
-[last]="last"
-[highlightKey]="key"
-[itemData]="item"
-(sendData)="handleData($event)"
-(sendKey)="handleKey($event)">		
-</app-my-student-group-item> -->
 
 
 

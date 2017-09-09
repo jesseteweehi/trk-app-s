@@ -25,6 +25,7 @@ export class MyStudentContainerComponent implements OnInit {
 
   areas: object;
   levels: object; 
+  years: object;
 
   learningPieceKeys: string[] = [];
 
@@ -60,12 +61,19 @@ export class MyStudentContainerComponent implements OnInit {
       this.ls.findAllLearningLevelsObject().subscribe(levels => {
         this.levels = levels
       })
+      this.ls.findAllLearningYearObject().subscribe(years => {
+        this.years = years
+      })
 
   	}
 
     handleData($event){
       this.chosenGroup = $event.group
       this.chosenBlock = $event.block
+    }
+
+    recievedForm($event){
+      console.log($event)
     }
 
 }
