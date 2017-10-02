@@ -1,0 +1,19 @@
+.wrapper{
+	height:500px;
+	background-color: #8259cb;
+	color:#fff;
+}
+
+.wrapper h1{
+	padding-top: 50px;
+	font-weight: 100;
+	text-align: center;
+}
+
+md-icon {
+	display: block;
+	font-size: 100px;
+	margin: auto;
+    width: 40%;
+}
+

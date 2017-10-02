@@ -1,8 +1,40 @@
-<md-toolbar>
+<!-- md-toolbar>
   <button md-icon-button (click)="createUserGroup()"> <md-icon>add</md-icon></button>
-</md-toolbar>
+</md-toolbar> -->
 
-<md-card *ngFor="let group of groups">
+<div class="wrapper">	
+	<div>
+		<h4 class="mat-title">Administrators</h4>
+		<button md-icon-button color="primary" (click)="openDialogAddStudent(group, 'admin')"><md-icon>add</md-icon></button>
+
+		<md-list>
+			<md-list-item *ngFor="let user of admin">
+				<img mdListAvatar src="{{user.photoUrl}}" alt="...">
+			 	<p mdLine><span> {{user.email}}</span></p>
+			 	<button class="right" md-icon-button (click)="remove(user.$key)">
+			 		<md-icon>delete</md-icon>
+			 	</button>
+			</md-list-item>
+		</md-list>
+	</div>
+	<div>
+		<h4 class="mat-title">Teachers</h4>
+		<button md-icon-button color="primary" (click)="openDialogAddStudent(group, 'teacher')"><md-icon>add</md-icon></button>
+		<md-list>
+			<md-list-item *ngFor="let user of teachers">
+				<img mdListAvatar src="{{user.photoUrl}}" alt="...">
+			 	<p mdLine><span> {{user.email}}</span></p>
+			 	<button class="right" md-icon-button (click)="remove(user.$key, 'teacher')">
+			 		<md-icon>delete</md-icon>
+			 	</button>
+			</md-list-item>
+		</md-list>
+
+	</div>
+
+</div>
+
+<!-- <md-card *ngFor="let group of groups">
 	<md-card-subtitle>
 		<button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
 		   <md-icon>more_vert</md-icon>
@@ -11,11 +43,12 @@
 	<md-card-title>{{group.title}}</md-card-title>
 	<md-card-content>{{group.description}}</md-card-content>
 	<md-card-actions>
-      <button md-button color="primary">Add Users</button>
+      	<button md-button color="primary" (click)="openDialogAddStudent(group)">Add Users</button>
+      	<button md-button color="primary" (click)="openDialogRemoveStudent(group)">Users</button>
 	</md-card-actions>
 
 	<md-menu #appMenu="mdMenu">
-	  <button md-menu-item (click)="edit(group.$key)"><md-icon>edit</md-icon></button>
+	  <button md-menu-item (click)="add()"><md-icon>edit</md-icon></button>
 	</md-menu>
 
-</md-card>
+</md-card> -->

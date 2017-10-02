@@ -24,6 +24,10 @@ import { MyStudentInfoComponent } from './my-student-info/my-student-info.compon
 import { FindStudentComponent } from './find-student/find-student.component';
 import { MyStudentFocusComponent } from './my-student-focus/my-student-focus.component';
 import { MyStudentLearningPieceComponent } from './my-student-focus/my-student-learning-piece/my-student-learning-piece.component';
+import { MyStudentLearningPieceDialogComponent } from './my-student-focus/my-student-learning-piece/my-student-learning-piece-dialog.component';
+import { AdminToolbarComponent } from './admin-toolbar/admin-toolbar.component';
+
+
 
 @NgModule({
 	imports: [
@@ -47,7 +51,11 @@ import { MyStudentLearningPieceComponent } from './my-student-focus/my-student-l
 	MyStudentFocusComponent,
 	MyStudentLearningPieceComponent,
 	MyStudentLearningGroupItemComponent,
-	MyStudentLearningBlockItemComponent,]
+	MyStudentLearningBlockItemComponent,
+	MyStudentLearningPieceDialogComponent,
+	AdminToolbarComponent],
+
+	entryComponents:[MyStudentLearningPieceDialogComponent]
 ,
 })
 

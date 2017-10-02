@@ -11,11 +11,10 @@
 		[student]="studentInfo">
 		</app-my-student-info>
 
-		<app-my-student-focus
-		[group]="chosenGroup"
-		[block]="chosenBlock"
-		[learningPieceKeys]="learningPieceKeys">
-		</app-my-student-focus>
+
+		<app-admin-toolbar *ngIf="user?.role.admin" [user]="user">
+		</app-admin-toolbar>
+
 
 		<app-my-student-group *ngIf="studentLearning&&levels&&areas&&years&&blocks&&groups"
 			[studentFirebase]="studentLearning"

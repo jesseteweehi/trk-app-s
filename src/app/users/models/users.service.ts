@@ -15,18 +15,117 @@ export class UsersService {
 
   sdkDb:any;
 
-  emailType: object = {
-    		'admin': 'emails/admin',
-    		'teacher' : 'emails/teachers',
-    		'student': 'emails/students'
-    	}
+  paths: object = {
+    'admin':'admin/',
+    'teacher' : 'teachers/',
+  }
 
-    constructor(
-        @Inject(FirebaseApp) public fb : firebase.app.App,
-        private db: AngularFireDatabase) {
+  roles: Array<string> = [
+  'admin',
+  'teacher',
+  'student'
+  ]
 
-    	this.sdkDb = this.fb.database().ref();	
+
+  constructor(
+    @Inject(FirebaseApp) public fb : firebase.app.App,
+    private db: AngularFireDatabase) {
+      this.sdkDb = this.fb.database().ref();	
+      }
+
+
+
+
+  changeUserRole(add:boolean, key:string , role: string): Observable<any> {
+    console.log(add)
+    
+    if (add)
+      {
+        console.log('in')
+        let dataToSave = {}
+        dataToSave[`users/${key}/role/${role}`] = true
+        return this.firebaseUpdate(dataToSave)
+      }
+
+    else if (!add && this.roles.includes(role))
+
+      {
+
+        let dataToSave = {}
+        dataToSave[`users/${key}/role/${role}`] = null
+        return this.firebaseUpdate(dataToSave)
     }
+            
+    
+  }
+
+
+  putUsersIn(add:boolean=true, path:string='teacher', users: UserModel[]): Observable<any> {
+      let dataToSave = {}
+      const pathToUse = this.paths[path]
+        if (add) {
+          users.forEach(user => {   
+            dataToSave[pathToUse + user.$key] = true;
+            })
+          }
+        else{
+          users.forEach(user => {   
+            dataToSave[pathToUse + user.$key] = null;
+            })
+        }
+      return this.firebaseUpdate(dataToSave)
+  }
+
+  removeUserByKey(key, path:string='teacher'): Observable<any> {
+    let dataToSave = {}
+    const pathToUse = this.paths[path]
+    dataToSave[pathToUse + '/' + key] = null;
+    return this.firebaseUpdate(dataToSave)
+  }
+
+  findUserKeysForObservable(userkeys$: Observable<any[]>) :Observable<any> {
+      return userkeys$
+          .map(splp => splp.map(users => this.db.object('users/' + users.$key)))
+          .flatMap(fbojs => Observable.combineLatest(fbojs))
+  }
+
+  findAllAdmin(): Observable<UserModel[]> {
+    return this.findUserKeysForObservable(this.db.list(`admin`)).map(UserModel.fromJsonList)
+  }
+
+  findAllTeachers(): Observable<UserModel[]> {
+    return this.findUserKeysForObservable(this.db.list(`teachers`)).map(UserModel.fromJsonList)
+  }
+
+  findAllUsers(): Observable<UserModel[]> {
+    return this.findUserKeysForObservable(this.db.list(`users`)).map(UserModel.fromJsonList)
+  }
+
+
+  ////// User Groups /////// Future Implementation
+
+  putUsersInUserGroup(userGroupKey: string, users: UserModel[]): Observable<any> {
+      let dataToSave = {}
+      users.forEach(user => {
+          dataToSave["usersForUserGroup/" + userGroupKey + "/" + user.$key] = true;
+      })
+
+      return this.firebaseUpdate(dataToSave)
+  }
+
+  removeUsersFromUserGroup(userGroupKey: string, users: UserModel[]): Observable<any> {
+      let dataToSave = {}
+      users.forEach(user => {
+          dataToSave["usersForUserGroup//" + userGroupKey + "/" + user.$key] = null;
+      })
+
+      return this.firebaseUpdate(dataToSave)
+  }  
+
+  findUsersForGroup(key:string): Observable<any> {
+      return this.findUserKeysForObservable(this.db.list(`usersForUserGroup/${key}`))
+          .map(UserModel.fromJsonList)
+  }
 
   findUserGroupByKey(key:string) : Observable<UserGroupModel> {
     return this.db.object(`/userGroups/${key}`)
@@ -55,34 +154,10 @@ export class UsersService {
     return this.firebaseUpdate(dataToSave)
   }
 
-
-
-  findAllUsers(): Observable<UserModel[]> {
-    return this.db.list(`/users`).map(UserModel.fromJsonList)
-  }
-
-    findAllEmails(type:string): Observable<any> {
-    	const path = this.emailType[type]
-    	return this.db.list(path)
-   }
-
-    createEmail(type:string, form:any): Observable<any> {
-    	const encodedForm = this.encodeAsFirebaseKey(this.trim(form))
-    	const path = this.emailType[type]
-    	let dataToSave = {};
-    	dataToSave[path + `/${encodedForm}`] = true
-
-    	return this.firebaseUpdate(dataToSave)
-   	}
-
-   	removeEmail(type:string, email:string) {
-   		const path = this.emailType[type]
-   		const itemToRemove = this.db.object(path + `/${email}`);
-   		itemToRemove.remove()
-   	}
-
-   	encodeAsFirebaseKey(string) {
-  		return string.replace(/\%/g, '%25')
+  
+ 
+  encodeAsFirebaseKey(string) {
+  	return string.replace(/\%/g, '%25')
     		.replace(/\./g, '%2E')
     		.replace(/\#/g, '%23')
     		.replace(/\$/g, '%24')

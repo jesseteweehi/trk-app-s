@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ActivatedRoute } from '@angular/router';
+import { MdDialog } from '@angular/material';
+
+
+import { AuthenticationService } from '../../shared-security/authentication.service'
+
 import { MyStudentsService } from '.././models/my-student.service'
 import { LearningExperienceService } from '../../markbook/models/learning-experience.service'
 import { StudentModel } from '../../students/models/data-classes'
@@ -9,12 +15,19 @@ import {
     LearningAssessmentBlockModel,
     LearningAssessmentHeaderModel} from '../../markbook/models/data-classes'
 
+import { UserModel } from '../../users/models/data-classes'
+
+import { MyStudentLearningPieceDialogComponent } from '../my-student-focus/my-student-learning-piece/my-student-learning-piece-dialog.component';
+
+
 @Component({
   selector: 'app-my-student-container',
   templateUrl: './my-student-container.component.html',
   styleUrls: ['./my-student-container.component.css']
 })
 export class MyStudentContainerComponent implements OnInit {
+
+  user: UserModel;
 
 	studentInfo: StudentModel
 	studentId : string;
@@ -34,7 +47,9 @@ export class MyStudentContainerComponent implements OnInit {
 
   	constructor(private route: ActivatedRoute,
   				private ms: MyStudentsService,
-          private ls: LearningExperienceService ) { }
+          private ls: LearningExperienceService,
+          public dialog: MdDialog,
+          private as: AuthenticationService) { }
 
   	ngOnInit() {
       this.route.params.subscribe(p => {this.studentId = p['studentid']})
@@ -65,11 +80,30 @@ export class MyStudentContainerComponent implements OnInit {
         this.years = years
       })
 
+      this.as.user.subscribe(user => this.user = user)
+
   	}
+
+    openLearningPiece() {
+      let dialogRef = this.dialog.open(MyStudentLearningPieceDialogComponent, {
+        data: {
+          'learningBlock': this.chosenBlock,
+          'learningPieceKeys': this.learningPieceKeys   
+              }
+        // position: {
+        //     top: '0',
+        //     left: '0',
+        //     right: '0'
+        //   },
+        //   height: '90%',
+        //   width: '100%',
+      });
+    }
 
     handleData($event){
       this.chosenGroup = $event.group
       this.chosenBlock = $event.block
+      this.openLearningPiece()
     }
 
     recievedForm($event){

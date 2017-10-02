@@ -1,76 +1,49 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { FirebaseApp } from 'angularfire2';
+import { Router } from '@angular/router'
 
-import { AngularFireDatabase } from "angularfire2/database";
-import { AngularFireAuth } from 'angularfire2/auth';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/do';
 
-import * as firebase from 'firebase'
+
+
+import { AuthenticationService } from './shared-security/authentication.service'
+
+import { UserModel} from './users/models/data-classes'
+
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  user: Observable<firebase.User>;
+  user: UserModel;
 
-  sdkDb:any;
-
-   constructor(
-     private db: AngularFireDatabase,
-     public afAuth: AngularFireAuth,
+  constructor(
+     private as: AuthenticationService,
+     private router: Router
                ) {
-    this.user = afAuth.authState;
+  }
+
+  ngOnInit() {
+    this.as.user.subscribe(user => this.user = user);    
   }
 
   login() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    this.newUser()
-  }
+    this.as.login()
+    this.router.navigateByUrl('/individual')
 
+  }
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.as.logout()
+    this.router.navigateByUrl('/')
   }
-
-  newUser() {
-    this.afAuth.authState.subscribe(result => {
-      const data = this.db.object(`users/${result.uid}`);
-      data.set(result)
-      console.log(result)
-    })       
-  }
-
-
-  navLinks = [
-  {
-    link: 'individual',
-    label: 'Students'
-  },
-  {
-  	link: 'assessment',
-  	label: 'Assessment'
-  },
-  {
-    link: 'cohorts',
-    label: 'Cohorts'
-  },
-  {
-    link: 'overview',
-    label: 'Overview'
-  },
-  {
-    link: 'users',
-    label: 'Users'
-  }
-
-  ]
-
-
 }
 
-// <a routerLink="assessment">Assessment</a>
-// <a routerLink="individual">Individual Student</a>
-// <a routerLink="students">Students</a>
+  
+

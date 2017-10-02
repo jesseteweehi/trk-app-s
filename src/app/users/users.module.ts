@@ -9,12 +9,18 @@ import { UsersRoutingModule } from './users.routing.module'
 // Services
 import { UsersService } from './models/users.service';
 // List Components
-import { UsersListComponent } from './users-list/users-list.component';
+import { UsersListComponent,
+         UsersListAddComponent,
+         UsersListRemoveComponent
+       } from './users-list/users-list.component';
+
 import { UserGroupsListComponent } from './user-groups-list/user-groups-list.component';
 
 // Dialog Components
 import { UserGroupsCreateDialogComponent,
-		 UserGroupsEditDialogComponent } from './user-groups-dialogs/user-groups-dialogs.component';
+		     UserGroupsEditDialogComponent,
+         UsersListAddDialog,
+         UsersListRemoveDialog } from './user-groups-dialogs/user-groups-dialogs.component';
 
 // Form Components
 import { UserGroupsFormComponent,
@@ -33,15 +39,21 @@ import { UserGroupsFormComponent,
   ],
   entryComponents: [
   	UserGroupsCreateDialogComponent,
-  	UserGroupsEditDialogComponent
+  	UserGroupsEditDialogComponent,
+    UsersListAddDialog,
+    UsersListRemoveDialog,
   ],
   declarations: [
   	// Dialogs
   	UserGroupsCreateDialogComponent,
   	UserGroupsEditDialogComponent,
+    UsersListAddDialog,
+    UsersListRemoveDialog,
   	// Lists
   	UsersListComponent, 
   	UserGroupsListComponent,
+    UsersListAddComponent,
+    UsersListRemoveComponent,
   	// Forms
   	UserGroupsFormComponent,
   	UserGroupsCreateFormComponent,

@@ -34,11 +34,24 @@ import { GroupCreateDialogComponent,
   selector: 'app-learning-experience-group-list',
   templateUrl: './learning-experience-group.html',
   styles: [`
-  	.wrapper {
-  		display: grid;
-  	  	height: auto;
-  	  	grid-template-columns : repeat( 5, 1fr)
-  	}
+    @media screen and (min-width: 900px) {
+      .wrapper {
+        display: grid;
+        height: auto;
+        grid-template-columns : repeat( 5, 1fr)
+      }
+    }
+
+    @media screen and (min-width: 600px) {
+      .wrapper {
+        display: grid;
+        height: auto;
+        grid-template-columns : repeat( 3, 1fr)
+      }
+    }
+
+
+  	
 
   	.grid-item {
   	  grid-column: auto;

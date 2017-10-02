@@ -5,3 +5,14 @@ nav .md-tab-nav-bar{
 .right {
     margin-left: auto;
 }
+
+a {
+	font-style: uppercase;
+	margin-left: 10px;
+}
+
+.home {
+	font-size: 25px;
+	color: white;
+	font-weight: 100;
+}

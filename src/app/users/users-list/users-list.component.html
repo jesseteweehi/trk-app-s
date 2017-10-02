@@ -1,68 +1,41 @@
-<md-toolbar>
+<!-- <md-toolbar>
   <a routerLink="groups">Groups</a>
 </md-toolbar>
+ -->
 
-
-<md-list>
-	<md-list-item *ngFor="let user of users">
+<!-- <md-list>
+	<md-list-item >
 		<img mdListAvatar src="{{user.photoUrl}}" alt="...">
 	 	<p mdLine><span> {{user.email}}</span></p>
 	<!--  	<button class="right" md-icon-button (click)="remove(user.$key)">
 	 		<md-icon>delete</md-icon>
 	 	</button> -->
-	</md-list-item>
-</md-list>
+<!-- 	</md-list-item>
+</md-list> --> 
 
 
 
-<!-- <div class="wrapper">
 
-<div>
+	<md-expansion-panel *ngFor="let user of users">
+	  <md-expansion-panel-header>
+	    <md-panel-title>
+	      {{user.profile.email}}
+	    </md-panel-title>
+	    <md-panel-description>
+	      
+	    </md-panel-description>
+	  </md-expansion-panel-header>
+	  
+		{{ user.role | json}}
 
-  <md-input-container>
-    <textarea #emailAdmin mdInput placeholder="Email" (keyup.enter)="create('admin', emailAdmin.value)"></textarea>
-  </md-input-container>
+		<md-input-container>
+    		<input mdInput placeholder="Add Role" (keyup.enter)="change(true, user.$key, inputAdd.value)" #inputAdd>
+  		</md-input-container>
 
-	<md-list>
-	 <md-list-item *ngFor="let email of adminEmails">
-	 	{{email.$key}}
-	 	<button class="right" md-icon-button (click)="remove">
-	 		<md-icon>delete</md-icon>
-	 	</button>
-	 </md-list-item>
-	</md-list>
-</div>
+  		<md-input-container>
+    		<input mdInput placeholder="Delete Role" (keyup.enter)="change(false, user.$key, inputDelete.value)" #inputDelete>
+  		</md-input-container>
 
-
-<div>
-
-	<md-input-container>
-	  <textarea #emailTeacher mdInput placeholder="Email" (keyup.enter)="create('teacher', emailTeacher.value)"></textarea>
-	</md-input-container>
-
-	<md-list>
-	 <md-list-item *ngFor="let email of teacherEmails">
-	 	{{email}}
-	 	<button class="right" md-icon-button (click)="remove">
-	 		<md-icon>delete</md-icon>
-	 	</button>
-	 </md-list-item>
-	</md-list>
-</div>
+	</md-expansion-panel>
 
 
-<div>
-	<md-input-container>
-	  <textarea #emailStudent mdInput placeholder="Email" (keyup.enter)="create('student', emailStudent.value)"></textarea>
-	</md-input-container>
-
-	<md-list>
-	 <md-list-item *ngFor="let email of studentEmails">
-	 	{{email}}
-	 	<button class="right" md-icon-button (click)="remove">
-	 		<md-icon>delete</md-icon>
-	 	</button>
-	 </md-list-item>
-	</md-list>
-</div>
-</div> -->

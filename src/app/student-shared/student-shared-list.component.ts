@@ -22,6 +22,7 @@ import { StudentModel } from './data-classes';
 
   `,
   styles: [`
+
     .full-width {
       width: 100%;
       font-size: 25px;
@@ -29,9 +30,28 @@ import { StudentModel } from './data-classes';
       text-align: center;
     }
 
-    .wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr
+    @media screen and (min-width: 480px){
+      .wrapper {
+        display: grid;
+        height: auto;
+        grid-template-columns : repeat( 1, 1fr)
+      }
+    }
+
+    @media screen and (min-width: 600px) {
+      .wrapper {
+        display: grid;
+        height: auto;
+        grid-template-columns : repeat( 3, 1fr)
+      }
+    }
+
+    @media screen and (min-width: 1024px) {
+      .wrapper {
+        display: grid;
+        height: auto;
+        grid-template-columns : repeat( 5, 1fr)
+      }
     }
   `]
 })
@@ -241,6 +261,7 @@ export class StudentListAddNewComponent {
     }
   `]
 })
+
 export class StudentListAddComponent {
   studentList: StudentModel[] = []
   @Output() studentsToAdd = new EventEmitter(); 

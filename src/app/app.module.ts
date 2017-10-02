@@ -6,8 +6,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
+
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+
 
 //Routes
 import { AppRoutingModule }   from './app-routing.module';
@@ -16,18 +18,18 @@ import { AppRoutingModule }   from './app-routing.module';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 
-//Material Modules
+// Modules
 import { MyMaterialModule } from './my-material/my-material.module'
-
-//components
-import { StudentSearchComponent } from './student-search/student-search.component';
-
+import { SharedSecurityModule } from './shared-security/shared-security.module';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MenuComponent } from './menu/menu.component'
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    StudentSearchComponent
+    LandingPageComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +41,7 @@ import { StudentSearchComponent } from './student-search/student-search.componen
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AppRoutingModule,
-
+    SharedSecurityModule 
   ],
   exports: [],
   providers: [],

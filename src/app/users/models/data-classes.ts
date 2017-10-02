@@ -23,13 +23,25 @@ export class BaseModel {
 	}
 }
 
+interface Roles {
+	admin?: boolean;
+	teacher?: boolean;
+	student?: boolean;
+
+}
+
+interface Profile {
+	email: string,
+	photoUrl: string,
+}
 
 export class UserModel {
 	constructor(
 		public $key: string,
 		public created: string,
-		public email: string,
-		public photoUrl: string
+		public profile: Profile,
+		public role: Roles
+
 		){}
 	static fromJsonList(array): UserModel[] {
 		return array.map(UserModel.fromJson)
@@ -37,13 +49,13 @@ export class UserModel {
 	static fromJson({
 		 $key,
 		 created,
-		 email,
-		 photoUrl}): UserModel {
+		 profile,
+		 role}): UserModel {
 		return new UserModel(
 		 $key,
 		 created,
-		 email,
-		 photoUrl
+		 profile,
+		 role
 			);
 	}
 }

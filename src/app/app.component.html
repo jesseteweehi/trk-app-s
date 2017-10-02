@@ -1,34 +1,28 @@
-<md-toolbar color="white">
-  <span>Application Title</span>
+<md-toolbar color="primary">
+  <a class="home" routerLink="" md-button>Rond</a>
 
-<button [mdMenuTriggerFor]="menu" class="right" md-icon-button>
+  <a routerLink="users" *ngIf="user?.role.admin" md-button>Users</a>
+
+<button *ngIf="!user" [mdMenuTriggerFor]="menu" class="right" md-icon-button>
 <md-icon>account_circle</md-icon>
 </button>
 
 <md-menu #menu="mdMenu">
-  <button md-menu-item>Signed in as {{ (user | async)?.displayName}}</button>
-  <button (click)="logout()" md-menu-item>Sign Out</button>
   <button (click)="login()" md-menu-item>Sign In</button>
+</md-menu>
+
+<button *ngIf="user" [mdMenuTriggerFor]="menuIn" xPosition="right" yPosition="below" class="right" md-button>
+{{ user.profile.email }}
+</button>
+
+<md-menu #menuIn="mdMenu">
+  <button (click)="logout()" md-menu-item>Sign Out</button>
 </md-menu>
 
 
 </md-toolbar>
 
-
-
-<nav md-tab-nav-bar>
-  <a md-tab-link
-     *ngFor="let link of navLinks"
-     [routerLink]="link.link" 
-     routerLinkActive #rla="routerLinkActive"
-     [active]="rla.isActive" 
-     >{{link.label}}
-  </a>
-</nav>
-
-
+<app-menu *ngIf="user" [user]="user"></app-menu>
 
 <router-outlet></router-outlet>
 
-<!-- //   routerLinkActive #rla="routerLinkActive"
-//   [active]="rla.isActive"> -->

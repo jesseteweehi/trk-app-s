@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@angular/material';
 import 'hammerjs';
 
-import {CdkTableModule} from '@angular/cdk';
+// import {CdkTableModule} from '@angular/cdk';
 
 
 import {MdMenuModule, 
@@ -23,7 +23,10 @@ import {MdMenuModule,
     MdChipsModule,
     MdTabsModule,
     MdTableModule,
-    MdRadioModule
+    MdRadioModule,
+    MdExpansionModule,
+    MdDatepickerModule,
+    MdNativeDateModule
     } from '@angular/material';
 
 @NgModule({
@@ -44,9 +47,11 @@ import {MdMenuModule,
     MdSidenavModule,
     MdChipsModule,
     MdTabsModule,
-    CdkTableModule,
     MdTableModule,
-    MdRadioModule
+    MdRadioModule,
+    MdExpansionModule,
+    MdDatepickerModule,
+    MdNativeDateModule
   ],
   exports: [
     MdMenuModule,
@@ -64,9 +69,11 @@ import {MdMenuModule,
     MdSidenavModule,
     MdChipsModule,
     MdTabsModule,
-    CdkTableModule,
     MdTableModule,
-    MdRadioModule
+    MdRadioModule,
+    MdExpansionModule,
+    MdDatepickerModule,
+    MdNativeDateModule
   ],
   declarations: []
 })
