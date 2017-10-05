@@ -22,14 +22,13 @@ import { environment } from '../environments/environment';
 import { MyMaterialModule } from './my-material/my-material.module'
 import { SharedSecurityModule } from './shared-security/shared-security.module';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { MenuComponent } from './menu/menu.component'
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LandingPageComponent,
-    MenuComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

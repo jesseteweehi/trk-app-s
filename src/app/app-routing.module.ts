@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from "@angular/router";
 
-import { MarkbookModule } from './markbook/markbook.module';
-import { StudentsModule } from './students/students.module';
 import { LandingPageComponent } from './landing-page/landing-page.component'
 
 //Guards
@@ -11,30 +9,35 @@ import { TeacherGuard } from './shared-security/teacher.guard'
 
 
 const appRoutes: Routes = [
+ 
 	{ 
-		path: '',
-		component: LandingPageComponent
+		path: 'markbook',
+		loadChildren: 'app/all-markbook/markbook-root/markbook-root.module#MarkbookRootModule' 
 	},
   {
-    path: 'assessment',
-    loadChildren: 'app/markbook/markbook.module#MarkbookModule',
-    canLoad: [TeacherGuard]
+    path: 'dashboard',
+    loadChildren: 'app/my-dashboard/my-dashboard.module#MyDashboardModule',
   },
-  {
-    path: 'cohorts',
-    loadChildren: 'app/cohorts/cohorts.module#CohortsModule',
-    canLoad: [TeacherGuard]
-  },
-  {
-    path: 'individual',
-    loadChildren: 'app/my-student/my-student.module#MyStudentModule',
-    canLoad: [TeacherGuard]
-  },
-  {
-    path: 'overview',
-    loadChildren: 'app/overview/overview.module#OverviewModule',
-    canLoad: [TeacherGuard]
-  },   
+  // {
+  //   path: 'markbook/assessment',
+  //   loadChildren: 'app/all-markbook/markbook/markbook.module#MarkbookModule',
+  //   canLoad: [TeacherGuard]
+  // },
+  // {
+  //   path: 'markbook/cohorts',
+  //   loadChildren: 'app/all-markbook/cohorts/cohorts.module#CohortsModule',
+  //   canLoad: [TeacherGuard]
+  // },
+  // {
+  //   path: 'markbook/students',
+  //   loadChildren: 'app/all-markbook/my-student/my-student.module#MyStudentModule',
+  //   canLoad: [TeacherGuard]
+  // },
+  // {
+  //   path: 'markbook/overview',
+  //   loadChildren: 'app/all-markbook/overview/overview.module#OverviewModule',
+  //   canLoad: [TeacherGuard]
+  // },   
   {
     path: 'users',
     loadChildren: 'app/users/users.module#UsersModule',
