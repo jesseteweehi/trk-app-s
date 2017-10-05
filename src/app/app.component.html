@@ -1,7 +1,7 @@
 <md-toolbar color="primary">
-  <a class="home" routerLink="" md-button>Rond</a>
+  <a class="home" md-button>Rond</a>
 
-  <a routerLink="users" *ngIf="user?.role.admin" md-button>Users</a>
+  <a routerLink="users" *ngIf="user?.role?.admin" md-button>Users</a>
 
 <button *ngIf="!user" [mdMenuTriggerFor]="menu" class="right" md-icon-button>
 <md-icon>account_circle</md-icon>
@@ -12,7 +12,7 @@
 </md-menu>
 
 <button *ngIf="user" [mdMenuTriggerFor]="menuIn" xPosition="right" yPosition="below" class="right" md-button>
-{{ user.profile.email }}
+{{ user?.profile?.email }}
 </button>
 
 <md-menu #menuIn="mdMenu">

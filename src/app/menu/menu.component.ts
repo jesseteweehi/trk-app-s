@@ -16,7 +16,8 @@ export class MenuComponent implements OnChanges{
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges) {
-  	this.links()
+    if (this.user) 
+  	 {this.links()}
   }
 
 

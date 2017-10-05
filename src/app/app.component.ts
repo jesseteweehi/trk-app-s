@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router'
+
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
@@ -24,8 +24,7 @@ export class AppComponent implements OnInit{
   user: UserModel;
 
   constructor(
-     private as: AuthenticationService,
-     private router: Router
+     private as: AuthenticationService
                ) {
   }
 
@@ -35,13 +34,12 @@ export class AppComponent implements OnInit{
 
   login() {
     this.as.login()
-    this.router.navigateByUrl('/individual')
-
+  
   }
 
   logout() {
     this.as.logout()
-    this.router.navigateByUrl('/')
+ 
   }
 }
 

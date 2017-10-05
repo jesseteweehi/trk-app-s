@@ -119,10 +119,10 @@ export class CohortsContainerComponent implements OnInit {
     lock(key) {
       this.cs.lockCohort(key).subscribe(
            () => {
-               this.snackBar.open('Lesson Group Locked','Awesome',{ duration:2000 })
+               this.snackBar.open('Cohort Locked','Awesome',{ duration:2000 })
            },
            err => { 
-               this.snackBar.open('Error Locking Lesson Group ${err}','Bugger',{ duration:2000 })
+               this.snackBar.open('Error Locking Cohort ${err}','Bugger',{ duration:2000 })
            }
       );
     }

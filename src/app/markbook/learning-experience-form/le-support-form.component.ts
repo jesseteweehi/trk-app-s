@@ -49,13 +49,24 @@ export class LearningYearFormComponent {
    
   years = [
     {value: '2017', viewValue: '2017'},
+    {value: '2017-2018', viewValue: '2017-2018'},
+    {value: '2017-2019', viewValue: '2017-2019'},
+    {value: '2017-2020', viewValue: '2017-2020'},
+    {value: '2017-2021', viewValue: '2017-2021'},
     {value: '2018', viewValue: '2018'},
+    {value: '2018-2019', viewValue: '2018-2019'},
+    {value: '2018-2020', viewValue: '2018-2020'},
+    {value: '2018-2021', viewValue: '2018-2021'},
+    {value: '2018-2022', viewValue: '2018-2022'},
     {value: '2019', viewValue: '2019'},
-    {value: '2020', viewValue: '2020'}
+    {value: '2019-2020', viewValue: '2019-2020'},
+    {value: '2019-2021', viewValue: '2019-2021'},
+    {value: '2019-2022', viewValue: '2019-2022'},
+    {value: '2019-2023', viewValue: '2019-2023'},
   ];
 
   semesters = [
-    {value: '0', viewValue: 'Not Applicab'},
+    {value: '0', viewValue: 'Not Applicable'},
     {value: '1', viewValue: 'Term 1'},
     {value: '2', viewValue: 'Term 2'},
     {value: '3', viewValue: 'Term 3'},

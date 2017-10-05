@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router'
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -20,7 +21,8 @@ export class AuthenticationService {
 	constructor(
 
 	    private db: AngularFireDatabase,
-	    private afAuth: AngularFireAuth) {
+	    private afAuth: AngularFireAuth,
+	    private router: Router) {
 
 		this.afAuth.authState
 		        .switchMap(auth => {
@@ -38,11 +40,25 @@ export class AuthenticationService {
 	}
 
 	login() {
-	  this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+	  this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(
+	  	(success) => {
+	  		this.router.navigateByUrl('/individual');
+	  	}).catch(
+	  	(err) => {
+	  		console.log(err)
+	  	}
+	  	);
 	}
 
 
 	logout() {
-	  this.afAuth.auth.signOut();
+	  this.afAuth.auth.signOut().then(
+	  	(success) => {
+	  		this.router.navigateByUrl('/');
+	  	}).catch(
+	  	(err) => {
+	  		console.log(err)
+	  	}
+	  	);
 	}
 }
