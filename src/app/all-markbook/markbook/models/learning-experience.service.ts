@@ -9,7 +9,7 @@ import {
     LearningLevelModel,
     LearningYearModel} from '../models/data-classes'
 
-import { StudentModel } from '../../students/models/data-classes';
+import { StudentModel } from '../../../student-shared/data-classes';
 
 import { AngularFireDatabase } from "angularfire2/database";
 import { FirebaseApp } from 'angularfire2';

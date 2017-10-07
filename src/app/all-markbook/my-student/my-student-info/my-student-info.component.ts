@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { StudentModel } from '../../students/models/data-classes'
+import { StudentModel } from '../../../student-shared/data-classes'
 
 
 @Component({

@@ -18,26 +18,10 @@ const appRoutes: Routes = [
     path: 'dashboard',
     loadChildren: 'app/my-dashboard/my-dashboard.module#MyDashboardModule',
   },
-  // {
-  //   path: 'markbook/assessment',
-  //   loadChildren: 'app/all-markbook/markbook/markbook.module#MarkbookModule',
-  //   canLoad: [TeacherGuard]
-  // },
-  // {
-  //   path: 'markbook/cohorts',
-  //   loadChildren: 'app/all-markbook/cohorts/cohorts.module#CohortsModule',
-  //   canLoad: [TeacherGuard]
-  // },
-  // {
-  //   path: 'markbook/students',
-  //   loadChildren: 'app/all-markbook/my-student/my-student.module#MyStudentModule',
-  //   canLoad: [TeacherGuard]
-  // },
-  // {
-  //   path: 'markbook/overview',
-  //   loadChildren: 'app/all-markbook/overview/overview.module#OverviewModule',
-  //   canLoad: [TeacherGuard]
-  // },   
+  {
+    path: 'students',
+    loadChildren: 'app/all-students/student-root/student-root.module#StudentRootModule',
+  },   
   {
     path: 'users',
     loadChildren: 'app/users/users.module#UsersModule',

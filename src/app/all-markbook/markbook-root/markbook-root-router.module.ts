@@ -1,17 +1,17 @@
 import { NgModule }     from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MenuComponent } from './menu.component'
+import { MenuToolbarMarkbookComponent } from './menu/menu.component'
 
 import { TeacherGuard } from '../../shared-security/teacher.guard'
 
 const MarkbookRootRoutes: Routes = [
   {
-    path: '', redirectTo: 'students', pathMatch: 'full'
+    path: '', redirectTo: 'assessment', pathMatch: 'full'
   },
 	{
   	path: '',
-  	component: MenuComponent,
+  	component: MenuToolbarMarkbookComponent,
     children: [
       {
         path: 'assessment',
@@ -19,21 +19,19 @@ const MarkbookRootRoutes: Routes = [
       },
       {
         path: 'cohorts',
-        loadChildren: 'app/all-markbook/cohorts/cohorts.module#CohortsModule',
-      },
-      {
-        path: 'students',
-        loadChildren: 'app/all-markbook/my-student/my-student.module#MyStudentModule',
+        loadChildren: 'app/all-students/cohorts/cohorts.module#CohortsModule',
       },
       {
         path: 'overview',
         loadChildren: 'app/all-markbook/overview/overview.module#OverviewModule',
+      },
+      {
+        path: 'my-student',
+        loadChildren: 'app/all-markbook/my-student/my-student.module#MyStudentModule',
       }
-    ],
-
+    ]
   }
-
-];
+]; 
 
 
 @NgModule({

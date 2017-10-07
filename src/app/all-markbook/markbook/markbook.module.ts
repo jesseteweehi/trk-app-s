@@ -8,13 +8,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 //Shared Module
 import { MyMaterialModule } from '../../my-material/my-material.module';
-import { StudentsModule } from '../students/students.module'
-import { StudentSharedModule} from '../student-shared/student-shared.module'
-import { CohortsModule} from '../cohorts/cohorts.module'
-
-
-// Autofocus directive not used. Needs Clean up
-import { AutofocusDirective } from './models/custom-directives';
+import { StudentSharedModule} from '../../student-shared/student-shared.module'
+import { CohortsModule} from '../../all-students/cohorts/cohorts.module'
 
 import { LearningExperienceService } from './models/learning-experience.service';
 
@@ -92,7 +87,6 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
     MyMaterialModule,
     MarkbookRoutingModule,
     AngularFireDatabaseModule,
-    StudentsModule,
     StudentSharedModule,
     CohortsModule
   ],
@@ -165,8 +159,6 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LearningLevelEditDialogComponent,
   LearningAreaCreateDialogComponent,
   LearningAreaEditDialogComponent,
-  
-  AutofocusDirective
   ],
   
   exports:[

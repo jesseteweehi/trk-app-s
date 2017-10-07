@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MarkbookRootRoutingModule} from  './markbook-root-router.module'
 import { MyMaterialModule } from '../../my-material/my-material.module'
 
-import { MenuComponent } from './menu.component'
+import { MenuToolbarMarkbookComponent } from './menu/menu.component'
 
 
 @NgModule({
@@ -13,6 +13,6 @@ import { MenuComponent } from './menu.component'
     MyMaterialModule,
     MarkbookRootRoutingModule,
   ],
-  declarations: [MenuComponent]
+  declarations: [MenuToolbarMarkbookComponent]
 })
 export class MarkbookRootModule { }

@@ -7,6 +7,8 @@
 
   <a routerLink="markbook" *ngIf="user" md-button>Markbook</a>
 
+  <a routerLink="students" *ngIf="user" md-button>Students</a>
+
 <button *ngIf="!user" [mdMenuTriggerFor]="menu" class="right" md-icon-button>
 <md-icon>account_circle</md-icon>
 </button>

@@ -4,11 +4,11 @@ import {Observable, Subject} from "rxjs/Rx";
 
 import { MdDialogModule, MdDialog, MdDialogConfig, MdSnackBar } from '@angular/material';
 import { LearningExperienceService } from '../models/learning-experience.service';
-import { StudentsSharedService } from '../../student-shared/student-shared.service';
+import { StudentsSharedService } from '../../../student-shared/student-shared.service';
 import { LearningAssessmentPieceModel } from '../models/data-classes';
-import { CohortModel } from '../../cohorts/models/data-classes'
+import { CohortModel } from '../../../all-students/cohorts/models/data-classes'
 
-import { CohortListDialogComponent } from '../../cohorts/cohorts-dialogs/cohorts-dialogs.component'
+import { CohortListDialogComponent } from '../../../all-students/cohorts/cohorts-dialogs/cohorts-dialogs.component'
 
 import { CohortCompareDialogComponent,
          LEStudentListPieceRemoveDialogComponent,
@@ -21,7 +21,7 @@ import { LePieceCreateDialogComponent,
          HeaderCreateDialogComponent,
          HeaderEditDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs-forms.component';
 
-import { StudentModel } from '../../student-shared/data-classes';
+import { StudentModel } from '../../../student-shared/data-classes';
 
 @Component({
   selector: 'app-learning-experience-container',

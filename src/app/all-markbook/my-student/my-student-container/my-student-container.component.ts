@@ -8,7 +8,7 @@ import { AuthenticationService } from '../../../shared-security/authentication.s
 
 import { MyStudentsService } from '.././models/my-student.service'
 import { LearningExperienceService } from '../../markbook/models/learning-experience.service'
-import { StudentModel } from '../../students/models/data-classes'
+import { StudentModel } from '../../../student-shared/data-classes'
 import { 
     LearningAssessmentPieceModel,
     LearningAssessmentGroupModel,

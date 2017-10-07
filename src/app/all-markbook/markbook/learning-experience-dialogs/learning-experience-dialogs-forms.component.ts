@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
-import { StudentsSharedService } from '../../student-shared/student-shared.service';
+import { StudentsSharedService } from '../../../student-shared/student-shared.service';
 import { LearningExperienceService } from '../models/learning-experience.service'
 
 ///Contains the dialogs for creating and editing

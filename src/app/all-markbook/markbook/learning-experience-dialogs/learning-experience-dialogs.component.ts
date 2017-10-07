@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
-import { StudentsSharedService } from '../../student-shared/student-shared.service';
+import { StudentsSharedService } from '../../../student-shared/student-shared.service';
 
-import { StudentModel } from '../../student-shared/data-classes'
+import { StudentModel } from '../../../student-shared/data-classes'
 
 ///Contains the dialogs for Adding and Removing Students from Learning Pieces
 // Contains the dialogs for seeing the students for each Block and Group

@@ -11,7 +11,7 @@ import {
     LearningAssessmentBlockModel} 
     							from '../../markbook/models/data-classes'
 
-import { StudentModel } from '../../students/models/data-classes'
+import { StudentModel } from '../../../student-shared/data-classes'
 
 import { environment } from '../../../../environments/environment';
 
