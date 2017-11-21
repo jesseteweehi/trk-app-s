@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { LearningExperienceService } from '../../../markbook/models/learning-experience.service';
 import { LearningAssessmentPieceModel } from '../../../markbook/models/data-classes'
 
@@ -7,7 +7,8 @@ import { LearningAssessmentPieceModel } from '../../../markbook/models/data-clas
   templateUrl: './my-student-learning-piece.component.html',
   styleUrls: ['./my-student-learning-piece.component.css']
 })
-export class MyStudentLearningPieceComponent {
+export class MyStudentLearningPieceComponent implements OnChanges{
+  @Input() learningPieceMatrix: object;
 	@Input() learningBlock;
   @Input() learningPieceKeys: string[];
 
@@ -15,16 +16,17 @@ export class MyStudentLearningPieceComponent {
 	xheaders: any[];
   yheaders: any[];
 
-  	constructor(private ls: LearningExperienceService) { }
+  	constructor(private ls: LearningExperienceService,
+                private cdr: ChangeDetectorRef) { }
 
   	ngOnChanges(changes: SimpleChanges) {
-      /// Error happening becasue the change hasn't come yet and its trying to call it.
-      if (changes['learningBlock'].currentValue != null) {
-  		this.ls.findPiecesForBlocks(this.learningBlock.$key).subscribe(groups => this.groups = groups);
-  		this.ls.findXHeadersForBlocks(this.learningBlock.$key).subscribe(xheaders => this.xheaders = xheaders);
-  		this.ls.findYHeadersForBlocks(this.learningBlock.$key).subscribe(yheaders => this.yheaders = yheaders);
+      if (changes['learningPieceMatrix']) {
+      this.groups = this.learningPieceMatrix[this.learningBlock.$key]['pieces']
+  		this.xheaders = this.learningPieceMatrix[this.learningBlock.$key]['xheaders']
+  		this.yheaders = this.learningPieceMatrix[this.learningBlock.$key]['yheaders']
       }
-  	}
+    } 
+  	
 
     highlight(key) {
       if (this.learningPieceKeys.includes(key)){

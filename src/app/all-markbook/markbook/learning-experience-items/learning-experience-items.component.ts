@@ -5,7 +5,7 @@ import {
     LearningLevelModel,
 	LearningYearModel} from '../models/data-classes';
 
-import { CohortModel } from '../../cohorts/models/data-classes';
+import { CohortModel } from '../../../all-students/cohorts/models/data-classes';
 
 import { MdDialog } from '@angular/material';
 
@@ -48,7 +48,7 @@ export class GroupItemComponent {
 	`
 	<span mdTooltipPosition="right" mdTooltip="{{cohort?.description}}">{{cohort?.title}}</span>
 	<p *ngIf="cohortData">{{ cohortData['cohortinpiece'].length/cohortData['all'].length * 100 | number:'.0-0' }}% | {{ cohortData['cohortinpiece'].length }} Completed </p>
-	<p *ngIf="cohortData">{{ cohortData['cohortoutpiece'].length/cohortData['all'].length * 100 | number:'.0-0' }}% | {{ cohortData['cohortoutpiece'].length }} Yet to Complete </p>
+	<p *ngIf="cohortData">{{ cohortData['cohortoutpiece'].length/cohortData['all'].length * 100 | number:'.0-0' }}% | {{ cohortData['cohortoutpiece'].length }} Yet to do </p>
 	<button *ngIf="cohortData" md-icon-button color="primary" (click)="openCohortDialog()"><md-icon>face</md-icon></button>
 	`,
 	styles:[`
@@ -166,12 +166,11 @@ export class YearItemComponent {
 }
 
 
-
 @Component({
 	selector: 'group-support-item',
 	template:
 	`
-	<h3>{{year?.year}} | {{area?.title}} | {{level?.level}}</h3>
+	<h3>{{year?.year}} | {{area?.title}} | <span *ngIf="level.level">{{level?.level}}</span> <span *ngIf="!level.level">{{level?.description}}</span></h3>
 	`,
 	styles:[` 
 
@@ -182,5 +181,8 @@ export class SupportItemComponent {
 	@Input() area: LearningAreaModel;
 	@Input() year: LearningYearModel;
 	@Input() level: LearningLevelModel;
+
+
+
 
 }

@@ -1,5 +1,24 @@
-<app-cohorts></app-cohorts>
+<md-toolbar *ngIf="user?.role?.admin || user?.role?.teacher">
 
-<app-students></app-students>
+	<button md-icon-button [mdMenuTriggerFor]="infoMenu"><md-icon>add</md-icon></button>
 
-<app-markbook-groups></app-markbook-groups>
+<md-menu #infoMenu="mdMenu">
+  <button md-menu-item (click)="openStudentList()"><md-icon>add</md-icon>Add Students</button>
+  <button md-menu-item (click)="openLearningGroupList()"><md-icon>add</md-icon>Add Assessment</button>
+  <button md-menu-item (click)="openCohortList()"><md-icon>add</md-icon>Add Cohort</button>
+</md-menu>
+</md-toolbar>
+
+<md-tab-group>
+  <md-tab *ngIf="user?.role?.admin || user?.role?.teacher" label="My Assessments">
+    <app-markbook-groups *ngIf="groups" [groups]="groups" [user]="user"></app-markbook-groups>
+  </md-tab>
+  <md-tab label="My Students">
+  	<app-students *ngIf="students" [students]="students" [user]="user"></app-students>
+  </md-tab>
+  <md-tab *ngIf="user?.role?.admin || user?.role?.teacher" label="My Cohorts">
+  	<app-cohorts *ngIf="cohorts" [cohorts]="cohorts" [user]="user"></app-cohorts> 	
+  </md-tab>
+  
+</md-tab-group>
+

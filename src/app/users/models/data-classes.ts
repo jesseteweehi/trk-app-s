@@ -40,7 +40,8 @@ export class UserModel {
 		public $key: string,
 		public created: string,
 		public profile: Profile,
-		public role: Roles
+		public role: Roles,
+		public approved: object
 
 		){}
 	static fromJsonList(array): UserModel[] {
@@ -50,12 +51,14 @@ export class UserModel {
 		 $key,
 		 created,
 		 profile,
-		 role}): UserModel {
+		 role,
+		 approved}): UserModel {
 		return new UserModel(
 		 $key,
 		 created,
 		 profile,
-		 role
+		 role,
+		 approved	
 			);
 	}
 }

@@ -1,0 +1,32 @@
+<md-accordion>
+
+<md-expansion-panel *ngFor="let piece of studentLearningGroups?.slice().reverse()">
+	  <md-expansion-panel-header>
+	    <md-panel-title>
+	      <my-student-block [block]="piece.block"></my-student-block>
+	      <my-student-group class="group" *ngIf="groups" [group]="groups[piece.group]"></my-student-group>
+	    </md-panel-title>
+	    <md-panel-description>
+	    	<group-year-item class="description" *ngIf="groups&&years"[year]="years[piece.year]"></group-year-item>
+	    	<group-level-item class="description" *ngIf="groups&&levels" [level]="levels[piece.level]">
+	    	</group-level-item>
+	    	<group-area-item class="description" *ngIf="groups&&areas"[area]="areas[piece.area]"></group-area-item>
+	    </md-panel-description>
+	  </md-expansion-panel-header>
+	  			<md-tab-group>
+	  	  			<md-tab label="Resources">
+	  	  				<app-my-student-resources 
+	  	  				[blockKey]="piece.$key"
+	  	  				></app-my-student-resources>
+	  	  			</md-tab>
+
+	  	  			<md-tab label="Message Board">
+
+	  	  			</md-tab>
+	  	  			
+	  	  			<md-tab label="Conversation">
+	  	  			</md-tab>		
+	  			</md-tab-group>
+	</md-expansion-panel>
+
+</md-accordion>

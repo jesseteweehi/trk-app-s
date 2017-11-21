@@ -34,25 +34,6 @@ export class MyStudentsService {
 			.map(StudentModel.fromJson)
 	}
 
-	// USe student Key retrieve info.
-	// Use Info to retreive group info, Block Info and Piece Info
-	// Return this how?
-
-	// findStudentPiecesForKey(studentKey:string): Observable<any> {
-	// 	return this.db.list(`studentLearning/${studentKey}`)
-	// 		.map(results => results.map(result => {
-	// 			let data = {}
-	// 			data['group'] = this.findGroupForKey(result.group);
-	// 			data['block'] = this.findBlockForKey(result.block);
-	// 			data['piece'] = this.findPieceForKey(result.piece);
-	// 			return data			
-	// 		}) 
-	// 		)
-	// 		.flatMap(results => Observable.combineLatest(results))
-	// 		.do(x => console.log(x))
-			
-	// }
-
 	findPieceKeysForStudent(keys$: Observable<any[]>): Observable<any> {
 		return keys$
 			.map(keys => keys.map(key => this.db.object('learningExperiencePiece/' + key.$key)))
@@ -64,26 +45,12 @@ export class MyStudentsService {
 			.map((LearningAssessmentPieceModel.fromJsonList))
 	}
 
-	// findStudentPiecesForKeyNew(studentKey:string): Observable<any> {
-	// 	return this.db.list(`studentLearning/${studentKey}`)
-	// 		.map(results => results.combineLatest(results => {
-	// 			this.findGroupForKey(results.group);
-	// 			this.findBlockForKey(results.group);
-	// 			this.findPieceForKey(results.piece)
-	// 		}))	
-	// }
+	findPiecesForStudentObject(studentKey:string): Observable<any> {
+		return this.findPieceKeysForStudent(this.db.list(`studentLearning/${studentKey}/pieces/`))
+			.map((LearningAssessmentPieceModel.fromJsonToObject))
+	}
 
-	// findStudentPiecesForKey(studentKey:string): Observable<any> {
-	// 	return this.db.list(`studentLearning/${studentKey}`)
-	// 		.map(results => results.map(result => {
-	// 			let data = {}
-	// 			data['group'] = this.findGroupForKey(result.group);
-	// 			data['block'] = this.findBlockForKey(result.block);
-	// 			data['piece'] = this.findPieceForKey(result.piece);
-	// 			data['pieceKey'] = result.piece
-	// 			return data}))
-	// }
-
+	
 	findBlockKeysForStudent(keys$: Observable<any[]>): Observable<any> {
 		return keys$
 			.map(keys => keys.map(key => this.db.object('learningExperienceBlock/' + key.$key)))
@@ -93,6 +60,11 @@ export class MyStudentsService {
 	findBlocksForStudent(studentKey:string): Observable<any> {
 		return this.findBlockKeysForStudent(this.db.list(`studentLearning/${studentKey}/blocks/`))
 			.map((LearningAssessmentBlockModel.fromJsonToObject))
+	}
+
+	findEnrolledBlocksForStudent(studentKey:string): Observable<any> {
+		return this.findBlockKeysForStudent(this.db.list(`studentLearning/${studentKey}/enrolled`))
+			.map((LearningAssessmentBlockModel.fromJsonList))
 	}
 
 

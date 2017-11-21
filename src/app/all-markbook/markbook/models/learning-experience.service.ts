@@ -7,7 +7,8 @@ import {
     LearningAssessmentHeaderModel,
     LearningAreaModel,
     LearningLevelModel,
-    LearningYearModel} from '../models/data-classes'
+    LearningYearModel,
+    ResourceModel} from '../models/data-classes'
 
 import { StudentModel } from '../../../student-shared/data-classes';
 
@@ -32,6 +33,37 @@ export class LearningExperienceService {
     	this.sdkDb = this.fb.database().ref();	
     }
 
+    //////// Resources ///////////
+
+    createResourceForBlock(blockKey:string, form:any): Observable<any> {
+      const resourceToSave = Object.assign({}, form);
+      const resourceToSaveKey = this.sdkDb.child('resource').push().key;
+      let dataToSave = {};
+      dataToSave[`resources/${blockKey}/${resourceToSaveKey}`] = resourceToSave;
+
+      return this.firebaseUpdate(dataToSave)
+    }
+
+    findResourcesForBlock(blockKey:string): Observable<ResourceModel[]> {
+      return this.db.list(`resources/${blockKey}`)
+              .map(ResourceModel.fromJsonList)
+    }
+
+    removeResourceForBlock(blockKey:string, resourceKey: string): Observable<any> {
+      let dataToSave = {};
+      dataToSave[`resources/${blockKey}/${resourceKey}`] = null;
+
+      return this.firebaseUpdate(dataToSave)
+    }
+
+
+    // editLearningExperiencePiece(blockKey:string, pieceKey: string, le:any): Observable<any> {
+    //     const learningExperiencePieceToSave = Object.assign({'parent': blockKey}, le);      
+    //     let dataToSave = {};
+    //     dataToSave["learningExperiencePiece/" + pieceKey] = learningExperiencePieceToSave;
+    //     return this.firebaseUpdate(dataToSave);
+    // }
+
     /////// Student Placement for Learning Piece /////////
 
     findStudentKeysForLearningPiece(studentsKeys$: Observable<any[]>) : Observable<any> {
@@ -45,13 +77,53 @@ export class LearningExperienceService {
             .map(StudentModel.fromJsonList)
     }
 
+    findStudentsForLearningBlock(blockkey:string): Observable<any> {
+        return this.findStudentKeysForLearningPiece(this.db.list(`studentsEnrolledforBlock/${blockkey}`))
+            .map(StudentModel.fromJsonList)
+    }
+
     putStudentsInLearningPiece(groupKey: string, blockKey:string, pieceKey: string, students: StudentModel[]): Observable<any> {
         let dataToSave = {}
         students.forEach(student => {
             dataToSave["studentsForLearningPiece/" + pieceKey + "/" + student.$key] = true;
+            dataToSave["studentsEnrolledforBlock/" + blockKey + "/" + student.$key] = true;
             dataToSave[`studentLearning/${student.$key}/groups/${groupKey}`] = true;
             dataToSave[`studentLearning/${student.$key}/blocks/${blockKey}`] = true;
+            dataToSave[`studentLearning/${student.$key}/enrolled/${blockKey}`] = true
             dataToSave[`studentLearning/${student.$key}/pieces/${pieceKey}`] = true;
+        })
+
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    putStudentInLearningPiece(groupKey: string, blockKey:string, pieceKey: string, studentKey: string): Observable<any> {
+        let dataToSave = {}        
+        dataToSave["studentsForLearningPiece/" + pieceKey + "/" + studentKey] = true;
+        dataToSave["studentsEnrolledforBlock/" + blockKey + "/" + studentKey] = true;
+        dataToSave[`studentLearning/${studentKey}/groups/${groupKey}`] = true;
+        dataToSave[`studentLearning/${studentKey}/blocks/${blockKey}`] = true;
+        dataToSave[`studentLearning/${studentKey}/enrolled/${blockKey}`] = true
+        dataToSave[`studentLearning/${studentKey}/pieces/${pieceKey}`] = true;
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    enrollStudentsInLearningBlock(groupKey: string, blockKey:string, students: StudentModel[]): Observable<any> {
+        let dataToSave = {}
+        students.forEach(student => {
+            dataToSave["studentsEnrolledforBlock/" + blockKey + "/" + student.$key] = true;
+            dataToSave[`studentLearning/${student.$key}/enrolled/${blockKey}`] = true
+            dataToSave[`studentLearning/${student.$key}/blocks/${blockKey}`] = true;
+            dataToSave[`studentLearning/${student.$key}/groups/${groupKey}`] = true;
+        })
+
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    unenrollStudentsFromLearningBlock(blockKey:string, students: StudentModel[]): Observable<any> {
+        let dataToSave = {}
+        students.forEach(student => {
+            dataToSave["studentsEnrolledforBlock/" + blockKey + "/" + student.$key] = null;
+            dataToSave[`studentLearning/${student.$key}/enrolled/${blockKey}`] = null
         })
 
         return this.firebaseUpdate(dataToSave)
@@ -64,6 +136,14 @@ export class LearningExperienceService {
             dataToSave[`studentLearning/${student.$key}/pieces/${pieceKey}`] = null;
         })
 
+        return this.firebaseUpdate(dataToSave)
+    }
+
+    removeStudentFromLearningPiece(pieceKey: string, studentKey: string): Observable<any> {
+        let dataToSave = {}       
+        dataToSave["studentsForLearningPiece/" + pieceKey + "/" + studentKey] = null;
+        dataToSave[`studentLearning/${studentKey}/pieces/${pieceKey}`] = null;
+        
         return this.firebaseUpdate(dataToSave)
     }
 

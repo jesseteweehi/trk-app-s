@@ -1,0 +1,52 @@
+<div class="wrapper">
+<md-card  *ngFor="let group of groupKeys">
+
+    <md-card-subtitle> 
+    	
+    <group-support-item [area]="areas[groups[group].learningArea]"
+                     [year]="years[groups[group].learningYear]"
+                     [level]="levels[groups[group].learningLevel]"                     
+    ></group-support-item>
+    </md-card-subtitle>
+
+  	<md-card-title>{{groups[group].title}}</md-card-title>
+
+  	<md-card-content>
+        
+        <md-list>
+          <md-list-item *ngFor="let block of groupBlock[group]">      
+            <h4 md-line><a [routerLink]="['input', group, block]" 
+          md-button>{{blocks[block].title}}</a>
+            </h4>
+              <span class="highlight">{{status[block]}}</span>
+<!--             <button color="primary" md-icon-button><md-icon>info</md-icon></button>
+ -->          </md-list-item>
+        </md-list> 
+
+       <!--  <md-list>
+          <md-list-item class="innerlist" *ngFor="let piece of blockPiece[block]">
+            
+
+            <h4 md-line *ngIf="studentLearningObject[piece].qualifier=='x'"><span mdTooltip="{{studentLearningObject[piece].description}}" mdTooltipPosition="right">{{studentLearningObject[piece].xheader}}</span>
+            </h4>
+         
+            <h4 md-line *ngIf="studentLearningObject[piece].qualifier=='y'"><span mdTooltip="{{studentLearningObject[piece].description}}" mdTooltipPosition="right">{{studentLearningObject[piece].yheader}}</span></h4>
+
+            
+            <span class="highlight green" *ngIf="studentLearningObject[piece].qualifier=='x'">{{studentLearningObject[piece].yheader}}</span>
+            <span class="highlight green" *ngIf="studentLearningObject[piece].qualifier=='y'">{{studentLearningObject[piece].xheader}}</span>            
+          </md-list-item>
+        </md-list>  -->
+
+    </md-card-content>
+
+
+
+
+  	
+    <md-card-footer>
+    </md-card-footer>
+
+
+</md-card>
+</div>

@@ -6,26 +6,32 @@ import {
     LearningAssessmentHeaderModel,
 	MyStudentLearningPieceModel} from '../../markbook/models/data-classes'
 
-
 @Component({
-  selector: 'app-my-student-group',
-  templateUrl: './my-student-group.component.html',
-  styleUrls: ['./my-student-group.component.css']
+  selector: 'app-my-student-group-exp-panel',
+  templateUrl: './my-student-group-exp-panel.component.html',
+  styleUrls: ['./my-student-group-exp-panel.component.css']
 })
-export class MyStudentGroupComponent implements OnInit {
+export class MyStudentGroupExpPanelComponent implements OnInit {
+	@Input() learningPieceMatrix
 	@Input() studentFirebase: LearningAssessmentPieceModel[];
+	@Input() learningPieceKeys: Array<string>;
 	@Input() groups: object;
 	@Input() blocks: object;
 	@Input() areas: object;
 	@Input() levels: object;
 	@Input() years: object;	
 	@Output() sendData = new EventEmitter();
-	highlightKey: string;
+	highlightKey: string = '';
 
 	filtered : MyStudentLearningPieceModel[]; 
 
-	studentLearningPieces: MyStudentLearningPieceModel[] = []; 
+	studentLearningPieces: MyStudentLearningPieceModel[] = [];
 
+	chosenBlock: LearningAssessmentBlockModel;
+	chosenGroup: LearningAssessmentGroupModel;
+
+
+	public resourceKey : string = '' 
 
 	ngOnInit() {
 		{this.studentFirebase.map(piece => {
@@ -44,15 +50,17 @@ export class MyStudentGroupComponent implements OnInit {
 				})}
 	}
 
-
-	choose(key, block, group) {
-	  const dataToSend = {
-	    'group': group,
-	    'block': block,
-	  };
-	  this.sendData.emit(dataToSend);
-	  this.highlightKey = key
+	choose(key, block) {
+		this.chosenBlock = block;
+		this.resourceKey = key
+		this.highlightKey = key
 	}
+
+	close(){
+		this.resourceKey = ''
+		this.highlightKey = ''
+	}
+
 
 	ngOnChanges() {
 		this.filtered = this.studentLearningPieces

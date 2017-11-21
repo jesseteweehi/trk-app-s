@@ -1,15 +1,21 @@
+{{ user | json}}
+
 <md-toolbar color="primary">
+	<button *ngIf="user" md-icon-button class="menuButton" [mdMenuTriggerFor]="mobile">
+	<md-icon>menu</md-icon>
+	</button>
+
   <a class="home" md-button>Rond</a>
 
-  <a routerLink="users" *ngIf="user?.role?.admin" md-button>Users</a>
+  <a class="non-mobile" routerLink="users" *ngIf="user?.role?.admin" md-button>Users</a>
 
-  <a routerLink="dashboard" *ngIf="user" md-button>Dashboard</a>
+  <a class="non-mobile" routerLink="dashboard" *ngIf="user" md-button>Dashboard</a>
 
-  <a routerLink="markbook" *ngIf="user" md-button>Markbook</a>
+  <a class="non-mobile" routerLink="markbook" *ngIf="user?.role?.admin || user?.role?.teacher" md-button>Markbook</a>
 
-  <a routerLink="students" *ngIf="user" md-button>Students</a>
+  <a class="non-mobile" routerLink="students" *ngIf="user?.role?.admin || user?.role?.teacher" md-button>Students</a>
 
-<button *ngIf="!user" [mdMenuTriggerFor]="menu" class="right" md-icon-button>
+<button class="non-mobile" *ngIf="!user" [mdMenuTriggerFor]="menu" class="right" md-icon-button>
 <md-icon>account_circle</md-icon>
 </button>
 
@@ -17,7 +23,7 @@
   <button (click)="login()" md-menu-item>Sign In</button>
 </md-menu>
 
-<button *ngIf="user" [mdMenuTriggerFor]="menuIn" xPosition="right" yPosition="below" class="right" md-button>
+<button class="non-mobile" *ngIf="user" [mdMenuTriggerFor]="menuIn" class="right" md-button>
 {{ user?.profile?.email }}
 </button>
 
@@ -25,8 +31,21 @@
   <button (click)="logout()" md-menu-item>Sign Out</button>
 </md-menu>
 
+<md-menu #mobile="mdMenu">
+  <a routerLink="users" *ngIf="user?.role?.admin" md-menu-item>Users</a>
+
+  <a routerLink="dashboard" *ngIf="user" md-menu-item>Dashboard</a>
+
+  <a routerLink="markbook" *ngIf="user?.role?.admin || user?.role?.teacher" md-menu-item>Markbook</a>
+
+  <a routerLink="students" *ngIf="user?.role?.admin || user?.role?.teacher" md-menu-item>Students</a>
+</md-menu>
+
 
 </md-toolbar>
+
+
+
 
 
 

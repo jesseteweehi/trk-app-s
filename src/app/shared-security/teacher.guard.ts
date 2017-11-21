@@ -4,12 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthenticationService } from './authentication.service'
 
+import { UserModel } from '../users/models/data-classes'
+
 
 @Injectable()
 export class TeacherGuard implements CanLoad {
-
+  user: UserModel
   
-  constructor(private afAuth: AngularFireAuth,
+  constructor(
   			  private as: AuthenticationService,
   			  private router: Router){
  
@@ -18,15 +20,20 @@ export class TeacherGuard implements CanLoad {
   canLoad(
     route: Route): Observable<boolean> | Promise<boolean> | boolean {
 
-    return true
-  	// if(this.isTeacher)
-  	// 	{
-  	// 	console.log(this.isTeacher)
-  	// 	return true
-  	// 	}
-  	// else {
-  	// 	this.router.navigate(['/'])
-  	// }
-  	
+    let go: boolean = false
+
+    this.as.user.subscribe(user => {
+        this.user = user;
+        if (this.user.role.teacher === true || this.user.role.admin === true) { 
+            console.log('teacher or admin')
+            go = true 
+          }
+        else {
+            console.log('Not Teacher')
+            go = false 
+            }    
+    })
+
+    return go
   }
 }

@@ -12,7 +12,10 @@ import { LearningAssessmentGroupModel,
          LearningLevelModel } from '../models/data-classes';
 
 import { LEStudentListBlockDialogComponent,
-         LEStudentListGroupDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
+         LEStudentListGroupDialogComponent,
+         LEStudentListPieceRemoveDialogComponent,
+         LEStudentListPieceAddDialogComponent,
+         LGStudentListPieceRemoveDialogComponent } from '../learning-experience-dialogs/learning-experience-dialogs.component';
 
 import {LearningYearListDialogComponent,
         LearningYearCreateDialogComponent,
@@ -46,12 +49,9 @@ import { GroupCreateDialogComponent,
       .wrapper {
         display: grid;
         height: auto;
-        grid-template-columns : repeat( 3, 1fr)
+        grid-template-columns : repeat(3, 1fr)
       }
     }
-
-
-  	
 
   	.grid-item {
   	  grid-column: auto;
@@ -233,11 +233,21 @@ export class LearningExperienceGroupListComponent implements OnInit {
   selector: 'app-learning-experience-block-list',
   templateUrl: './learning-experience-block.html',
   styles: [`
-  	.wrapper {
-  		display: grid;
-  	  	height: auto;
-  	  	grid-template-columns : repeat( 5, 1fr)
-  	}
+  	@media screen and (min-width: 900px) {
+      .wrapper {
+        display: grid;
+        height: auto;
+        grid-template-columns : repeat( 5, 1fr)
+      }
+    }
+
+    @media screen and (min-width: 600px) {
+      .wrapper {
+        display: grid;
+        height: auto;
+        grid-template-columns : repeat(3, 1fr)
+      }
+    }
 
   	.grid-item {
   	  grid-column: auto;
@@ -392,6 +402,61 @@ export class LearningExperienceBlockListComponent implements OnInit {
         this.firebaseLearningExperienceBlock(result)
           }});
     }
+
+    openDialogEnrollStudent(group) {
+      let dialogRef = this.dialog.open(LEStudentListPieceAddDialogComponent, {
+          data: {
+                  'studentGroup' : group 
+                },
+          position: {
+            top: '0',
+
+          }
+          ,
+          height: '90%',
+          width: '500px'
+        });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+         this.ls.enrollStudentsInLearningBlock(this.groupId, group.$key, result).subscribe(
+            () => {
+                this.snackBar.open('Students enrolled','Awesome',{ duration:2000 })
+            },
+            err => { 
+                this.snackBar.open('Error enrolling students','Bugger',{ duration:2000 })
+            }
+          )}
+        })
+    }
+
+    openDialogUnenrollStudent(group) {
+      let dialogRef = this.dialog.open(LGStudentListPieceRemoveDialogComponent, {
+          data: {
+                  'block' : group 
+                },
+    
+          position: {
+            top: '0',
+
+          }
+          ,
+          height: '90%',
+          width: '500px'
+        });
+      
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.ls.unenrollStudentsFromLearningBlock(group.$key, result).subscribe(
+            () => {
+                this.snackBar.open('Students unenrolled','Awesome',{ duration:2000 })
+            },
+            err => { 
+                this.snackBar.open('Error unenrolling students ${err}','Bugger',{ duration:2000 })
+            }
+          )}    
+        })
+      }
 
     openDialogFindStudent(group) {
       let dialogRef = this.dialog.open(LEStudentListBlockDialogComponent, {

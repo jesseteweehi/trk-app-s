@@ -14,7 +14,7 @@ import { environment } from '../../environments/environment';
 import * as firebase from 'firebase'
 
 @Injectable()
-export class StudentsSharedService {
+export class MyDashboardService {
 	sdkDb:any;
 
 	constructor(
@@ -31,6 +31,7 @@ export class StudentsSharedService {
             .map(splp =>splp.map(student => this.db.object('students/' + student.$key)) )
             .flatMap(fbojs => Observable.combineLatest(fbojs))
     }
+    
 
     findStudentsForUser(userKey:string): Observable<any> {
         return this.findStudentKeysForObservableList(this.db.list(`studentsForUser/${userKey}`))
@@ -46,11 +47,9 @@ export class StudentsSharedService {
 		return this.firebaseUpdate(dataToSave)
 	}
 
-	removeStudentsFromUser(userKey: string, students: StudentModel[]): Observable<any> {
-		let dataToSave = {}
-		students.forEach(student => {
-			dataToSave["studentsForUser/" + userKey + "/" + student.$key] = null;
-		})
+	removeStudentFromUser(userKey: string, studentKey: string): Observable<any> {
+		let dataToSave = {};
+		dataToSave["studentsForUser/" + userKey + "/" + studentKey] = null;
 		return this.firebaseUpdate(dataToSave)
 	}
 
@@ -58,7 +57,7 @@ export class StudentsSharedService {
 
 	findGroupKeysForObservableList(groupKeys$: Observable<any>) : Observable<any> {
 		return groupKeys$
-			.map(gpu => gpu.map(group => this.db.object('learningExperienceGroup' + group.$key)) )
+			.map(gpu => gpu.map(group => this.db.object('learningExperienceGroup/' + group.$key)) )
             .flatMap(fbojs => Observable.combineLatest(fbojs))
 	}
 
@@ -70,17 +69,15 @@ export class StudentsSharedService {
 	putGroupsForUser(userKey: string, groups: LearningAssessmentGroupModel[]): Observable<any> {
 		let dataToSave = {}
 		groups.forEach(groups => {
-			dataToSave[`learningGroupsForUser/${userKey}/groups.$key`] = true
+			dataToSave[`learningGroupsForUser/${userKey}/${groups.$key}`] = true
 		})
 		return this.firebaseUpdate(dataToSave)
 
 	}
 
-	removeGroupsFromUser(userKey: string, groups: LearningAssessmentGroupModel[]): Observable<any> {
+	removeGroupsFromUser(userKey: string, groupKey: string): Observable<any> {
 		let dataToSave = {}
-		groups.forEach(groups => {
-			dataToSave[`learningGroupsForUser/${userKey}/groups.$key`] = null
-		})
+		dataToSave[`learningGroupsForUser/${userKey}/${groupKey}`] = null
 		return this.firebaseUpdate(dataToSave)
 	}
 
@@ -88,7 +85,7 @@ export class StudentsSharedService {
 
 	findCohortsKeysForObservableList(cohortKeys$: Observable<any>) : Observable<any> {
 		return cohortKeys$
-			.map(cpu => cpu.map(cohort => this.db.object('cohorts' + cohort.$key)) )
+			.map(cpu => cpu.map(cohort => this.db.object('cohorts/' + cohort.$key)) )
             .flatMap(fbojs => Observable.combineLatest(fbojs))
 	}
 
@@ -100,17 +97,15 @@ export class StudentsSharedService {
 	putCohortForUser(userKey: string, groups: CohortModel[]): Observable<any> {
 		let dataToSave = {}
 		groups.forEach(groups => {
-			dataToSave[`CohortsForUser/${userKey}/groups.$key`] = true
+			dataToSave[`cohortsForUser/${userKey}/${groups.$key}`] = true
 		})
 		return this.firebaseUpdate(dataToSave)
 
 	}
 
-	removeCohortFromUser(userKey: string, groups: CohortModel[]): Observable<any> {
+	removeCohortFromUser(userKey: string, groupKey: string): Observable<any> {
 		let dataToSave = {}
-		groups.forEach(groups => {
-			dataToSave[`CohortsForUser/${userKey}/groups.$key`] = null
-		})
+		dataToSave[`cohortsForUser/${userKey}/${groupKey}`] = null
 		return this.firebaseUpdate(dataToSave)
 
 	}

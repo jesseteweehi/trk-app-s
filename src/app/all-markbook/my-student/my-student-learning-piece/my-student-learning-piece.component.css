@@ -1,5 +1,32 @@
+/*desktop*/
+/*@media screen and (max-width: 768px) {
+  .outer {
+    width: 768px;
+    width: 100%;
+  }
+  
+
+}*/
+
+/* Phone*/
+/*@media screen and (min-width: 768px) {
+  .outer {
+    width: 320px;
+    overflow: scroll;
+  }
+}*/
+
+/*@media screen and (min-width: 30em) and (orientation: landscape){
+
+}
+*/
+
+/*.outer {
+  overflow: scroll;
+  width: 100%;
+}*/
+
 .box {
-  background-color: #444;
   color: #fff;
   border-radius: 5px;
   padding: 20px;

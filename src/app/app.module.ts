@@ -13,6 +13,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 //Routes
 import { AppRoutingModule }   from './app-routing.module';
+import { TeacherGuard } from './shared-security/teacher.guard'
+import { AdminGuard } from './shared-security/admin.guard'
+import { StudentGuard } from './shared-security/student.guard'
+
 
 //Firebase and Angularfire2 Modules
 import { AngularFireModule } from 'angularfire2';
@@ -43,7 +47,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     SharedSecurityModule 
   ],
   exports: [],
-  providers: [],
+  providers: [TeacherGuard,AdminGuard,StudentGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

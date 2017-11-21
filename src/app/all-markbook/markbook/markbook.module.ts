@@ -66,7 +66,8 @@ import { CohortCompareDialogComponent,
          LEStudentListPieceAddDialogComponent,
          LEStudentListPieceRemoveDialogComponent,
          LEStudentListBlockDialogComponent,
-         LEStudentListGroupDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component';
+         LEStudentListGroupDialogComponent,
+         LGStudentListPieceRemoveDialogComponent} from './learning-experience-dialogs/learning-experience-dialogs.component';
 
 import { LePieceCreateDialogComponent,
          LePieceEditDialogComponent,
@@ -116,6 +117,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   HeaderFormEditComponent, 
   // Main Assessment Component
   LearningExperienceContainerComponent, 
+  
   // Create and Edit Dialog Components
   LePieceCreateDialogComponent,
   LePieceEditDialogComponent,
@@ -127,6 +129,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent,
+  LGStudentListPieceRemoveDialogComponent,
 
   // Learning Support Lists
   learningYearListComponent,
@@ -178,6 +181,7 @@ import { LearningExperienceContainerComponent } from './learning-experience-cont
   LEStudentListPieceRemoveDialogComponent,
   LEStudentListBlockDialogComponent,
   LEStudentListGroupDialogComponent,
+  LGStudentListPieceRemoveDialogComponent,
 
   // Groups and Blocks Dialogs
   GroupCreateDialogComponent,

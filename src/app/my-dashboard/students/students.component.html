@@ -1,3 +1,25 @@
-<p>
-  students works!
-</p>
+<md-input-container mat-typography class="full-width">
+    <input mdInput placeholder="Search"(keyup)="search(input.value)" #input>
+  </md-input-container>
+
+  <div class="wrapper">
+    <md-card *ngFor="let student of filtered">
+      	<md-card-title>
+      		<button class="right" md-icon-button [mdMenuTriggerFor]="appMenu">
+      		    <md-icon>more_vert</md-icon>
+      		</button> 
+      		{{student.firstName}} {{student.lastName}}      		
+      	</md-card-title>
+     <md-card-subtitle>{{student.yrlvl}} <br> {{student.id}}</md-card-subtitle>
+
+    <md-card-actions>
+      <a [routerLink]="['/markbook/my-student/', student.$key]" md-button>Learning</a>
+    </md-card-actions>
+
+
+   <md-menu #appMenu="mdMenu">
+     <button md-menu-item (click)="remove(student.$key)"><md-icon>delete</md-icon></button>
+   </md-menu>
+
+    </md-card>
+  </div>

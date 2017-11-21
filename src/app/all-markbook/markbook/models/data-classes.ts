@@ -1,3 +1,44 @@
+
+export class ResourceModel{
+	constructor(
+		public $key:string,
+		public created: string,
+		public url: string,
+		public title:string,
+		public	description:string,
+		){}
+	static fromJsonList(array): ResourceModel[]{
+		return array.map(ResourceModel.fromJson)
+	}
+
+	static fromJson({
+		$key,
+		created,
+		title,
+		url,
+		description
+	}): ResourceModel { return new ResourceModel(
+		$key,
+		created,
+		url,
+		title,
+		description
+		)}
+}
+
+
+export class MyStudentLearningGroupModel {
+	constructor(
+		public $key: string,
+		public year: string,
+		public area: string,
+		public level: string,
+		public group: string,
+		public block: LearningAssessmentBlockModel,
+		){}
+	
+}
+
 export class MyStudentLearningPieceModel {
 	constructor(
 		public $key: string,

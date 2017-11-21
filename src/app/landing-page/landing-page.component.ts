@@ -1,8 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Students }  from '../mock-data/students';
-import { AngularFireDatabase} from 'angularfire2/database';
-import { FirebaseApp } from 'angularfire2';
-import * as firebase from 'firebase' 
+// import { Students }  from '../mock-data/students';
+// import { AngularFireDatabase} from 'angularfire2/database';
+// import { FirebaseApp } from 'angularfire2';
+// import * as firebase from 'firebase' 
+
+import { Router } from '@angular/router'
+import { UserModel } from '../users/models/data-classes'
+import { AuthenticationService } from '../shared-security/authentication.service'
 
 @Component({
   selector: 'app-landing-page',
@@ -10,37 +14,47 @@ import * as firebase from 'firebase'
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit {
-	students: any
-	sdkDb: any;
-  constructor(
-      @Inject(FirebaseApp) public fb : firebase.app.App,
-      private db: AngularFireDatabase,
-      ) {
+  user: UserModel
 
-  	this.students = Students
-  	this.sdkDb = this.fb.database().ref();	
+  constructor(private as: AuthenticationService,
+              private router: Router){
   }
+	// students: any
+	// sdkDb: any;
+ //  constructor(
+ //      @Inject(FirebaseApp) public fb : firebase.app.App,
+ //      private db: AngularFireDatabase,
+ //      ) {
+
+ //  	this.students = Students
+ //  	this.sdkDb = this.fb.database().ref();	
+ //  }
 
   ngOnInit() {
+    this.as.user.subscribe(user => {
+      if (user) {
+        this.router.navigateByUrl('/dashboard')
+      }
+    })
   }
 
 
-  createStudents() {
-  	this.students.forEach(student => {
-  		const data = this.db.list('/students')
-  		data.push({
-  			'firstName': student.firstName,
-  			'lastName' : student.lastName,
-  			'yrlvl' : student.yrlvl,
-  			'ethnicMain' : student.ethnicMain,
-  			'gender' : student.gender,
-  			'id' : student.id,
-  			'email' : `${student.id}@fraser.school.nz`,
-  		}).then(stuff => {
-  			console.log(stuff)
-  		})
+  // createStudents() {
+  // 	this.students.forEach(student => {
+  // 		const data = this.db.list('/students')
+  // 		data.push({
+  // 			'firstName': student.firstName,
+  // 			'lastName' : student.lastName,
+  // 			'yrlvl' : student.yrlvl,
+  // 			'ethnicMain' : student.ethnicMain,
+  // 			'gender' : student.gender,
+  // 			'id' : student.id,
+  // 			'email' : `${student.id}@fraser.school.nz`,
+  // 		}).then(stuff => {
+  // 			console.log(stuff)
+  // 		})
 
-  	})
-  }
+  // 	})
+  // }
 
 }

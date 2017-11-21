@@ -26,24 +26,20 @@ import { MyStudentLearningPieceDialogComponent } from '../my-student-focus/my-st
   styleUrls: ['./my-student-container.component.css']
 })
 export class MyStudentContainerComponent implements OnInit {
-
+  studentInfo: StudentModel;
   user: UserModel;
-
-	studentInfo: StudentModel
 	studentId : string;
-	studentLearning: LearningAssessmentPieceModel[];
 
-  groups: object;
-  blocks: object;
+  enrolledBlocks: LearningAssessmentBlockModel[];
 
-  areas: object;
-  levels: object; 
-  years: object;
+  studentLearningObject: object = {};
 
-  learningPieceKeys: string[] = [];
+  groups: object = {};
+  blocks: object = {};
 
-  chosenGroup: any = {};
-  chosenBlock: any = {};
+  areas: object = {};
+  levels: object = {}; 
+  years: object = {};
 
   	constructor(private route: ActivatedRoute,
   				private ms: MyStudentsService,
@@ -52,59 +48,53 @@ export class MyStudentContainerComponent implements OnInit {
           private as: AuthenticationService) { }
 
   	ngOnInit() {
+      // Needed this component
       this.route.params.subscribe(p => {this.studentId = p['studentid']})
   		this.ms.findStudentForKey(this.studentId).subscribe(student => this.studentInfo = student);
+      this.as.user.subscribe(user => this.user = user)
 
-      this.ms.findPiecesForStudent(this.studentId).subscribe(
-        items => {
-          this.studentLearning = items;
-          items.forEach(element => {
-          this.learningPieceKeys.push(element.$key) 
-          });
-         });
+      
+      // Learning Component
+
+      this.ms.findPiecesForStudentObject(this.studentId).subscribe(item => this.studentLearningObject = item)
+
       this.ms.findGroupsForStudent(this.studentId).subscribe(
         items => this.groups = items
         );
+
       this.ms.findBlocksForStudent(this.studentId).subscribe(
         items => {
-          this.blocks = items
-        }
+          this.blocks = items;
+          // const keys = Object.keys(items)    
+          // keys.forEach(block => {
+          //   this.learningPieceMatrix[block] = {};
+          //   this.ls.findPiecesForBlocks(block).subscribe(pieces => this.learningPieceMatrix[block]['pieces'] = pieces);
+          //   this.ls.findXHeadersForBlocks(block).subscribe(pieces => this.learningPieceMatrix[block]['xheaders'] = pieces);
+          //   this.ls.findYHeadersForBlocks(block).subscribe(pieces => this.learningPieceMatrix[block]['yheaders'] = pieces);           
+          // })
+          }
         );
+
+      this.ms.findEnrolledBlocksForStudent(this.studentId).subscribe(blocks => {
+          this.enrolledBlocks = blocks;
+        })
+
       this.ls.findAllLearningAreaObject().subscribe(areas => {
         this.areas = areas;
         });
+
       this.ls.findAllLearningLevelsObject().subscribe(levels => {
         this.levels = levels
       })
+
       this.ls.findAllLearningYearObject().subscribe(years => {
         this.years = years
       })
-
-      this.as.user.subscribe(user => this.user = user)
+      
 
   	}
 
-    openLearningPiece() {
-      let dialogRef = this.dialog.open(MyStudentLearningPieceDialogComponent, {
-        data: {
-          'learningBlock': this.chosenBlock,
-          'learningPieceKeys': this.learningPieceKeys   
-              }
-        // position: {
-        //     top: '0',
-        //     left: '0',
-        //     right: '0'
-        //   },
-        //   height: '90%',
-        //   width: '100%',
-      });
-    }
-
-    handleData($event){
-      this.chosenGroup = $event.group
-      this.chosenBlock = $event.block
-      this.openLearningPiece()
-    }
+ 
 
     recievedForm($event){
       console.log($event)

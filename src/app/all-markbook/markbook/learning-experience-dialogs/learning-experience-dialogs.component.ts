@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 
 import { StudentsSharedService } from '../../../student-shared/student-shared.service';
+import { LearningExperienceService } from '../models/learning-experience.service'
 
 import { StudentModel } from '../../../student-shared/data-classes'
 
@@ -81,6 +82,36 @@ export class LEStudentListPieceRemoveDialogComponent implements OnInit {
 
     ngOnInit() {
     this.ss.findStudentsForLP(this.data.lePiece.$key).subscribe(result => this.allStudents = result)
+  }  
+
+    studentsToRemove($event) {
+      this.dialogRef.close($event)
+    }  
+}
+
+@Component({
+  selector: 'learning-block-removestudent-list',
+  template: 
+  `
+  <app-student-remove-list 
+  [allStudents]="allStudents"
+  (studentsToRemove)="studentsToRemove($event)"
+  >
+  </app-student-remove-list> 
+  `,
+  styles:[]
+})
+export class LGStudentListPieceRemoveDialogComponent implements OnInit {
+  allStudents: StudentModel[];
+
+
+    constructor(public dialogRef: MdDialogRef<LEStudentListPieceRemoveDialogComponent>,
+          @Inject(MD_DIALOG_DATA) public data: any,
+          private ls: LearningExperienceService
+          ) {}
+
+    ngOnInit() {
+    this.ls.findStudentsForLearningBlock(this.data.block.$key).subscribe(result => this.allStudents = result)
   }  
 
     studentsToRemove($event) {

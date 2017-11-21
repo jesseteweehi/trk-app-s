@@ -45,7 +45,9 @@
 
   	<md-card-actions *ngIf="group.locked">
   	    <a md-button color="primary" routerLink="{{group.$key}}">Assessment</a>
-        <button md-button color="primary" (click)="openDialogFindStudent(group)">Students</button>
+        <button md-button color="primary" (click)="openDialogEnrollStudent(group)">Enroll Students</button>
+        <button md-button color="primary" (click)="openDialogUnenrollStudent(group)">Unenroll Students</button>
+        <!-- <button md-button color="primary" (click)="openDialogFindStudent(group)">Students </button> -->
   	  </md-card-actions>
 
     <md-menu #appMenu="mdMenu">

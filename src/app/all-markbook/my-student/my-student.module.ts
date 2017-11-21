@@ -8,6 +8,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { StudentSharedModule } from '../../student-shared/student-shared.module';
 import { MarkbookModule } from '../markbook/markbook.module';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { PostsModule } from '../../posts/posts.module'
 
 
 
@@ -19,12 +20,17 @@ import { LearningAreaItemComponent,
 
 
 import { MyStudentContainerComponent } from './my-student-container/my-student-container.component';
-import { MyStudentGroupComponent } from './my-student-group/my-student-group.component';
+// import { MyStudentGroupComponent } from './my-student-group/my-student-group.component';
 import { MyStudentInfoComponent } from './my-student-info/my-student-info.component';
-import { MyStudentFocusComponent } from './my-student-focus/my-student-focus.component';
-import { MyStudentLearningPieceComponent } from './my-student-focus/my-student-learning-piece/my-student-learning-piece.component';
-import { MyStudentLearningPieceDialogComponent } from './my-student-focus/my-student-learning-piece/my-student-learning-piece-dialog.component';
-import { AdminToolbarComponent } from './admin-toolbar/admin-toolbar.component';
+// import { MyStudentFocusComponent } from './my-student-focus/my-student-focus.component';
+import { MyStudentLearningPieceComponent } from './my-student-learning-piece/my-student-learning-piece.component';
+// import { AdminToolbarComponent } from './admin-toolbar/admin-toolbar.component';
+// import { MyStudentEnrolledComponent } from './my-student-enrolled/my-student-enrolled.component';
+// import { MyStudentResourcesComponent } from './my-student-resources/my-student-resources.component';
+// import { MyStudentEnrolledExpPanelComponent } from './my-student-enrolled-exp-panel/my-student-enrolled-exp-panel.component';
+// import { MyStudentGroupExpPanelComponent } from './my-student-group-exp-panel/my-student-group-exp-panel.component';
+import { MyStudentLearningComponent } from './my-student-learning/my-student-learning.component';
+import { MyStudentInputComponent } from './my-student-input/my-student-input.component';
 
 
 
@@ -34,7 +40,8 @@ import { AdminToolbarComponent } from './admin-toolbar/admin-toolbar.component';
 	MyStudentRoutingModule,
 	MyMaterialModule,
 	StudentSharedModule,
-	MarkbookModule, 
+	MarkbookModule,
+	PostsModule, 
 	AngularFireDatabaseModule,
 	ReactiveFormsModule	
 	],
@@ -44,16 +51,21 @@ import { AdminToolbarComponent } from './admin-toolbar/admin-toolbar.component';
 	declarations: [
 	LearningAreaItemComponent,
 	MyStudentContainerComponent,
-	MyStudentGroupComponent,
+	// MyStudentGroupComponent,
 	MyStudentInfoComponent,
-	MyStudentFocusComponent,
+	// MyStudentFocusComponent,
 	MyStudentLearningPieceComponent,
 	MyStudentLearningGroupItemComponent,
 	MyStudentLearningBlockItemComponent,
-	MyStudentLearningPieceDialogComponent,
-	AdminToolbarComponent],
+	// AdminToolbarComponent,
+	// MyStudentEnrolledComponent,
+	// MyStudentResourcesComponent,
+	// MyStudentEnrolledExpPanelComponent,
+	// MyStudentGroupExpPanelComponent,
+	MyStudentLearningComponent,
+	MyStudentInputComponent],
 
-	entryComponents:[MyStudentLearningPieceDialogComponent]
+	entryComponents:[]
 ,
 })
 

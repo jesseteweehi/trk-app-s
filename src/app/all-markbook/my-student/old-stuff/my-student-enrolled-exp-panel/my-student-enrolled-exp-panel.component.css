@@ -1,0 +1,44 @@
+.group {
+	color: grey;
+	padding-left: 10px;
+}
+
+.description {
+	margin-left: 10px;
+}
+
+md-panel-title {
+	min-width: 50%;
+	max-width: 50%;
+	text-overflow: ellipsis;
+}
+
+my-student-block  {
+	min-width: 50%;
+	max-width: 50%;
+	text-overflow: ellipsis;
+}
+
+my-student-group {
+	min-width: 50%;
+	max-width: 50%;
+	text-overflow: ellipsis;
+}
+
+group-year-item {
+	min-width: 25%;
+	max-width: 25%;
+	text-overflow: ellipsis;
+
+}
+group-level-item {
+	min-width: 25%;
+	max-width: 25%;
+	text-overflow: ellipsis;
+}
+
+group-area-item {
+	min-width: 50%;
+	max-width: 50%;
+	text-overflow: ellipsis;
+}

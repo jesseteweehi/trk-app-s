@@ -1,6 +1,6 @@
-<learning-area
+<!-- <learning-area
 (formToSend)="recievedForm($event)"
-></learning-area>
+></learning-area> -->
 
 
 <div class="container">
@@ -22,8 +22,7 @@
 	<div class="heading mat-body-2"></div>
 </div>
 
-<div class="container" *ngFor="let piece of filtered?.slice().reverse()" 
->
+<div class="container" *ngFor="let piece of filtered?.slice().reverse()">
 
 	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
 	<group-year-item *ngIf="groups&&blocks&&years"[year]="years[piece.year]"></group-year-item>
@@ -52,10 +51,42 @@
 	<div *ngIf="piece.qualifier==='x'" [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.yheader}}</div>
 	<div *ngIf="piece.qualifier==='y'" [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">{{piece?.xheader}}</div>
 
-	
+	<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2">
 
-<div [class.highlight]="highlightKey===piece.$key" class="items mat-body-2"><button md-icon-button color="primary" (click)="choose(piece.$key, blocks[piece.block], groups[piece.group])">
-	<md-icon>info</md-icon></button>
+		<button md-icon-button color="primary" *ngIf="resourceKey!==piece.$key" (click)="choose(piece.$key,blocks[piece.block])">
+		<md-icon>info</md-icon></button>
+
+		<button md-icon-button color="primary" *ngIf="resourceKey===piece.$key" (click)="close()">
+			<md-icon>close</md-icon></button>
+
+	</div>
+	<div class="row2" *ngIf="resourceKey===piece.$key">
+
+		<md-tab-group>
+  			<md-tab label="Resources">
+  				<app-my-student-resources 
+  				[blockKey]="piece.$key"
+  				></app-my-student-resources>
+  			</md-tab>
+  			<md-tab label="Message Board">
+  				<app-posts-list>
+  					
+  				</app-posts-list>
+  			</md-tab>
+
+  			<md-tab label="Conversation">
+  			</md-tab>
+
+  			<md-tab label="Matrix">
+  				<app-my-student-learning-piece 
+  					[learningBlock]="chosenBlock"
+  					[learningPieceKeys]="learningPieceKeys"			>			
+  				</app-my-student-learning-piece>
+  			</md-tab>		
+		</md-tab-group>
+
+		
+	</div>	
 </div>
 
 
