@@ -5,8 +5,6 @@ import { Component, OnInit, Inject } from '@angular/core';
 // import * as firebase from 'firebase' 
 
 import { Router } from '@angular/router'
-import { UserModel } from '../users/models/data-classes'
-import { AuthenticationService } from '../shared-security/authentication.service'
 
 @Component({
   selector: 'app-landing-page',
@@ -14,10 +12,9 @@ import { AuthenticationService } from '../shared-security/authentication.service
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit {
-  user: UserModel
+  // user: UserModel
 
-  constructor(private as: AuthenticationService,
-              private router: Router){
+  constructor(){
   }
 	// students: any
 	// sdkDb: any;
@@ -31,11 +28,6 @@ export class LandingPageComponent implements OnInit {
  //  }
 
   ngOnInit() {
-    this.as.user.subscribe(user => {
-      if (user) {
-        this.router.navigateByUrl('/dashboard')
-      }
-    })
   }
 
 

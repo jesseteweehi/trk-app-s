@@ -1,47 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/do';
-
-
-
-import { AuthenticationService } from './shared-security/authentication.service'
-
-import { UserModel} from './users/models/data-classes'
-
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-
-  user: UserModel;
-
-  constructor(
-     private as: AuthenticationService
-               ) {
-  }
-
-  ngOnInit() {
-    this.as.user.subscribe(user => this.user = user);    
-  }
-
-  login() {
-    this.as.login()
-  
-  }
-
-  logout() {
-    this.as.logout()
- 
-  }
+export class AppComponent {
+  title = 'app';
 }
 
-  
 

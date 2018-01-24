@@ -1,0 +1,27 @@
+<mat-toolbar>
+    <button mat-icon-button (click)="add()">
+        <mat-icon class="mat-18">add</mat-icon>
+    </button>
+</mat-toolbar>
+<h1></h1>
+
+<!-- <mat-list dense>
+    <mat-list-item *ngFor="let item of observable$">
+        {{item | json}}
+    </mat-list-item>
+</mat-list> -->
+
+<div class="wrapper">
+        <mat-card *ngFor="let item of items | async">
+          <mat-card-header>
+              <mat-card-title>{{item.title}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+              {{item.description}}
+          </mat-card-content>
+          <mat-card-actions align="start">
+              <button mat-button (click)="add(item)">Edit</button>
+              <button mat-button (click)="delete(item)">Delete</button>            
+          </mat-card-actions>
+        </mat-card> 
+      </div>
